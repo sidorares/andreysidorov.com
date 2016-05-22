@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "test": "mocha",
-    "build": "node ibuild-scripts/index.js"
+    "build": "node build-scripts/index.js"
   },
   "repository": {
     "type": "git",
@@ -21,7 +21,9 @@
     "csslint": "^0.10.0",
     "glob": "^7.0.3",
     "katex": "^0.6.0",
+    "markdown-it": "^6.0.2",
     "markdown-it-container": "^2.0.0",
+    "markdown-it-katex": "^2.0.1",
     "markdown-it-mark": "^2.0.0",
     "remark-highlight.js": "^3.1.0",
     "remark-html": "^3.0.0",

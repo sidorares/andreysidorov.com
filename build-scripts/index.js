@@ -19,7 +19,7 @@ var md = require('markdown-it')({
  .use(require('markdown-it-katex'))
  .use(require('markdown-it-container'));
 
-var ex1 = require('fs').readFileSync('ex1.md');
+var ex1 = require('fs').readFileSync(__dirname + '/ex1.md');
 
 
 var body = (md.render(
@@ -60,6 +60,6 @@ var html = `
 `;
 
 var cp = require('child_process');
-cp.execSync('git clone -b gh-pages --single-branch https://$GITHUB_TOKEN:x-oauth-basic@github.com/sidorares/andreysidorov.com.git build');
-require('fs').writeFileSync('build/index.html', html);
+cp.execSync('git clone -b gh-pages --depth 1 --single-branch https://$GITHUB_TOKEN:x-oauth-basic@github.com/sidorares/andreysidorov.com.git ' + __dirname + '/build');
+require('fs').writeFileSync(__dirname + '/build/index.html', html);
 cp.execSync('git commit -am "CI test" && git push origin gh-pages', { cwd: __dirname + '/build'});
