@@ -60,6 +60,8 @@ var html = `
 `;
 
 var cp = require('child_process');
+cp.execSync('git config --global user.email "sidorares@yandex.com"');
+cp.execSync('git config --global user.name "Andrey Sidorov"');
 cp.execSync('git clone -b gh-pages --depth 1 --single-branch https://$GITHUB_TOKEN:x-oauth-basic@github.com/sidorares/andreysidorov.com.git ' + __dirname + '/build');
 require('fs').writeFileSync(__dirname + '/build/index.html', html);
 cp.execSync('git commit -am "--skip-ci CI test" && git push origin gh-pages', { cwd: __dirname + '/build'});
