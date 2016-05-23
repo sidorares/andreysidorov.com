@@ -48,6 +48,49 @@ var html = `
     <link rel="stylesheet" href="http://cdn.jsdelivr.net/github-markdown-css/2.2.1/github-markdown.css" >
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/tomorrow-night-eighties.min.css">
     <style>
+
+      svg.railroad-diagram {
+          background-color: hsl(30,20%,95%);
+      }
+      svg.railroad-diagram path {
+          stroke-width: 3;
+          stroke: black;
+          fill: rgba(0,0,0,0);
+      }
+      svg.railroad-diagram text {
+          font: bold 14px monospace;
+          text-anchor: middle;
+      }
+      svg.railroad-diagram text.diagram-text {
+          font-size: 12px;
+      }
+      svg.railroad-diagram text.diagram-arrow {
+          font-size: 16px;
+      }
+      svg.railroad-diagram text.label {
+          text-anchor: start;
+      }
+      svg.railroad-diagram text.comment {
+          font: italic 12px monospace;
+      }
+      svg.railroad-diagram g.non-terminal text {
+          /*font-style: italic;*/
+      }
+      svg.railroad-diagram rect {
+          stroke-width: 3;
+          stroke: black;
+          fill: hsl(120,100%,90%);
+      }
+      svg.railroad-diagram path.diagram-text {
+          stroke-width: 3;
+          stroke: black;
+          fill: white;
+          cursor: help;
+      }
+      svg.railroad-diagram g.diagram-text:hover path.diagram-text {
+          fill: #eee;
+      }
+
       article {
         max-width: 42rem;
         margin-left: auto;
