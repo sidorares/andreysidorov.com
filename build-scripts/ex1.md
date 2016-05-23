@@ -97,7 +97,7 @@ plot sin(x) w l lc rgb"#ff0000", cos(x) w l lc rgb"#00ff00"
 Diagram(
   Optional('+', 'skip'),
   Choice(0,
-    NonTerminal('name-starddddchar'),
+    NonTerminal('name-char'),
     NonTerminal('escape')),
   ZeroOrMore(
     Choice(0,
