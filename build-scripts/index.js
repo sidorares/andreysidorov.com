@@ -1,11 +1,20 @@
+var fs = require('fs');
 var hljs = require('highlight.js'); // https://highlightjs.org/
+
+var runHandlers = require('./fence-run-handlers.js');
 
 // Actual default values
 var md = require('markdown-it')({
   typographer: true,
   highlight: function (str, lang) {
-    //console.log('==== LANG: === ' + lang + '====== INPUT: ' + str);
-    if (lang && hljs.getLanguage(lang)) {
+    if (runHandlers[lang]) {
+      try {
+        return runHandlers[lang](str);
+      } catch (e) {
+        console.error(e);
+        process.exit(-1);
+      }
+    } else if (lang && hljs.getLanguage(lang)) {
       try {
         return '<pre class="hljs"><code>' +
                hljs.highlight(lang, str, true).value +
@@ -79,9 +88,11 @@ var html = `
 </html>
 `;
 
+//console.log(html);
+
 var cp = require('child_process');
 cp.execSync('git config --global user.email "sidorares@yandex.com"');
 cp.execSync('git config --global user.name "Andrey Sidorov"');
-cp.execSync('git clone -b gh-pages --depth 1 --single-branch https://$GITHUB_TOKEN:x-oauth-basic@github.com/sidorares/andreysidorov.com.git ' + __dirname + '/build');
+cp.execSync('git clone -b gh-pages --depth 10 --single-branch https://$GITHUB_TOKEN:x-oauth-basic@github.com/sidorares/andreysidorov.com.git ' + __dirname + '/build');
 require('fs').writeFileSync(__dirname + '/build/index.html', html);
 cp.execSync('git commit -am "--skip-ci CI test" && git push origin gh-pages', { cwd: __dirname + '/build'});
