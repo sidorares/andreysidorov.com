@@ -53,9 +53,9 @@ var html = `
   </head>
   <body class='markdown-body'>
     <article>
-    ${body}
+      ${body}
+      <div id="disqus_thread"></div>
     </article>
-    <div id="disqus_thread"></div>
     <script>
       /**
       * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
