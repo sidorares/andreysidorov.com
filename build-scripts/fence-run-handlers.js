@@ -17,7 +17,7 @@ module.exports['run-gnuplot'] = function (input) {
 };
 
 module.exports.railroad = function (input) {
-  var rr = require('railroad-diagrams');
+  var rr = require('./rr.js');
   var vm = require('vm');
   var res = vm.runInNewContext(input, rr);
   return res.toString();
