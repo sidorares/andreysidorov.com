@@ -15,3 +15,10 @@ module.exports['run-gnuplot'] = function (input) {
   `;
   return cp.execSync('gnuplot', {input: pragma + input});
 };
+
+module.exports.railroad = function (input) {
+  var rr = require('railroad-diagrams');
+  var vm = require('vm');
+  var res = vm.runInNewContext(input, rr);
+  return res.toString();
+};
