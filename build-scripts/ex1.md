@@ -47,12 +47,12 @@ $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\p
              +----------+-------+
                         |
                         v
-             +--------------------+
-             |  SharedFunctionInfo|
-             |          *         |
-             +----------+---------+
-                        |
-                        v
+             +------------------------+
+             |  Test Shaky Integration|
+             |            *           |
+             +------------+-----------+
+                          |
+                          v
              +--------------------+
              |  unoptimized Code  |
              |                    |
