@@ -88,8 +88,8 @@ var html = `
 </html>
 `;
 
-console.log(html);
-return;
+//console.log(html);
+//return;
 
 var cp = require('child_process');
 cp.execSync('git config --global user.email "sidorares@yandex.com"');
