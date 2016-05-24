@@ -28,6 +28,6 @@ module.exports.mermaid = function (input) {
   var tmp = require('tmp');
   var tmpinput = tmp.fileSync().name;
   fs.writeFileSync(input, tmpinput);
-  cp.execSync('mermaid -s ' + tmpinput);
+  cp.execSync('mermaid -s ' + tmpinput, {cwd: __dirname + '../node_modules/bin' });
   return fs.readFileSync(tmpinput + '.svg', 'utf8');
 };
