@@ -23,7 +23,7 @@ module.exports.railroad = function (input) {
   return res.toString();
 };
 
-module.exports.marmaid = function (input) {
+module.exports.mermaid = function (input) {
   var tmp = require('tmp');
   var tmpinput = tmp.fileSync().name;
   fs.writeFileSync(input, tmpinput);
