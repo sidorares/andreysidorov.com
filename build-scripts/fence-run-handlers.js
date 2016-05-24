@@ -29,8 +29,8 @@ module.exports.mermaid = function (input) {
   var tmpinput = tmp.fileSync().name;
   var path = require('path');
   var binDir = path.join(__dirname , '../node_modules/.bin');
-  console.log(cp.execSync('ls -l ' + binDir));
-  console.log(tmpinput, input, bindir, 'mermaid -s ' + tmpinput, {cwd: __dirname + '/../node_modules/.bin' });
+  console.log(cp.execSync('ls -l ' + binDir).toString());
+  console.log(tmpinput, input, binВir, 'mermaid -s ' + tmpinput, {cwd: __dirname + '/../node_modules/.bin' });
   fs.writeFileSync(tmpinput, input);
   cp.execSync('mermaid -s ' + tmpinput, {cwd: __dirname + '/../node_modules/.bin' });
   return fs.readFileSync(tmpinput + '.svg', 'utf8');
