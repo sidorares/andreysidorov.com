@@ -27,7 +27,7 @@ module.exports.railroad = function (input) {
 module.exports.mermaid = function (input) {
   var tmp = require('tmp');
   var tmpinput = tmp.fileSync().name;
-  fs.writeFileSync(input, tmpinput);
+  fs.writeFileSync(tmpinput, input);
   cp.execSync('mermaid -s ' + tmpinput, {cwd: __dirname + '../node_modules/bin' });
   return fs.readFileSync(tmpinput + '.svg', 'utf8');
 };
