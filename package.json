@@ -26,10 +26,13 @@
     "markdown-it-container": "^2.0.0",
     "markdown-it-katex": "^2.0.1",
     "markdown-it-mark": "^2.0.0",
+    "phantomjs-prebuilt": "github:medium/phantomjs#v1.9.19",
     "remark-highlight.js": "^3.1.0",
     "remark-html": "^3.0.0",
     "remark-yaml-config": "^3.0.0",
-    "shaky": "github:sidorares/shaky"
+    "shaky": "github:sidorares/shaky",
+    "svgo": "^0.6.6",
+    "tmp": "0.0.28"
   },
   "devDependencies": {
     "mocha": "^2.4.5"
