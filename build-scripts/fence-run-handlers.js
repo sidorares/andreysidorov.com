@@ -27,8 +27,11 @@ module.exports.railroad = function (input) {
 module.exports.mermaid = function (input) {
   var tmp = require('tmp');
   var tmpinput = tmp.fileSync().name;
-  console.log(tmpinput, input);
+  var path = require('path');
+  var binDir = path.join(__dirname , '../node_modules/.bin');
+  console.log(cp.execSync('ls -l ' + bindir);
+  console.log(tmpinput, input, bindir, 'mermaid -s ' + tmpinput, {cwd: __dirname + '/../node_modules/.bin' });
   fs.writeFileSync(tmpinput, input);
-  cp.execSync('mermaid -s ' + tmpinput, {cwd: __dirname + '../node_modules/bin' });
+  cp.execSync('mermaid -s ' + tmpinput, {cwd: __dirname + '/../node_modules/.bin' });
   return fs.readFileSync(tmpinput + '.svg', 'utf8');
 };
