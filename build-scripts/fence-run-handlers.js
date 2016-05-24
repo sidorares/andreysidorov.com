@@ -1,4 +1,5 @@
 var cp = require('child_process');
+var fs = require('fs');
 
 module.exports.shaky = function (input) {
   var shaky = require('shaky');
