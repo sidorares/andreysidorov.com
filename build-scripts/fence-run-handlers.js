@@ -14,8 +14,11 @@ module.exports['run-dot'] = function (input) {
 
 module.exports['run-gnuplot'] = function (input) {
   var pragma = `
-    set term svg mouse jsdir "http://gnuplot.sourceforge.net/demo_svg_4.6/"
+    set term svg mouse jsdir "http://gnuplot.sourceforge.net/demo_svg_4.6/"\n
   `;
+  console.log('=======================');
+  console.log(pragma + input);
+  console.log('=======================');
   var svg = cp.execSync('gnuplot | svgo ' + svgoRules + ' -i - -o -', {input: pragma + input});
   svg = svg.toString().replace(/<path fill="#fff" stroke="#000" onclick/, '<path fill="transparent" stroke="transparent" onclick');
   return svg;
