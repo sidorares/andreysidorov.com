@@ -50,7 +50,7 @@ var html = `
     <style>
 
       svg.railroad-diagram {
-          background-color: hsl(30,20%,95%);
+          //background-color: hsl(30,20%,95%);
       }
       svg.railroad-diagram path {
           stroke-width: 3;
