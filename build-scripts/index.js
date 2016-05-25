@@ -28,18 +28,10 @@ var md = require('markdown-it')({
  .use(require('markdown-it-katex'))
  .use(require('markdown-it-container'));
 
-var ex1 = require('fs').readFileSync(__dirname + '/ex1.md');
+var ex1 = require('fs').readFileSync(__dirname + '/ex1.md', 'utf8');
 
 
-var body = (md.render(
-[
-   '  **thiis _test_ , yeah** '
- , '  ```js'
- , '    var a = console.log(\'test\');'
- , "  ```"
- , "  # Math Rulez! \n  $\\sqrt{3x-1}+(1+x)^2$ "
- , '  test' ].join('\n') + ex1
-));
+var body = md.render(ex1);
 
 var html = `
 <html>
