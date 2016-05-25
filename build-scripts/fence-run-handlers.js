@@ -9,7 +9,7 @@ module.exports.shaky = function (input) {
 };
 
 module.exports['run-dot'] = function (input) {
-  return cp.execSync('dot -T svg | svgo -i - -o -', {input: input});
+  return cp.execSync('dot -T svg | svgo ' + svgoRules + ' -i - -o -', {input: input});
 };
 
 module.exports['run-gnuplot'] = function (input) {
@@ -23,7 +23,9 @@ module.exports.railroad = function (input) {
   var rr = require('./rr.js');
   var vm = require('vm');
   var res = vm.runInNewContext(input, rr);
-  return res.toString();
+  var svg = res.toString();
+  svgo = cp.execSync('svgo ' + svgoRules + ' -i - -o -', {input: svg});
+  return svgo;
 };
 
 module.exports.mermaid = function (input) {
