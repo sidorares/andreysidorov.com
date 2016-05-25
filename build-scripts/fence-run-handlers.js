@@ -37,6 +37,6 @@ module.exports.mermaid = function (input) {
   cp.execSync('mermaid -s ' + tmpinput + ' -o ' + path.dirname(tmpinput));
   var svg = cp.execSync('svgo -i ' + tmpinput + '.svg --enable=removeComments --enable=removeMetadata --enable=removeDimensions --enable=convertColors -o -');
   // remove svg style
-  svg = replace(/style="width[^"]+/, '');
+  svg = svg.replace(/style="width[^"]+/, '');
   return svg;
 };
