@@ -98,9 +98,24 @@ var html = `
         padding: 3rem 0.75rem;
         text-align: justify;
       }
+
+      .markdown-body pre {
+        background-color: transparent;
+      }
+
       pre.hljs {
         background-color: #303030;
       }
+      pre:not(.hljs) {
+        background-color: transparent;
+        text-align: center;
+      }
+
+      pre:not(.hljs) svg {
+        width: 100%;
+        max-height: 600px;
+      }
+
     </style>
   </head>
   <body class='markdown-body'>
