@@ -118,7 +118,34 @@ Diagram(
       NonTerminal('escape'))))
 ```
 
-Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of
+Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia,
+
+```run-gnuplot
+set format x "%.1f"
+set format y "%.1f"
+set label 1 "Superscripts and subscripts:" at -0.65, 0.95, 0 left norotate back textcolor lt 3 nopoint
+set label 3 "A_{j,k} 10^{-2}  x@^2_k    x@_0^{-3/2}y" at -0.55, 0.85, 0 left norotate back nopoint
+set label 5 "Space-holders:" at -0.55, 0.7, 0 left norotate back textcolor lt 3 nopoint
+set label 6 "<&{{/=20 B}ig}> <&{x@_0^{-3/2}y}> holds space for" at -0.45, 0.6, 0 left norotate back nopoint
+set label 7 "<{{/=20 B}ig}> <{x@_0^{-3/2}y}>" at -0.45, 0.5, 0 left norotate back nopoint
+set label 8 "Overprint\n(v should be centred over d)" at -0.9, -0.2, 0 left norotate back textcolor lt 3 nopoint
+set label 9 " ~{abcdefg}{0.8v}" at -0.85, -0.4, 0 left norotate back nopoint
+set label 10 "UTF-8 encoding does not require Symbol font:" at -0.4, 0.35, 0 left norotate back textcolor lt 3 nopoint
+set label 11 "{/*1.5 ∫@_{/=9.6 0}^{/=12 ∞}} {e^{-{μ}^2/2} d}{μ=(π/2)^{1/2}}" at -0.3, 0.2, 0 left norotate back nopoint
+set label 21 "Left  ^{centered} ƒ(αβγδεζ)" at 0.5, -0.1, 0 left norotate back nopoint
+set label 22 "Right ^{centered} ƒ(αβγδεζ)" at 0.5, -0.2, 0 right norotate back nopoint
+set label 23 "Center^{centered} ƒ(αβγδεζ)" at 0.5, -0.3, 0 centre norotate back nopoint
+set label 30 "{/:Bold Bold} and {/:Italic Italic} markup" at -0.9, 0, 0 left norotate back nopoint
+set arrow 1 from 0.5, -0.5, 0 to 0.5, 0, 0 nohead back nofilled lt black linewidth 1.000
+set style data lines
+set title "Demo of enhanced text mode using a single UTF-8 encoded font\nThere is another demo that shows how to use a separate Symbol font"
+set xrange [ -1.00000 : 1.00000 ] noreverse nowriteback
+set yrange [ -0.500000 : 1.10000 ] noreverse nowriteback
+save_encoding = "utf8"
+plot sin(x)**2 lt 2 lw 2 title "sin^2(x)"
+```
+
+ looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of
 
 ```mermaid
 graph LR

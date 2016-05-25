@@ -1,6 +1,8 @@
 var cp = require('child_process');
 var fs = require('fs');
 
+var svgoRules = '--enable=removeComments --enable=removeMetadata --enable=removeDimensions --enable=convertColors';
+
 module.exports.shaky = function (input) {
   var shaky = require('shaky');
   return '<img src="' + shaky(input) + '""/>\n';
@@ -14,7 +16,7 @@ module.exports['run-gnuplot'] = function (input) {
   var pragma = `
     set term svg mouse jsdir "http://gnuplot.sourceforge.net/demo_svg_4.6/"
   `;
-  return cp.execSync('gnuplot | svgo -i - -o -', {input: pragma + input});
+  return cp.execSync('gnuplot | svgo ' + svgoRules + ' -i - -o -', {input: pragma + input});
 };
 
 module.exports.railroad = function (input) {
@@ -34,5 +36,7 @@ module.exports.mermaid = function (input) {
   fs.writeFileSync(tmpinput, input);
   cp.execSync('mermaid -s ' + tmpinput + ' -o ' + path.dirname(tmpinput));
   var svg = cp.execSync('svgo -i ' + tmpinput + '.svg --enable=removeComments --enable=removeMetadata --enable=removeDimensions --enable=convertColors -o -');
+  // remove svg style
+  svg = replace(/style="width[^"]+/, '');
   return svg;
 };
