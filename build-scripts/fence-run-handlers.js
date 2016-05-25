@@ -16,6 +16,7 @@ module.exports['run-gnuplot'] = function (input) {
   var pragma = `
     set term svg mouse jsdir "http://gnuplot.sourceforge.net/demo_svg_4.6/"\n
   `;
+  console.log(cp.execSync('gnuplot -v').toString());
   console.log('=======================');
   console.log(pragma + input);
   console.log('=======================');
