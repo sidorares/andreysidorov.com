@@ -138,7 +138,7 @@ var html = `
 </html>
 `;
 
-//console.log(html);
+console.log(html);
 //return;
 
 var cp = require('child_process');
