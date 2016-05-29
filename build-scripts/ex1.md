@@ -23,30 +23,6 @@ Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots 
 
 
 ```run-gnuplot
-$DATA << EOD
-#Task start      end
-A     2012-11-01 2012-12-31
-B     2013-01-01 2013-03-14
-C     2013-03-15 2014-04-30
-D     2013-05-01 2013-06-30
-E     2013-07-01 2013-08-31
-F1    2013-09-01 2013-10-31
-F2    2013-09-01 2014-01-17
-F3    2013-09-01 2014-01-30
-F4    2013-09-01 2014-03-31
-G1    2013-11-01 2013-11-27
-G2    2013-11-01 2014-01-17
-L     2013-11-28 2013-12-19
-M     2013-11-28 2014-01-17
-N     2013-12-04 2014-03-02
-O     2013-12-20 2014-01-17
-P     2013-12-20 2014-02-16
-Q     2014-01-05 2014-01-13
-R     2014-01-18 2014-01-30
-S     2014-01-31 2014-03-31
-T     2014-03-01 2014-04-28
-EOD
-
 set xdata time
 timeformat = "%Y-%m-%d"
 set format x "%b\n'%y"
@@ -66,9 +42,29 @@ T(N) = timecolumn(N,timeformat)
 
 set style arrow 1 filled size screen 0.02, 15 fixed lt 3 lw 1.5
 
-plot $DATA using (T(2)) : ($0) : (T(3)-T(2)) : (0.0) : yticlabel(1) with vector as 1, \
-     $DATA using (T(2)) : ($0) : 1 with labels right offset -2
-
+plot '-' using (T(2)) : ($0) : (T(3)-T(2)) : (0.0) : yticlabel(1) with vector as 1, \
+    '-' using (T(2)) : ($0) : 1 with labels right offset -2
+      A     2012-11-01 2012-12-31
+      B     2013-01-01 2013-03-14
+      C     2013-03-15 2014-04-30
+      D     2013-05-01 2013-06-30
+      E     2013-07-01 2013-08-31
+      F1    2013-09-01 2013-10-31
+      F2    2013-09-01 2014-01-17
+      F3    2013-09-01 2014-01-30
+      F4    2013-09-01 2014-03-31
+      G1    2013-11-01 2013-11-27
+      G2    2013-11-01 2014-01-17
+      L     2013-11-28 2013-12-19
+      M     2013-11-28 2014-01-17
+      N     2013-12-04 2014-03-02
+      O     2013-12-20 2014-01-17
+      P     2013-12-20 2014-02-16
+      Q     2014-01-05 2014-01-13
+      R     2014-01-18 2014-01-30
+      S     2014-01-31 2014-03-31
+      T     2014-03-01 2014-04-28
+      e
 ```
 
 Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia
