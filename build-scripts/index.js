@@ -7,9 +7,13 @@ var runHandlers = require('./fence-run-handlers.js');
 var md = require('markdown-it')({
   typographer: true,
   highlight: function (str, lang) {
+    var langParts = lang.trim().split(/:/);
+    lang = langParts[0];
+    var langParams = langParts.slice(1);
+    debugger
     if (runHandlers[lang]) {
       try {
-        return runHandlers[lang](str);
+        return runHandlers[lang](str, langParams);
       } catch (e) {
         console.error(e);
         process.exit(-1);
@@ -139,7 +143,7 @@ var html = `
 `;
 
 console.log(html);
-//return;
+return;
 
 var cp = require('child_process');
 cp.execSync('git config --global user.email "sidorares@yandex.com"');

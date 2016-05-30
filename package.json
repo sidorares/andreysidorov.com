@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "test": "mocha",
-    "build": "node build-scripts/index.js"
+    "build": "node build-scripts/index.js",
+    "build-dbg": "node debug build-scripts/index.js"
   },
   "repository": {
     "type": "git",

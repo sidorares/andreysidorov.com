@@ -8,6 +8,12 @@ module.exports.shaky = function (input) {
   return '<img src="' + shaky(input) + '""/>\n';
 };
 
+module.exports['tmp-file'] = function (input, params) {
+  debugger;
+  fs.writeFileSync(params[0], input);
+  return '';
+}
+
 module.exports['run-dot'] = function (input) {
   return cp.execSync('dot -T svg | svgo ' + svgoRules + ' -i - -o -', {input: input});
 };
