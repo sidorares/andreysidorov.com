@@ -143,7 +143,7 @@ var html = `
 `;
 
 console.log(html);
-return;
+//return;
 
 var cp = require('child_process');
 cp.execSync('git config --global user.email "sidorares@yandex.com"');
