@@ -10,7 +10,6 @@ var md = require('markdown-it')({
     var langParts = lang.trim().split(/:/);
     lang = langParts[0];
     var langParams = langParts.slice(1);
-    debugger
     if (runHandlers[lang]) {
       try {
         return runHandlers[lang](str, langParams);
@@ -143,6 +142,8 @@ var html = `
 `;
 
 console.log(html);
+html = html.replace(/<pre>removeme<\/pre>/g, '');
+//fs.writeFileSync('out.html', html);
 //return;
 
 var cp = require('child_process');

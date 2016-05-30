@@ -9,9 +9,8 @@ module.exports.shaky = function (input) {
 };
 
 module.exports['tmp-file'] = function (input, params) {
-  debugger;
   fs.writeFileSync(params[0], input);
-  return '';
+  return '<pre>removeme</pre>';
 }
 
 module.exports['run-dot'] = function (input) {
