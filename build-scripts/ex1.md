@@ -48,19 +48,6 @@ PDF blend mode requires TikZ version 3.0 or above.
 % <http://moais.imag.fr/membres/jean-noel.quintin/>
 \documentclass{article}
 \usepackage{tikz}
-%%%<
-\usepackage{verbatim}
-\usepackage{verbatim}
-\usepackage[active,tightpage]{preview}
-\PreviewEnvironment{tikzpicture}
-\setlength\PreviewBorder{5pt}%
-%%%>
-\begin{comment}
-:Title: A complete graph
-:Tags: Foreach;Graphs;To paths
-:Author: Jean-Noël Quintin
-:Slug: complete-graph
-\end{comment}
 \usetikzlibrary[topaths]
 % A counter, since TikZ is not clever enough (yet) to handle
 % arbitrary angle systems.
