@@ -1,6 +1,6 @@
 before_install:
   - sudo apt-get -qq update
-  - sudo apt-get install -y --no-install-recommends texlive-fonts-recommended texlive-latex-extra texlive-fonts-extra texlive-extra-utils texlive-latex-recommended dvipng pgf gnuplot  gnuplot-nox
+  - sudo apt-get install -y --no-install-recommends texlive-binaries texlive-fonts-recommended texlive-latex-extra texlive-fonts-extra texlive-extra-utils texlive-latex-recommended dvipng pgf gnuplot  gnuplot-nox
   - npm explore npm -g -- npm install node-gyp@latest
 
 addons:
