@@ -1,5 +1,6 @@
 var cp = require('child_process');
 var fs = require('fs');
+var path = require('path');
 
 var svgoRules = '--enable=removeComments --enable=removeMetadata --enable=removeDimensions --enable=convertColors';
 
@@ -38,6 +39,23 @@ module.exports.railroad = function (input) {
   svgo = cp.execSync('svgo ' + svgoRules + ' -i - -o -', {input: svg});
   return svgo;
 };
+
+module.exports['run-latex'] = function (input) {
+  var prefix = "\\documentclass[landscape,a5paper,11pt]{article}\n" + 
+    "\\usepackage{tikz}\n" +
+    "\\begin{document}\n";
+
+  var tmp = require('tmp');
+  var tmpinput = tmp.fileSync().name;
+  console.log(tmpinput);
+  fs.writeFileSync(tmpinput + '.tex', prefix + input + '\n \\end{document}');
+  cp.execSync('latex --output-directory=' + path.dirname(tmpinput) + ' ' + tmpinput + '.tex');
+  var svg = cp.execSync('dvisvgm ' + tmpinput + '.dvi -s').toString();
+  console.log(svg);
+  var svgo = cp.execSync('svgo -i - ' + svgoRules + ' -o -', {input: svg});
+  console.log(svgo.toString());
+  return svgo.toString();
+}  
 
 module.exports.mermaid = function (input) {
   var tmp = require('tmp');

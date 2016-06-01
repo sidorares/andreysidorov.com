@@ -143,7 +143,7 @@ var html = `
 
 console.log(html);
 html = html.replace(/<pre>removeme<\/pre>/g, '');
-//fs.writeFileSync('out.html', html);
+fs.writeFileSync('out.html', html);
 //return;
 
 var cp = require('child_process');
