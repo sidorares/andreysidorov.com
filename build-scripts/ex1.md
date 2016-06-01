@@ -12,7 +12,7 @@ Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots 
 % A Venn diagram with PDF blending
 % Author: Stefan Kottwitz
 % https://www.packtpub.com/hardware-and-creative/latex-cookbook
-\documentclass[border=10pt]{standalone} 
+\documentclass[border=10pt]{article} 
 %%%<
 \usepackage{verbatim}
 %%%>
