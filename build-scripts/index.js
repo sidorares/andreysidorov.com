@@ -87,7 +87,7 @@ var html = `
       }
 
       article {
-        max-width: 42rem;
+        max-width: 55rem;
         margin-left: auto;
         margin-right: auto;
         padding: 3rem 0.75rem;

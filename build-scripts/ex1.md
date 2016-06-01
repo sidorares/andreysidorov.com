@@ -12,18 +12,7 @@ Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots 
 % A Venn diagram with PDF blending
 % Author: Stefan Kottwitz
 % https://www.packtpub.com/hardware-and-creative/latex-cookbook
-\documentclass[border=10pt]{article} 
-%%%<
-\usepackage{verbatim}
-%%%>
-\begin{comment}
-:Title: A Venn diagram with PDF blending
-:Tags: Diagrams;Cookbook
-:Author: Stefan Kottwitz
-:Slug: venn
-
-PDF blend mode requires TikZ version 3.0 or above.
-\end{comment}
+\documentclass{minimal} 
 \usepackage{tikz}
 \begin{document}
 \begin{tikzpicture}
@@ -35,7 +24,7 @@ PDF blend mode requires TikZ version 3.0 or above.
   \node at ( 90:2)    {Typography};
   \node at ( 210:2)   {Design};
   \node at ( 330:2)   {Coding};
-  \node [font=\Large] {\LaTeX};
+  \node {\LaTeX};
 \end{tikzpicture}
 \end{document}
 ```
@@ -46,7 +35,7 @@ PDF blend mode requires TikZ version 3.0 or above.
 % A complete graph
 % Author: Quintin Jean-Noël
 % <http://moais.imag.fr/membres/jean-noel.quintin/>
-\documentclass{article}
+\documentclass{minimal}
 \usepackage{tikz}
 \usetikzlibrary[topaths]
 % A counter, since TikZ is not clever enough (yet) to handle
