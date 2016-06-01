@@ -45,7 +45,7 @@ module.exports['run-latex'] = function (input) {
   //  "\\usepackage{tikz}\n" +
   //  "
   //  "\\begin{document}\n";
-  var prefix==""
+  var prefix="";
 
   var tmp = require('tmp');
   var tmpinput = tmp.fileSync().name;
