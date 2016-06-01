@@ -9,70 +9,33 @@ var html = "test";
 Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia,
 
 ```run-latex
-% Flipping a coin
-% Author: cis
-\documentclass[border=10pt,varwidth]{standalone}
+% A Venn diagram with PDF blending
+% Author: Stefan Kottwitz
+% https://www.packtpub.com/hardware-and-creative/latex-cookbook
+\documentclass[border=10pt]{standalone} 
+%%%<
+\usepackage{verbatim}
+%%%>
+\begin{comment}
+:Title: A Venn diagram with PDF blending
+:Tags: Diagrams;Cookbook
+:Author: Stefan Kottwitz
+:Slug: venn
+
+PDF blend mode requires TikZ version 3.0 or above.
+\end{comment}
 \usepackage{tikz}
-\usetikzlibrary{calc, shapes, backgrounds}
-\usepackage{amsmath, amssymb}
-\pagecolor{olive!50!yellow!50!white}
 \begin{document}
-\tikzset{
-  head/.style = {fill = orange!90!blue,
-                 label = center:\textsf{\Large H}},
-  tail/.style = {fill = blue!70!yellow, text = black,
-                 label = center:\textsf{\Large T}}
-}
-\begin{tikzpicture}[
-    scale = 1.5, transform shape, thick,
-    every node/.style = {draw, circle, minimum size = 10mm},
-    grow = down,  % alignment of characters
-    level 1/.style = {sibling distance=3cm},
-    level 2/.style = {sibling distance=4cm}, 
-    level 3/.style = {sibling distance=2cm}, 
-    level distance = 1.25cm
-  ]
-  \node[fill = gray!40, shape = rectangle, rounded corners,
-    minimum width = 6cm, font = \sffamily] {Coin flipping} 
-  child { node[shape = circle split, draw, line width = 1pt,
-          minimum size = 10mm, inner sep = 0mm, font = \sffamily\large,
-          rotate=30] (Start)
-          { \rotatebox{-30}{H} \nodepart{lower} \rotatebox{-30}{T}}
-   child {   node [head] (A) {}
-     child { node [head] (B) {}}
-     child { node [tail] (C) {}}
-   }
-   child {   node [tail] (D) {}
-     child { node [head] (E) {}}
-     child { node [tail] (F) {}}
-   }
-  };
-
-  % Filling the root (Start)
-  \begin{scope}[on background layer, rotate=30]
-    \fill[head] (Start.base) ([xshift = 0mm]Start.east) arc (0:180:5mm)
-      -- cycle;
-    \fill[tail] (Start.base) ([xshift = 0pt]Start.west) arc (180:360:5mm)
-      -- cycle;
+\begin{tikzpicture}
+  \begin{scope}[blend group = soft light]
+    \fill[red!30!white]   ( 90:1.2) circle (2);
+    \fill[green!30!white] (210:1.2) circle (2);
+    \fill[blue!30!white]  (330:1.2) circle (2);
   \end{scope}
-
-  % Labels
-  \begin{scope}[nodes = {draw = none}]
-    \path (Start) -- (A) node [near start, left]  {$0.5$};
-    \path (A)     -- (B) node [near start, left]  {$0.5$};
-    \path (A)     -- (C) node [near start, right] {$0.5$};
-    \path (Start) -- (D) node [near start, right] {$0.5$};
-    \path (D)     -- (E) node [near start, left]  {$0.5$};
-    \path (D)     -- (F) node [near start, right] {$0.5$};
-    \begin{scope}[nodes = {below = 11pt}]
-      \node [name = X] at (B) {$0.25$};
-      \node            at (C) {$0.25$};
-      \node [name = Y] at (E) {$0.25$};
-      \node            at (F) {$0.25$};
-    \end{scope}
-    \draw[densely dashed, rounded corners, thin]
-      (X.south west) rectangle (Y.north east);
-  \end{scope}
+  \node at ( 90:2)    {Typography};
+  \node at ( 210:2)   {Design};
+  \node at ( 330:2)   {Coding};
+  \node [font=\Large] {\LaTeX};
 \end{tikzpicture}
 \end{document}
 ```
