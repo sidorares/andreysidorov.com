@@ -9,33 +9,72 @@ var html = "test";
 Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia,
 
 ```run-latex
-\usetikzlibrary{decorations.pathmorphing}
-\begin{tikzpicture}[line width=0.2mm,scale=1.0545]\small
-\tikzset{>=stealth}
-\tikzset{snake it/.style={->,semithick,
-decoration={snake,amplitude=.3mm,segment length=2.5mm,post length=0.9mm},decorate}}
-\def\h{3}
-\def\d{0.2}
-\def\ww{1.4}
-\def\w{1+\ww}
-\def\p{1.5}
-\def\r{0.7}
-\coordinate[label=below:$A_1$] (A1) at (\ww,\p);
-\coordinate[label=above:$B_1$] (B1) at (\ww,\p+\h);
-\coordinate[label=below:$A_2$] (A2) at (\w,\p);
-\coordinate[label=above:$B_2$] (B2) at (\w,\p+\h);
-\coordinate[label=left:$C$] (C1) at (0,0);
-\coordinate[label=left:$D$] (D) at (0,\h);
-\draw[fill=blue!14](A2)--(B2)-- ++(\d,0)-- ++(0,-\h)--cycle;
-\draw[gray,thin](C1)-- +(\w+\d,0);
-\draw[dashed,gray,fill=blue!5](A1)-- (B1)-- ++(\d,0)-- ++(0,-\h)-- cycle;
-\draw[dashed,line width=0.14mm](A1)--(C1)--(D)--(B1);
-\draw[snake it](C1)--(A2) node[pos=0.6,below] {$c\Delta t$};
-\draw[->,semithick](\ww,\p+0.44*\h)-- +(\w-\ww,0) node[pos=0.6,above] {$v\Delta t$};
-\draw[snake it](D)--(B2);
-\draw[thin](\r,0) arc (0:atan2(\p,\w):\r) node[midway,right,yshift=0.06cm] {$\theta$};
-\draw[opacity=0](-0.40,-0.14)-- ++(0,5.06);
+% Flipping a coin
+% Author: cis
+\documentclass[border=10pt,varwidth]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{calc, shapes, backgrounds}
+\usepackage{amsmath, amssymb}
+\pagecolor{olive!50!yellow!50!white}
+\begin{document}
+\tikzset{
+  head/.style = {fill = orange!90!blue,
+                 label = center:\textsf{\Large H}},
+  tail/.style = {fill = blue!70!yellow, text = black,
+                 label = center:\textsf{\Large T}}
+}
+\begin{tikzpicture}[
+    scale = 1.5, transform shape, thick,
+    every node/.style = {draw, circle, minimum size = 10mm},
+    grow = down,  % alignment of characters
+    level 1/.style = {sibling distance=3cm},
+    level 2/.style = {sibling distance=4cm}, 
+    level 3/.style = {sibling distance=2cm}, 
+    level distance = 1.25cm
+  ]
+  \node[fill = gray!40, shape = rectangle, rounded corners,
+    minimum width = 6cm, font = \sffamily] {Coin flipping} 
+  child { node[shape = circle split, draw, line width = 1pt,
+          minimum size = 10mm, inner sep = 0mm, font = \sffamily\large,
+          rotate=30] (Start)
+          { \rotatebox{-30}{H} \nodepart{lower} \rotatebox{-30}{T}}
+   child {   node [head] (A) {}
+     child { node [head] (B) {}}
+     child { node [tail] (C) {}}
+   }
+   child {   node [tail] (D) {}
+     child { node [head] (E) {}}
+     child { node [tail] (F) {}}
+   }
+  };
+
+  % Filling the root (Start)
+  \begin{scope}[on background layer, rotate=30]
+    \fill[head] (Start.base) ([xshift = 0mm]Start.east) arc (0:180:5mm)
+      -- cycle;
+    \fill[tail] (Start.base) ([xshift = 0pt]Start.west) arc (180:360:5mm)
+      -- cycle;
+  \end{scope}
+
+  % Labels
+  \begin{scope}[nodes = {draw = none}]
+    \path (Start) -- (A) node [near start, left]  {$0.5$};
+    \path (A)     -- (B) node [near start, left]  {$0.5$};
+    \path (A)     -- (C) node [near start, right] {$0.5$};
+    \path (Start) -- (D) node [near start, right] {$0.5$};
+    \path (D)     -- (E) node [near start, left]  {$0.5$};
+    \path (D)     -- (F) node [near start, right] {$0.5$};
+    \begin{scope}[nodes = {below = 11pt}]
+      \node [name = X] at (B) {$0.25$};
+      \node            at (C) {$0.25$};
+      \node [name = Y] at (E) {$0.25$};
+      \node            at (F) {$0.25$};
+    \end{scope}
+    \draw[densely dashed, rounded corners, thin]
+      (X.south west) rectangle (Y.north east);
+  \end{scope}
 \end{tikzpicture}
+\end{document}
 ```
 
 Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia,

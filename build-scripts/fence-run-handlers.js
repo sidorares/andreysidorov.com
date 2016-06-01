@@ -41,14 +41,16 @@ module.exports.railroad = function (input) {
 };
 
 module.exports['run-latex'] = function (input) {
-  var prefix = "\\documentclass[landscape,a5paper,11pt]{article}\n" + 
-    "\\usepackage{tikz}\n" +
-    "\\begin{document}\n";
+  //var prefix = "\\documentclass[landscape,a5paper,11pt]{article}\n" + 
+  //  "\\usepackage{tikz}\n" +
+  //  "
+  //  "\\begin{document}\n";
+  var prefix==""
 
   var tmp = require('tmp');
   var tmpinput = tmp.fileSync().name;
   console.log(tmpinput);
-  fs.writeFileSync(tmpinput + '.tex', prefix + input + '\n \\end{document}');
+  fs.writeFileSync(tmpinput + '.tex', prefix + input); // + '\n \\end{document}');
   cp.execSync('latex --output-directory=' + path.dirname(tmpinput) + ' ' + tmpinput + '.tex');
   var svg = cp.execSync('dvisvgm ' + tmpinput + '.dvi -s').toString();
   console.log(svg);
