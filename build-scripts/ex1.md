@@ -29,6 +29,26 @@ Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots 
 \end{document}
 ```
 
+comparing KaTeX and native latex
+
+katex: 
+
+$$
+f(x) = \int_{-\infty}^\infty
+    \hat f(\xi)\,e^{2 \pi i \xi x}
+    \,d\xi
+$$ 
+
+Latex:
+
+```run-latex
+f(x) = \int_{-\infty}^\infty
+    \hat f(\xi)\,e^{2 \pi i \xi x}
+    \,d\xi
+```
+
+
+
 ### Latex / tikz graph
 
 ```run-latex
