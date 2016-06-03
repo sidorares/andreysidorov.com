@@ -15,6 +15,7 @@ var md = require('markdown-it')({
         return runHandlers[lang](str, langParams);
       } catch (e) {
         console.error(e);
+        console.log(e.stdout);
         process.exit(-1);
       }
     } else if (lang && hljs.getLanguage(lang)) {
