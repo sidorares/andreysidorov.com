@@ -12,11 +12,11 @@ Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots 
 % A Venn diagram with PDF blending
 % Author: Stefan Kottwitz
 % https://www.packtpub.com/hardware-and-creative/latex-cookbook
-\documentclass{minimal} 
+\documentclass{minimal}
 \usepackage{tikz}
 \begin{document}
 \begin{tikzpicture}
-  \begin{scope}[blend group = soft light]
+  \begin{scope}
     \fill[red!30!white]   ( 90:1.2) circle (2);
     \fill[green!30!white] (210:1.2) circle (2);
     \fill[blue!30!white]  (330:1.2) circle (2);
@@ -31,13 +31,13 @@ Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots 
 
 comparing KaTeX and native latex
 
-katex: 
+katex:
 
 $$
 f(x) = \int_{-\infty}^\infty
     \hat f(\xi)\,e^{2 \pi i \xi x}
     \,d\xi
-$$ 
+$$
 
 Latex:
 
