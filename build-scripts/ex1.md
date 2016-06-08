@@ -8,6 +8,13 @@ var html = "test";
 
 Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia,
 
+```run-gnuplot
+set xrange [0:0.3]
+plot 1-1/(1+exp(-(x-6)))*.5 + exp(-abs(x-10)**2*10)
+```
+
+Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia,
+
 ```run-latex
 % A Venn diagram with PDF blending
 % Author: Stefan Kottwitz
