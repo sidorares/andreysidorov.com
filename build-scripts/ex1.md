@@ -10,7 +10,7 @@ Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots 
 
 ```run-gnuplot
 set xrange [0:0.3]
-plot 1-1/(1+exp(-(x-6)))*.5 + exp(-abs(x-10)**2*10)
+plot 4*exp(-(x/0.07)**2)+10*exp(-(160*(x-0.14))**2)
 ```
 
 Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia,
