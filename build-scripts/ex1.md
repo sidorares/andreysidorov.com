@@ -10,7 +10,8 @@ Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots 
 
 ```run-gnuplot
 set xrange [0:0.25]
-set samples 200
+set yrange [0:15]
+set samples 400
 plot 4*exp(-(x/0.07)**2)+10*exp(-(160*(x-0.14))**2)
 ```
 
