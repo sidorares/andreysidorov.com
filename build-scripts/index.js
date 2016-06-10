@@ -109,7 +109,7 @@ var html = `
 
       pre:not(.hljs) svg {
         width: 100%;
-        max-height: 600px;
+        --max-height: 600px;
       }
 
     </style>
