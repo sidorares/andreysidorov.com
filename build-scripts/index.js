@@ -69,7 +69,7 @@ var render = function(markdown, callback) {
 }
 
 
-var ex1 = require('fs').readFileSync(__dirname + '/../src/blog/test.md', 'utf8');
+var ex1 = require('fs').readFileSync(__dirname + '/../src/test.md', 'utf8');
 render(ex1, function(err, html) {
   var cp = require('child_process');
   cp.execSync('git config --global user.email "sidorares@yandex.com"');
