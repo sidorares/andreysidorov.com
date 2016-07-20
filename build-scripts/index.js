@@ -72,14 +72,6 @@ var render = function(markdown, callback) {
     console.log(err);
     process.exit(-1);
   });
-
-  setInterval(function() {
-    console.log(asyncQueue);
-  }, 5000);
-
-  setTimeout(function() {
-    proxess.exit(0);
-  }, 200000);
 }
 
 
