@@ -83,6 +83,11 @@ module.exports['run-css'] = function (input) {
 
 module.exports['run-cmx'] = function (input) {
   return new Promise(function(resolve, reject) {
+
+    var svg = cp.execSync('phantomjs ' + path.resolve(__dirname, './cmx/phantom.js'), {input: input});
+    resolve(svg);
+
+    /*
     var proc = cp.exec('phantomjs ' + path.resolve(__dirname, './cmx/phantom.js'), function(err, out) {
       if (err)
         reject(err)
@@ -90,6 +95,7 @@ module.exports['run-cmx'] = function (input) {
         resolve(out);
     });
     proc.stdin.end(input);
+    */
   });
 };
 
