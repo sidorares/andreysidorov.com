@@ -95,7 +95,7 @@ Diagram(
 
 try test styles!
 
-::: teststyleforfence
+:::teststyleforfence
 ```js
   var foo = "bar";
 ```
