@@ -41,7 +41,8 @@
     "shaky": "github:sidorares/shaky#c51dd87a83e50ea6727bea35215140b91a170fae",
     "slug": "^0.9.1",
     "svgo": "^0.6.6",
-    "tmp": "0.0.28"
+    "tmp": "0.0.28",
+    "uuid": "^2.0.2"
   },
   "devDependencies": {
     "mocha": "^2.4.5"
