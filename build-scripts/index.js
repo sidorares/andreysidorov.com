@@ -73,6 +73,7 @@ var render = function(markdown, callback) {
     process.exit(-1);
   });
 
+  /*
   function isPending(p) {
     var util = require('util');
     return util.inspect(p) == 'Promise { <pending> }';
@@ -84,6 +85,7 @@ var render = function(markdown, callback) {
       console.log(qqq[0], isPending(qqq[2]), qqq[3]);
     });
   }, 2000);
+  */
 }
 
 
