@@ -23,6 +23,7 @@
     "glob": "^7.0.3",
     "katex": "^0.6.0",
     "markdown-it": "^6.0.2",
+    "markdown-it-anchor": "^2.5.0",
     "markdown-it-classy": "^0.2.0",
     "markdown-it-container": "^2.0.0",
     "markdown-it-katex": "^2.0.1",
