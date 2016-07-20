@@ -67,6 +67,10 @@ var render = function(markdown, callback) {
     var post = postTemplate({postBody: html, meta: env.meta});
     //fs.writeFileSync('out.html', post);
     callback(null, post);
+  }).catch(function(err) {
+    console.log(err.message); // some coding error in handling happened
+    console.log(err);
+    process.exit(-1);
   });
 
   setInterval(function() {
