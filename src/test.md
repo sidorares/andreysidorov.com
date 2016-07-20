@@ -58,9 +58,6 @@ plot 4*exp(-(x/0.07)**2)+10*exp(-(160*(x-0.14))**2)
 Railroad-diagram Generator
 ==========================
 
-![](https://raw.githubusercontent.com/tabatkins/railroad-diagrams/gh-pages/images/rr-title.png "Diagram(Stack('Generate', 'some'), OneOrMore(NonTerminal('railroad diagrams'), Comment('and more')))")
-{fullwidth}
-
 This is a small library for generating railroad diagrams
 (like what [JSON.org](http://json.org) uses)
 using SVG, with both JS and Python ports.
