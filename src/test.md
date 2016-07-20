@@ -95,10 +95,11 @@ Diagram(
 
 try test styles!
 
+::: teststyleforfence
 ```js
   var foo = "bar";
 ```
-{teststyleforfence}
+:::
 
 # part1
 
@@ -107,7 +108,7 @@ try test styles!
 
                     +------------+     +------------+                
                     |            |     |            |             
-                    |  CONTEXT1  +---> |  CON\--TEXT|            
+                    |  CONTEXT1  +---> |  CONTEXT2  |            
                     |            |     |            |            
                     +------------+     +------------+             
 
@@ -121,7 +122,7 @@ try test styles!
 
                     +------------+     +------------+                
                     |            |     |            |             
-                    |  CONTEXT2  |<----+  CONTEXT   |            
+                    |  CONTEXT2  |<----+  CONTEXT1  |            
                     |            |     |            |            
                     +------------+     +------------+             
 
