@@ -52,7 +52,6 @@ var render = function(markdown, callback) {
    .use(require('markdown-it-title'))
    .use(require('markdown-it-anchor'), { slugify: slug, permalink: true, permalinkBefore: true, permalinkSymbol: permalink})
    .use(require('markdown-it-classy'))
-/*
    .use(require('markdown-it-container'), 'classname', {
      validate: name => name.trim().length,
      render: (tokens, idx) => {
@@ -63,7 +62,6 @@ var render = function(markdown, callback) {
        }
      }
     });
-*/
 
   var env = {};
   var body = md.render(ex1, env);
@@ -102,8 +100,7 @@ var render = function(markdown, callback) {
 
 var ex1 = require('fs').readFileSync(__dirname + '/../src/test.md', 'utf8');
 render(ex1, function(err, html) {
-  return;
-  console.log(html);
+  //console.log(html);
   var cp = require('child_process');
   cp.execSync('git config --global user.email "sidorares@yandex.com"');
   cp.execSync('git config --global user.name "Andrey Sidorov"');
