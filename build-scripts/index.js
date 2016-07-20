@@ -68,6 +68,14 @@ var render = function(markdown, callback) {
     //fs.writeFileSync('out.html', post);
     callback(null, post);
   });
+
+  setInterval(function() {
+    console.log(asyncQueue);
+  }, 5000);
+
+  setTimeout(function() {
+    proxess.exit(0);
+  }, 200000);
 }
 
 
