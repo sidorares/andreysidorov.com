@@ -1,6 +1,7 @@
 var cp = require('child_process');
 var fs = require('fs');
 var path = require('path');
+var tmp = require('tmp');
 
 var exec = function(cmdline, stdin) {
   return new Promise(function(resolve, reject) {
@@ -57,7 +58,6 @@ module.exports['run-latex'] = function (input) {
   //  "
   //  "\\begin{document}\n";
   var prefix="";
-  var tmp = require('tmp');
   return new Promise(function(resolve, reject) {
     tmp.file(function _tempFileCreated(err, tmpinput, fd, cleanupCallback) {
       fs.writeFile(tmpinput + '.tex', prefix + input, function(err) {
@@ -84,18 +84,21 @@ module.exports['run-css'] = function (input) {
 module.exports['run-cmx'] = function (input) {
   return new Promise(function(resolve, reject) {
 
-    var svg = cp.execSync('phantomjs ' + path.resolve(__dirname, './cmx/phantom.js'), {input: input});
-    resolve(svg);
-
-    /*
-    var proc = cp.exec('phantomjs ' + path.resolve(__dirname, './cmx/phantom.js'), function(err, out) {
-      if (err)
-        reject(err)
-      else
-        resolve(out);
+    //var svg = cp.execSync('phantomjs ' + path.resolve(__dirname, './cmx/phantom.js'), {input: input});
+    //resolve(svg);
+    
+    tmp.file(function _tempFileCreated(err, tmpinput, fd, cleanupCallback) {
+      fs.writeFile(tmpinput, input, function(err) {
+        if (err) return reject(err);
+        var proc = cp.exec('phantomjs phantom.js ' + tmpinput, { cwd: path.resolve(__dirname, './cmx')}, function(err, out) {
+          //console.log(err, out);
+          if (err)
+            reject(err)
+          else
+            resolve(out);
+        });
+      });
     });
-    proc.stdin.end(input);
-    */
   });
 };
 
