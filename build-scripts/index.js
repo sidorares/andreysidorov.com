@@ -57,6 +57,8 @@ var render = function(markdown, callback) {
   var env = {};
   var body = md.render(ex1, env);
   var html = body;
+  console.log(body);
+
   Promise.all(asyncQueue.map( v => v[2] ) ).then((values) => {
     for (var i=0; i<values.length; ++i) {
       html = html.replace(asyncQueue[i][0], values[i])
@@ -71,6 +73,7 @@ var render = function(markdown, callback) {
 
 var ex1 = require('fs').readFileSync(__dirname + '/../src/test.md', 'utf8');
 render(ex1, function(err, html) {
+  console.log(html);
   var cp = require('child_process');
   cp.execSync('git config --global user.email "sidorares@yandex.com"');
   cp.execSync('git config --global user.name "Andrey Sidorov"');
