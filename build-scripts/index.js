@@ -23,7 +23,7 @@ var render = function(markdown, callback) {
         return '';
       } else if (handler) {
         var id = uuid.v4();
-        asyncQueue.push([id, token.content, handler(token.content, params)]);
+        asyncQueue.push([id, token.content, handler(token.content, params), lang]);
         return id;
       }
       return originalFence(tokens, idx, options, env, slf);
@@ -72,6 +72,18 @@ var render = function(markdown, callback) {
     console.log(err);
     process.exit(-1);
   });
+
+  function isPending(p) {
+    var util = require('util');
+    return util.inspect(p) == 'Promise { <pending> }';
+  };
+
+  setInterval(function() {
+    console.log('==============================');
+    asyncQueue.map(function(qqq) {
+      console.log(qqq[0], isPending(qqq[2]), qqq[3]);
+    });
+  }, 2000);
 }
 
 
