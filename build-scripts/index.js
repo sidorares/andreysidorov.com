@@ -122,7 +122,7 @@ var srcTree = finder(srcDir);
 srcTree.on('file', function (file, stat, linkPath) {
   var pendingFiles = 0;
 
-  var pushWhenReady() {
+  var pushWhenReady = function() {
     pendingFies--;
     console.log('file ready. Left pending:', pendingFiles);
     if (pendingFiles === 0) {
