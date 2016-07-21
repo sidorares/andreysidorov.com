@@ -53,6 +53,9 @@ var render = function(markdown, callback) {
    .use(meta)
    .use(require('markdown-it-katex'))
    .use(require('markdown-it-title'))
+   .use(require('markdown-it-emoji'))
+   .use(require('markdown-it-abbr'))
+   .use(require('markdown-it-footnote'))
    .use(require('markdown-it-anchor'), { slugify: slug, permalink: true, permalinkBefore: true, permalinkSymbol: permalink})
    .use(require('markdown-it-classy'))
    .use(require('markdown-it-container'), 'classname', {
