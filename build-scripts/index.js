@@ -103,6 +103,7 @@ function pushToGHPages() {
   var cp = require('child_process');
   cp.execSync('git config --global user.email "sidorares@yandex.com"');
   cp.execSync('git config --global user.name "Andrey Sidorov"');
+  cp.execSync('rm -rf ' + __dirname + '/build');
   cp.execSync('git clone -b gh-pages --depth 10 --single-branch https://$GITHUB_TOKEN:x-oauth-basic@github.com/sidorares/andreysidorov.com.git ' + __dirname + '/build');
   require('fs').writeFileSync(__dirname + '/build/example.html', html);
   try {
