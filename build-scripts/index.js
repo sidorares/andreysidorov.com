@@ -103,7 +103,6 @@ function pushToGHPages() {
   var cp = require('child_process');
   cp.execSync('git config --global user.email "sidorares@yandex.com"');
   cp.execSync('git config --global user.name "Andrey Sidorov"');
-  cp.execSync('rm -rf ' + __dirname + '/build');
   cp.execSync('git clone -b gh-pages --depth 10 --single-branch https://$GITHUB_TOKEN:x-oauth-basic@github.com/sidorares/andreysidorov.com.git ' + __dirname + '/build');
   try {
     cp.execSync('git add . && git commit -am "--skip-ci CI test"', { cwd: __dirname + '/build'});
@@ -119,6 +118,7 @@ var srcDir = path.join(__dirname, '../src');
 var buildDir = path.join(__dirname, '/build'); 
 var srcTree = finder(srcDir);
 
+cp.execSync('rm -rf ' + __dirname + '/build');
 srcTree.on('file', function (file, stat, linkPath) {
   var pendingFiles = 0;
 
