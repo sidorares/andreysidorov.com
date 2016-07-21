@@ -105,7 +105,6 @@ function pushToGHPages() {
   cp.execSync('git config --global user.name "Andrey Sidorov"');
   cp.execSync('rm -rf ' + __dirname + '/build');
   cp.execSync('git clone -b gh-pages --depth 10 --single-branch https://$GITHUB_TOKEN:x-oauth-basic@github.com/sidorares/andreysidorov.com.git ' + __dirname + '/build');
-  require('fs').writeFileSync(__dirname + '/build/example.html', html);
   try {
     cp.execSync('git add . && git commit -am "--skip-ci CI test"', { cwd: __dirname + '/build'});
     cp.execSync('git push origin gh-pages', { cwd: __dirname + '/build'});
