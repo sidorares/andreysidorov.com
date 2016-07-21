@@ -10,9 +10,9 @@ html
     div#header header <a href="www.ru">goes here</a>
     article
       header
-        h1= title
+        h1= "title"
         .header-meta
-          .author By <a href="about">Andrey Sidorov</a> ${meta.tags ? '|' : ''}
+          .author By <a href="about">Andrey Sidorov</a> #{meta.tags ? '|' : ''}
           if meta.tags
             ul.tags
               each t in meta.tags
