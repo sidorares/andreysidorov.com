@@ -6,6 +6,7 @@ var uuid = require('uuid');
 var path = require('path'); 
 var pug = require('pug');
 var mkdirp = require('mkdirp');
+var cp = require('child_process');
 
 var postTemplate = pug.compile(fs.readFileSync(__dirname + '/templates/blog_post.jade'));
 
@@ -100,7 +101,6 @@ var render = function(markdown, callback) {
 }
 
 function pushToGHPages() {
-  var cp = require('child_process');
   cp.execSync('git config --global user.email "sidorares@yandex.com"');
   cp.execSync('git config --global user.name "Andrey Sidorov"');
   cp.execSync('git clone -b gh-pages --depth 10 --single-branch https://$GITHUB_TOKEN:x-oauth-basic@github.com/sidorares/andreysidorov.com.git ' + __dirname + '/build');
