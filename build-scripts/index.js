@@ -123,7 +123,7 @@ srcTree.on('file', function (file, stat, linkPath) {
   var pendingFiles = 0;
 
   var pushWhenReady = function() {
-    pendingFies--;
+    pendingFiles--;
     console.log('file ready. Left pending:', pendingFiles);
     if (pendingFiles === 0) {
       pushToGHPages();
