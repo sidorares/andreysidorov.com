@@ -12,13 +12,18 @@ html
       header
         h1= "title"
         .header-meta
-          .author By <a href="about">Andrey Sidorov</a> #{meta.tags ? '|' : ''}
-          if meta.tags
+          .author By <a href="about">Andrey Sidorov</a> #{env.meta.tags ? '|' : ''}
+          if env.meta.tags
             ul.tags
-              each t in meta.tags
+              each t in env.meta.tags
                 li
                   a.tag(href="#")= t
-      != postBody
+      != compiledMarkdown
+      p Other posts:
+      ul
+        for p in items
+           li= JSON.stringify(p.env)
+       
     div#disqus_thread
     script.
       (function() { // DON'T EDIT BELOW THIS LINE

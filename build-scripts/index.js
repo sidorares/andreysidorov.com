@@ -10,6 +10,13 @@ var cp = require('child_process');
 
 var postTemplate = pug.compile(fs.readFileSync(__dirname + '/templates/blog_post.jade'));
 
+var sha1 = function(s) {
+  var crypto = require('crypto');
+  var shasum = crypto.createHash('sha1');
+  shasum.update(s);
+  return shasum.digest('hex');
+}
+
 var render = function(markdown, callback) {
 
   var asyncQueue = [];
@@ -26,7 +33,7 @@ var render = function(markdown, callback) {
         return '';
       } else if (handler) {
         var id = uuid.v4();
-        asyncQueue.push([id, token.content, handler(token.content, params), lang]);
+        asyncQueue.push([id, token.content, handler(token.content, params), langLine, lang, params]);
         return id;
       }
       return originalFence(tokens, idx, options, env, slf);
@@ -70,37 +77,27 @@ var render = function(markdown, callback) {
     });
 
   var env = {};
-  var body = md.render(markdown, env);
-  var html = body;
-  
-  console.log(body);
-  //console.log(env);
+  var html = md.render(markdown, env);
+
+  console.log('111111', html);
 
   Promise.all(asyncQueue.map( v => v[2] ) ).then((values) => {
+    var fenceToSvg = {};
     for (var i=0; i<values.length; ++i) {
-      html = html.replace(asyncQueue[i][0], values[i])
+      html = html.replace(asyncQueue[i][0], values[i]);
+      fenceToSvg[asyncQueue[i][0]] = {
+        src: asyncQueue[i][1],
+        svg: values[i],
+        lang: asyncQueue[i][3]
+      };
     }
-    //console.log(env);
-    callback(null, html, env);
+    console.log('222222');
+    callback(null, html, env, fenceToSvg);
   }).catch(function(err) {
-    console.log(err.message); // some coding error in handling happened
+    console.log(err.message); 
     console.log(err);
     process.exit(-1);
   });
-
-  /*
-  function isPending(p) {
-    var util = require('util');
-    return util.inspect(p) == 'Promise { <pending> }';
-  };
-
-  setInterval(function() {
-    console.log('==============================');
-    asyncQueue.map(function(qqq) {
-      console.log(qqq[0], isPending(qqq[2]), qqq[3]);
-    });
-  }, 2000);
-  */
 }
 
 function pushToGHPages() {
@@ -123,6 +120,8 @@ cp.execSync('git config --global user.email "sidorares@yandex.com"');
 cp.execSync('git config --global user.name "Andrey Sidorov"');
 cp.execSync('git clone -b gh-pages --depth 10 --single-branch https://$GITHUB_TOKEN:x-oauth-basic@github.com/sidorares/andreysidorov.com.git ' + __dirname + '/build');
 
+var renderedFiles = [];
+
 srcTree.on('file', function (file, stat, linkPath) {
   var pendingFiles = 0;
 
@@ -130,31 +129,64 @@ srcTree.on('file', function (file, stat, linkPath) {
     pendingFiles--;
     console.log('file ready. Left pending:', pendingFiles);
     if (pendingFiles === 0) {
+      //console.log('ready!');
+      console.log(JSON.stringify(renderedFiles, null, 4));
+      renderedFiles.forEach(function(item) {
+        // var postTemplate = pug.compile(fs.readFileSync(__dirname + '/templates/blog_post.jade'));
+        var templateName = item.env.meta.teplateName || 'blog_post';
+        var template = pug.compile(fs.readFileSync(__dirname + '/templates/' + templateName + '.jade'));
+        var html = template({
+          compiledMarkdown: item.compiledMarkdown,
+          originalMarkdown: item.originalMarkdown,
+          env: item.env,
+          items: renderedFiles
+        });
+
+        console.log(item.env.meta);
+
+        var fileName = item.env.meta.fileName ?
+             path.join(item.dstDir, item.env.meta.fileName) 
+           : (item.dstDir + path.basename(item.srcFilePath) + '.html');
+        fs.writeFileSync(fileName, html);
+      });
       pushToGHPages();
     }
   }
 
   var fileLocalPart = file.slice(srcDir.length - file.length);
-  console.log(fileLocalPart);
-  console.log(path.dirname(fileLocalPart));
   var buildFilePath = path.join(buildDir, path.dirname(fileLocalPart));
   
   fs.readFile(file, function(err, content) {
     pendingFiles++;
     if (file.slice(-3) == '.md') {
-      console.log(content.toString());
-     
-      render(content.toString(), function(err, html, env) {
+      render(content.toString(), function(err, html, env, fenceToSvg) {
 
         if (!env.meta) {
            env.meta = {};
         }
-        var title = env.title || env.meta.title;
-        var post = postTemplate({postBody: html, title: title, meta: env.meta});
+        // var title = env.title || env.meta.title;
+        // var post = postTemplate({postBody: html, title: title, meta: env.meta});
 
         mkdirp(buildFilePath, function(err) {
-          var destFileName = path.join(buildFilePath, path.basename(fileLocalPart));
-          fs.writeFile(destFileName + '.html', post, pushWhenReady);
+          //var destTmpFileName = path.join(buildFilePath, '.cache', path.basename(fileLocalPart));
+          //var destDir = path.join(buildFilePath, path.basename(fileLocalPart));
+          //fs.writeFile(destFileName + '.html', post, pushWhenReady);
+           
+          // convert svg to png
+          //var proc = cp.exec('convert -density 1200 -resize 800 svg:-  -', function(err, png) {
+          //proc.stdin.end(svg);
+          
+          renderedFiles.push({
+             srcFilePath: file,
+             dstDir: buildFilePath,
+             env: env,
+             compiledMarkdown: html,
+             originalMarkdown: content.toString(),
+             fenceMap: fenceToSvg
+          });
+          console.log('aaaaa', file, env);
+          pushWhenReady();
+
         });
       });
     } else {
