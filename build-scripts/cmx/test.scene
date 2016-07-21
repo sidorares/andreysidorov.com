@@ -1,0 +1,68 @@
+<scene id="scene1">
+<label t="translate(0,346)">
+<tspan x="0" y="0em">One lazy morning</tspan>
+</label>
+<drawing t="translate(0,31)">
+<line stroke="green">
+<point x="0" y="0"></point>
+<point x="250" y="20"></point>
+</line>
+</drawing>
+<actor t="translate(71,19) rotate(-2)" pose="-11,9|-5,117|-11,99|-11,89|-11,79|-11,59|-16,34|-21,9|-6,34|-1,9|-18,79|-18,59|-6,79|-1,59">
+<bubble t="translate(9,11)" pose="0,0|-20,10|-81,49|19,66|-21,145|-73,109">
+<tspan x="0" y="-3em">how'd you lose the weight??</tspan>
+<tspan x="0" y="0em">Arent both </tspan>
+<tspan x="0" y="1em">your parents obese?</tspan>
+<tspan x="0" y="2em"></tspan>
+<tspan x="0" y="3em"></tspan>
+<tspan x="8" y="76px">but genetics?</tspan>
+</bubble>
+</actor>
+<actor t="translate(159,15)" pose="28,1|30,109|28,91|28,81|28,71|28,51|18,31|18,1|33,26|38,1|23,71|18,51|38,71|38,51">
+<bubble t="translate(-2,-9)" pose="0,0|-14,24|-36,69|27,28|8,72|-35,93">
+<tspan x="0" y="0em">Diet</tspan>
+<tspan x="0" y="1em">and exercise</tspan>
+<tspan x="0" y="2em">what else?</tspan>
+</bubble>
+</actor>
+</scene>
+
+<scene id="scene2">
+<drawing t="translate(0,31)">
+<line stroke="green">
+<point x="0" y="0"></point>
+<point x="250" y="20"></point>
+</line>
+</drawing>
+<actor t="translate(71,19) rotate(-2)" pose="-11,9|-1,114|-11,99|-11,89|-11,79|-11,59|-16,34|-21,9|-6,34|-1,9|-18,79|-18,59|-6,79|13,83">
+<bubble t="translate(-3,0)" pose="0,0|-12,22|-83,104|45,21|-37,182|-58,162">
+<tspan x="0" y="-2em">oh yeah!
+<tspan x="0" y="0em">Your genes </tspan>
+<tspan x="0" y="1em">and environment interact</tspan>
+<tspan x="0" y="2em">any diet or exercise tips?</tspan>
+<tspan x="0" y="3em"><tspan fill="blue"></tspan></tspan>
+</tspan></bubble>
+</actor>
+<actor t="translate(159,15)" pose="28,1|30,109|28,91|28,81|28,71|28,51|18,31|13,1|33,26|38,1|23,71|18,51|38,71|38,51">
+<bubble t="translate(-2,-9)" pose="0,0|7,33|14,66|-63,30|-52,62|-94,113">
+<tspan x="-17" y="1em">when somethings works</tspan>
+<tspan x="0" y="2em">just make sure to</tspan>
+<tspan x="0" y="3em" fill="red">stick to it</tspan>
+</bubble>
+</actor>
+</scene>
+
+<scene id="scene3" height="230">
+<label t="translate(0,225)">
+<tspan x="0" y="0em">later that day</tspan>
+</label>
+<actor t="translate(209,4) rotate(2)" pose="-41,48|-10,105|0,88|0,78|0,68|0,48|-5,23|-10,-2|5,23|10,-2|-11,70|-4,54|17,86|-4,110">
+<bubble t="translate(-2,-9)" pose="0,0|-13,24|-29,52|-86,-4|-99,79|-165,70">
+<tspan x="0" y="-1em">HA! stick to it!</tspan>
+<tspan x="0" y="1em">I guess the POINT is</tspan>
+<tspan x="0" y="2em" fill="blue">nature and nurture</tspan>
+<tspan x="0" y="3em" fill="blue">interact</tspan>
+
+</bubble>
+</actor>
+</scene>

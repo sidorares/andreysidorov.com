@@ -3,8 +3,10 @@ var hljs = require('highlight.js');
 var slug = require('slug');
 var runHandlers = require('./fence-run-handlers.js');
 var uuid = require('uuid');
-
+var path = require('path'); 
 var pug = require('pug');
+var mkdirp = require('mkdirp');
+
 var postTemplate = pug.compile(fs.readFileSync(__dirname + '/templates/blog_post.jade'));
 
 var render = function(markdown, callback) {
@@ -64,18 +66,18 @@ var render = function(markdown, callback) {
     });
 
   var env = {};
-  var body = md.render(ex1, env);
+  var body = md.render(markdown, env);
   var html = body;
+  
   console.log(body);
+  //console.log(env);
 
   Promise.all(asyncQueue.map( v => v[2] ) ).then((values) => {
     for (var i=0; i<values.length; ++i) {
       html = html.replace(asyncQueue[i][0], values[i])
     }
-    console.log(env);
-    var post = postTemplate({postBody: html, meta: env.meta});
-    //fs.writeFileSync('out.html', post);
-    callback(null, post);
+    //console.log(env);
+    callback(null, html, env);
   }).catch(function(err) {
     console.log(err.message); // some coding error in handling happened
     console.log(err);
@@ -97,10 +99,7 @@ var render = function(markdown, callback) {
   */
 }
 
-
-var ex1 = require('fs').readFileSync(__dirname + '/../src/test.md', 'utf8');
-render(ex1, function(err, html) {
-  //console.log(html);
+function pushToGHPages() {
   var cp = require('child_process');
   cp.execSync('git config --global user.email "sidorares@yandex.com"');
   cp.execSync('git config --global user.name "Andrey Sidorov"');
@@ -113,4 +112,53 @@ render(ex1, function(err, html) {
     console.log(e.message);
     console.log(e);
   }
+}
+
+var finder = require('findit2');
+var srcDir = path.join(__dirname, '../src');
+var buildDir = path.join(__dirname, '/build'); 
+var srcTree = finder(srcDir);
+
+srcTree.on('file', function (file, stat, linkPath) {
+  var pendingFiles = 0;
+
+  var pushWhenReady() {
+    pendingFies--;
+    console.log('file ready. Left pending:', pendingFiles);
+    if (pendingFiles === 0) {
+      pushToGHPages();
+    }
+  }
+
+  var fileLocalPart = file.slice(srcDir.length - file.length);
+  console.log(fileLocalPart);
+  console.log(path.dirname(fileLocalPart));
+  var buildFilePath = path.join(buildDir, path.dirname(fileLocalPart));
+  
+  fs.readFile(file, function(err, content) {
+    pendingFiles++;
+    if (file.slice(-3) == '.md') {
+      console.log(content.toString());
+     
+      render(content.toString(), function(err, html, env) {
+
+        if (!env.meta) {
+           env.meta = {};
+        }
+        var title = env.title || env.meta.title;
+        var post = postTemplate({postBody: html, title: title, meta: env.meta});
+
+        mkdirp(buildFilePath, function(err) {
+          var destFileName = path.join(buildFilePath, path.basename(fileLocalPart));
+          fs.writeFile(destFileName + '.html', post, pushWhenReady);
+        });
+      });
+    } else {
+      mkdirp(buildFilePath, function(err) {
+        var destFileName = path.join(buildFilePath, path.basename(fileLocalPart));
+        fs.writeFile(destFileName, content, pushWhenReady);
+      });
+    } 
+  });
 });
+

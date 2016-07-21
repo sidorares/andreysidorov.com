@@ -20,6 +20,7 @@
   "homepage": "https://github.com/sidorares/andreysidorov.com#readme",
   "dependencies": {
     "csslint": "^0.10.0",
+    "findit2": "^2.2.3",
     "glob": "^7.0.3",
     "katex": "^0.6.0",
     "markdown-it": "^6.0.2",

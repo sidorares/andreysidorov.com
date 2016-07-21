@@ -10,13 +10,14 @@ html
     div#header header <a href="www.ru">goes here</a>
     article
       header
-        h1= meta.title
+        h1= title
         .header-meta
-          .author By <a href="about">Andrey Sidorov</a> |
-          ul.tags
-            each t in meta.tags
-              li
-                a.tag(href="#")= t
+          .author By <a href="about">Andrey Sidorov</a> ${meta.tags ? '|' : ''}
+          if meta.tags
+            ul.tags
+              each t in meta.tags
+                li
+                  a.tag(href="#")= t
       != postBody
     div#disqus_thread
     script.
