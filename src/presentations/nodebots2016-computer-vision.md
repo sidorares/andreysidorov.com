@@ -4,17 +4,34 @@
   , "title"  : "node.js & computer vision"
   , "author" : "Andrey Sidorov"
   , "tags"    : ["dbus", "node.js", "computer vision", "nodebots"]
+  , "template": "presentation"
   , "fileName": "nodebots2016-computer-vision.html"
 }
 ```
 
 # Node.js & practical computer vision recipes
 
+## node-opencv
+
+Object detection (car/face):
+
+node-opencv has a number of bundled configurations for feature extraction
+
+```js
+var CASCADES = {
+   FACE_CASCADE: 'haarcascade_frontalface_alt.xml'
+ , EYE_CASCADE: 'haarcascade_eye.xml'
+ , EYEGLASSES_CASCADE: 'haarcascade_eye_tree_eyeglasses.xml'
+ , FULLBODY_CASCADE: 'haarcascade_fullbody.xml'
+ , CAR_SIDE_CASCADE: 'hogcascade_cars_sideview.xml'
+};
+```
+
 ## Google Cloud vision
 
 First, read ["quick start"](https://cloud.google.com/vision/docs/quickstart). Go to API console and [enable cloud vision API]( https://console.cloud.google.com/apis/api/vision.googleapis.com/overview?project=api-project-113105314762)
 
-<img style="width: 100%" alt="gcloud-console-enable" src="https://cloud.githubusercontent.com/assets/173025/17054047/6bfbb120-5048-11e6-8672-7efe2eca253d.png">
+![](https://cloud.githubusercontent.com/assets/173025/17054047/6bfbb120-5048-11e6-8672-7efe2eca253d.png)
 
 Example using [official npm package](https://www.npmjs.com/package/gcloud#google-cloud-vision-beta)
 
