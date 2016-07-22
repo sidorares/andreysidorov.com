@@ -79,7 +79,6 @@ var render = function(markdown, callback) {
   var env = {};
   var html = md.render(markdown, env);
 
-  console.log('111111', html);
 
   Promise.all(asyncQueue.map( v => v[2] ) ).then((values) => {
     var fenceToSvg = {};
@@ -91,7 +90,6 @@ var render = function(markdown, callback) {
         lang: asyncQueue[i][3]
       };
     }
-    console.log('222222');
     callback(null, html, env, fenceToSvg);
   }).catch(function(err) {
     console.log(err.message); 
@@ -133,7 +131,8 @@ srcTree.on('file', function (file, stat, linkPath) {
       console.log(JSON.stringify(renderedFiles, null, 4));
       renderedFiles.forEach(function(item) {
         // var postTemplate = pug.compile(fs.readFileSync(__dirname + '/templates/blog_post.jade'));
-        var templateName = item.env.meta.teplateName || 'blog_post';
+        var templateName = item.env.meta.templateName || 'blog_post';
+        console.log('Template:', templateName);
         var template = pug.compile(fs.readFileSync(__dirname + '/templates/' + templateName + '.jade'));
         var html = template({
           compiledMarkdown: item.compiledMarkdown,
@@ -142,7 +141,7 @@ srcTree.on('file', function (file, stat, linkPath) {
           items: renderedFiles
         });
 
-        console.log(item.env.meta);
+        //console.log(item.env.meta);
 
         var fileName = item.env.meta.fileName ?
              path.join(item.dstDir, item.env.meta.fileName) 
