@@ -4,7 +4,7 @@
   , "title"  : "node.js & computer vision"
   , "author" : "Andrey Sidorov"
   , "tags"    : ["dbus", "node.js", "computer vision", "nodebots"]
-  , "template": "presentation"
+  , "templateName": "presentation"
   , "fileName": "nodebots2016-computer-vision.html"
 }
 ```
