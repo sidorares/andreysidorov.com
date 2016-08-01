@@ -3,7 +3,7 @@ var hljs = require('highlight.js');
 var slug = require('slug');
 var runHandlers = require('./fence-run-handlers.js');
 var uuid = require('uuid');
-var path = require('path'); 
+var path = require('path');
 var pug = require('pug');
 var mkdirp = require('mkdirp');
 var cp = require('child_process');
@@ -40,9 +40,7 @@ var render = function(markdown, callback) {
     }
   }
 
-  var permalink = `
-  <svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg>
-  `;
+  var permalink = `<svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg>`;
 
   var md = require('markdown-it')({
     typographer: true,
@@ -78,7 +76,9 @@ var render = function(markdown, callback) {
 
   var env = {};
   var html = md.render(markdown, env);
-
+  if (env.title) {
+    env.title = env.title.split(permalink).join('');
+  }
 
   Promise.all(asyncQueue.map( v => v[2] ) ).then((values) => {
     var fenceToSvg = {};
@@ -92,7 +92,7 @@ var render = function(markdown, callback) {
     }
     callback(null, html, env, fenceToSvg);
   }).catch(function(err) {
-    console.log(err.message); 
+    console.log(err.message);
     console.log(err);
     process.exit(-1);
   });
@@ -110,7 +110,7 @@ function pushToGHPages() {
 
 var finder = require('findit2');
 var srcDir = path.join(__dirname, '../src');
-var buildDir = path.join(__dirname, '/build'); 
+var buildDir = path.join(__dirname, '/build');
 var srcTree = finder(srcDir);
 
 cp.execSync('rm -rf ' + __dirname + '/build');
@@ -119,34 +119,35 @@ cp.execSync('git config --global user.name "Andrey Sidorov"');
 cp.execSync('git clone -b gh-pages --depth 10 --single-branch https://$GITHUB_TOKEN:x-oauth-basic@github.com/sidorares/andreysidorov.com.git ' + __dirname + '/build');
 
 var renderedFiles = [];
+var pendingFiles = 0;
 
 srcTree.on('file', function (file, stat, linkPath) {
-  var pendingFiles = 0;
+  pendingFiles++;
+
+  console.log('============ srcTree', file, pendingFiles);
 
   var pushWhenReady = function() {
     pendingFiles--;
-    console.log('file ready. Left pending:', pendingFiles);
     if (pendingFiles === 0) {
-      //console.log('ready!');
-      console.log(JSON.stringify(renderedFiles, null, 4));
+      var sortedByDate = renderedFiles.sort( (p1, p2) => {
+        return new Date(p2.env.meta.date) - new Date(p1.env.meta.date);
+      });
+      renderedFiles = sortedByDate;
+
       renderedFiles.forEach(function(item) {
-        // var postTemplate = pug.compile(fs.readFileSync(__dirname + '/templates/blog_post.jade'));
         var templateName = item.env.meta.templateName || 'blog_post';
-        console.log('Template:', templateName);
         var template = pug.compile(fs.readFileSync(__dirname + '/templates/' + templateName + '.jade'));
         var html = template({
+          path: item.path,
           compiledMarkdown: item.compiledMarkdown,
           originalMarkdown: item.originalMarkdown,
           env: item.env,
-          items: renderedFiles
+          items: renderedFiles,
+          thisPost: item
         });
 
-        //console.log(item.env.meta);
-
-        var fileName = item.env.meta.fileName ?
-             path.join(item.dstDir, item.env.meta.fileName) 
-           : (item.dstDir + path.basename(item.srcFilePath) + '.html');
-        fs.writeFileSync(fileName, html);
+        var fullFileName = path.join(buildDir, item.path.slice(1));
+        fs.writeFileSync(fullFileName, html);
       });
       pushToGHPages();
     }
@@ -154,28 +155,37 @@ srcTree.on('file', function (file, stat, linkPath) {
 
   var fileLocalPart = file.slice(srcDir.length - file.length);
   var buildFilePath = path.join(buildDir, path.dirname(fileLocalPart));
-  
+
   fs.readFile(file, function(err, content) {
-    pendingFiles++;
     if (file.slice(-3) == '.md') {
       render(content.toString(), function(err, html, env, fenceToSvg) {
 
         if (!env.meta) {
            env.meta = {};
         }
-        // var title = env.title || env.meta.title;
-        // var post = postTemplate({postBody: html, title: title, meta: env.meta});
+        if (!env.meta.date) {
+          env.meta.date = (new Date()).toISOString();
+        }
+        if (!env.meta.templateName) {
+          templateName = 'blog_post';
+        }
 
         mkdirp(buildFilePath, function(err) {
           //var destTmpFileName = path.join(buildFilePath, '.cache', path.basename(fileLocalPart));
           //var destDir = path.join(buildFilePath, path.basename(fileLocalPart));
           //fs.writeFile(destFileName + '.html', post, pushWhenReady);
-           
+
           // convert svg to png
           //var proc = cp.exec('convert -density 1200 -resize 800 svg:-  -', function(err, png) {
           //proc.stdin.end(svg);
-          
+
+          // TODO: use slug
+          var fileName = env.meta.fileName ?
+              env.meta.fileName
+             : path.basename(file) + '.html';
+
           renderedFiles.push({
+             path: path.join(path.dirname(fileLocalPart), fileName),
              srcFilePath: file,
              dstDir: buildFilePath,
              env: env,
@@ -183,9 +193,7 @@ srcTree.on('file', function (file, stat, linkPath) {
              originalMarkdown: content.toString(),
              fenceMap: fenceToSvg
           });
-          console.log('aaaaa', file, env);
           pushWhenReady();
-
         });
       });
     } else {
@@ -193,7 +201,6 @@ srcTree.on('file', function (file, stat, linkPath) {
         var destFileName = path.join(buildFilePath, path.basename(fileLocalPart));
         fs.writeFile(destFileName, content, pushWhenReady);
       });
-    } 
+    }
   });
 });
-
