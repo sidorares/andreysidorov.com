@@ -22,38 +22,11 @@
 ## run-latex
 
 ```run-latex
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% Welcome to Overleaf --- just edit your LaTeX on the left,
-% and we'll compile it for you on the right. If you give
-% someone the link to this page, they can edit at the same
-% time. See the help menu above for more info. Enjoy!
-%
-% Note: you can export the pdf to see the result at full
-% resolution.
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Focused ion beam system
 % Author: Clemens Helfmeier
 \documentclass{minimal}
 \usepackage[utf8]{inputenc}
 \usepackage{tikz}
-%%%<
-\usepackage{verbatim}
-\usepackage[active,tightpage]{preview}
-\PreviewEnvironment{tikzpicture}
-\setlength\PreviewBorder{5pt}%
-%%%>
-
-\begin{comment}
-:Title:  Focused ion beam system
-
-The drawing is a schematic construction of a Focused Ion Beam system which
-bombards a target with ions. Due to gas injection you can even modify the
-target, not only destructive but also constructive.
-
-\end{comment}
-
 \usetikzlibrary{arrows,decorations.pathmorphing}
 \def\english#1{\emph{#1}}
 \tikzset{
