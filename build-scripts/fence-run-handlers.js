@@ -63,9 +63,10 @@ module.exports['run-latex'] = function (input) {
       fs.writeFile(tmpinput + '.tex', prefix + input, function(err) {
         // TODO: async
         cp.execSync('latex --output-directory=' + path.dirname(tmpinput) + ' ' + tmpinput + '.tex');
-        var svg = cp.execSync('dvisvgm ' + tmpinput + '.dvi -s').toString();
-        var svgo = cp.execSync('svgo -i - ' + svgoRules + ' -o -', {input: svg});
-        resolve(svgo.toString());
+        var svg = cp.execSync('dvisvgm --exact ' + tmpinput + '.dvi -s').toString();
+        //var svgo = cp.execSync('svgo -i - ' + svgoRules + ' -o -', {input: svg});
+        //resolve(svgo.toString());
+        resolve(svg);
         cleanupCallback();
       });
     });
@@ -86,7 +87,7 @@ module.exports['run-cmx'] = function (input) {
 
     //var svg = cp.execSync('phantomjs ' + path.resolve(__dirname, './cmx/phantom.js'), {input: input});
     //resolve(svg);
-    
+
     tmp.file(function _tempFileCreated(err, tmpinput, fd, cleanupCallback) {
       fs.writeFile(tmpinput, input, function(err) {
         if (err) return reject(err);
