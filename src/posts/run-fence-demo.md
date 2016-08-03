@@ -378,62 +378,725 @@
 \end{document}
 ```
 
-## http://www.texample.net/tikz/examples/homotopy/
+## http://www.texample.net/tikz/examples/timing-diagram/
 
 ```run-latex
-% Homotopy of paths
-% Author: Alain Matthes
-\documentclass[a4paper,10pt]{article}
-\usepackage{tikz}
-%%%<
-\usepackage{verbatim}
-\usepackage[active,tightpage]{preview}
-\PreviewEnvironment{tikzpicture}
-\setlength\PreviewBorder{5pt}%
-%%%>
-\begin{comment}
-:Title: Homotopy of paths
-:Tags: Coordinate calculations, Decorations, Diagrams, Geometry, Mathematics
-:Author: Alain Matthes
-:Slug: homotopy
-http://texblog.net/latex-archive/maths/jpgfdraw-example/ rewritten in TikZ
+% Some macros for logic timing diagrams.
+%
+% Author: ir. Pascal T. Wolkotte and Jochem Rutgers, University of Twente
+\documentclass{article}
+% Start of timing.sty
 
-Following an illustration in Singer/Thorpe: Lecture Notes in Elementary Topology
-and Geometry, the example has been drawn by Stefan Kottwitz using jpgfdraw,
-and programmed by Alain Matthes on http://tex.stackexchange.com/q/1238/ .
-\end{comment}
-\usetikzlibrary{arrows,calc,shapes,decorations.pathreplacing}
+% Some macros for logic timing diagrams.
+%
+% Author: ir. Pascal T. Wolkotte and Jochem Rutgers, University of Twente
+% Version: 0.1
+% Date: 2007/10/11
+
+\usepackage{tikz}
+
+\newcounter{wavenum}
+
+\setlength{\unitlength}{1cm}
+% advance clock one cycle, not to be called directly
+\newcommand*{\clki}{
+  \draw (t_cur) -- ++(0,.3) -- ++(.5,0) -- ++(0,-.6) -- ++(.5,0) -- ++(0,.3)
+    node[time] (t_cur) {};
+}
+
+\newcommand*{\bitvector}[3]{
+  \draw[fill=#3] (t_cur) -- ++( .1, .3) -- ++(#2-.2,0) -- ++(.1, -.3)
+                         -- ++(-.1,-.3) -- ++(.2-#2,0) -- cycle;
+  \path (t_cur) -- node[anchor=mid] {#1} ++(#2,0) node[time] (t_cur) {};
+}
+
+% \known{val}{length}
+\newcommand*{\known}[2]{
+    \bitvector{#1}{#2}{white}
+}
+
+% \unknown{length}
+\newcommand*{\unknown}[2][XXX]{
+    \bitvector{#1}{#2}{black!20}
+}
+
+% \bit{1 or 0}{length}
+\newcommand*{\bit}[2]{
+  \draw (t_cur) -- ++(0,.6*#1-.3) -- ++(#2,0) -- ++(0,.3-.6*#1)
+    node[time] (t_cur) {};
+}
+
+% \unknownbit{length}
+\newcommand*{\unknownbit}[1]{
+  \draw[ultra thick,black!50] (t_cur) -- ++(#1,0) node[time] (t_cur) {};
+}
+
+% \nextwave{name}
+\newcommand{\nextwave}[1]{
+  \path (0,\value{wavenum}) node[left] {#1} node[time] (t_cur) {};
+  \addtocounter{wavenum}{-1}
+}
+
+% \clk{name}{period}
+\newcommand{\clk}[2]{
+    \nextwave{#1}
+    \FPeval{\res}{(\wavewidth+1)/#2}
+    \FPeval{\reshalf}{#2/2}
+    \foreach \t in {1,2,...,\res}{
+        \bit{\reshalf}{1}
+        \bit{\reshalf}{0}
+    }
+}
+
+% \begin{wave}[clkname]{num_waves}{clock_cycles}
+\newenvironment{wave}[3][clk]{
+  \begin{tikzpicture}[draw=black, yscale=.7,xscale=1]
+    \tikzstyle{time}=[coordinate]
+    \setlength{\unitlength}{1cm}
+    \def\wavewidth{#3}
+    \setcounter{wavenum}{0}
+    \nextwave{#1}
+    \foreach \t in {0,1,...,\wavewidth}{
+      \draw[dotted] (t_cur) +(0,.5) node[above] {t=\t} -- ++(0,.4-#2);
+      \clki
+    }
+}{\end{tikzpicture}}
+
+%%% End of timing.sty
 \begin{document}
+\begin{wave}{13}{5}
+ \nextwave{req\_addr} \bit{0}{.2} \bit{1}{1} \bit{0}{3} \bit{1}{1} \bit{0}{.8}
+ \nextwave{inst\_addr} \unknown[X]{.5} \known{addr}{1} \unknown{4.5}
+ \nextwave{link\_addrs} \unknown{1.2} \known{map}{1} \unknown{3.8}
+ \nextwave{link\_load} \unknown{2.2} \known{vam}{1} \unknown{2.8}
+ \nextwave{link\_load\_r} \unknown{3.1} \known{val}{1} \unknown{1.9}
+ \nextwave{simulate} \bit{0}{3.1} \bit{1}{1} \bit{0}{1.9}
+ \nextwave{output} \unknown{3.3} \known{}{.5} \known{}{.5} \unknown{1.7}
+ \nextwave{prev\_output} \unknown{3.2} \known{old}{1} \unknown{1.8}
+ \nextwave{differs} \unknownbit{3.3} \bit{1}{.5} \bit{1}{.4} \unknownbit{1.8}
+ \nextwave{differs\_r} \unknownbit{4.1} \bit{1}{1} \unknownbit{.9}
+ \nextwave{dep\_addr} \unknown{4.2} \known{dep}{1} \unknown[X]{.8}
+ \nextwave{req} \unknown{4.3} \known{req}{1} \unknown[X]{.7}
+\end{wave}
+
+\end{document}
+```
+
+
+## http://www.texample.net/tikz/examples/rna-codons-table/
+
+```run-latex
+% RNA codons
+% Author: Florian Hollandt
+\documentclass{article}
+
+\usepackage{tikz}
+\setlength\oddsidemargin{0in}
+
+
+\begin{document}
+
+\ttfamily
+\footnotesize
+
+\pagestyle{empty}
+
+\begin{center}
 \begin{tikzpicture}
-  \node at (0,0) {$F : I \times I \rightarrow X$};
-  \node[label=below:$x_1$]  (x1) at (6,0)  {$\bullet$};
-  \node[label=above:$x_0$]  (x0) at (9,4)  {$\bullet$};  
-  \node  at (9.5,2)  {$\subset X$};
-  \draw (x1.center) to [out=5,in=-90]++(2.8,1.8) to[out=90,in=-95](x0.center);
-  \draw (x1.center) to [out=10,in=-110]++(2.6,2) to[out=70,in=-103](x0.center);
-  \draw (x1.center) to [out=15,in=-105](x0.center);
-  \draw (x1.center) to [out=30,in=-150](x0.center);
-  \draw (x1.center) to [out=45,in=-170](x0.center);
-  \draw (x1.center) to [out=50,in=-105]++(1.2,3)to [out=75,in=-172](x0.center);
-  \draw (x1.center) to [out=55,in=-100]++(1.0,3) to[out=80,in=-175](x0.center);
-  \draw (x1.center) to [out=60,in=-90]++(0.8,3) to[out=90,in=-180] (x0.center);
-  \begin{scope}[every node/.style={draw, anchor=text, rectangle split,
-    rectangle split parts=7,minimum width=2cm}]
-    \node (R) at (2,4){ \nodepart{two} \nodepart{three}
-    \nodepart{four}$I\times I$\nodepart{five}\nodepart{six}\nodepart{seven}};
-  \end{scope}
-  \draw[decorate,decoration={brace,mirror,raise=6pt,amplitude=10pt}, thick]
-    (R.north west)--(R.south west) ;
-  \draw[decorate,decoration={brace,raise=6pt,amplitude=10pt}, thick]
-    (R.north east)--(R.south east);
-  \draw[->] ($(R.west)+(-20pt,0)$) to[out=-180,in=240] ++(0,2)
-    to [out=60,in=120]node[above,midway]{$F(0,t_2)$}(x0) ;
-  \draw[->] ($(R.north)+(0,10pt)$) to [out=60,in=120]
-    node[above,midway]{$\beta \simeq \alpha$} ++(4.5,-1) ;
-  \draw[->] ($(R.east)+(20pt,0)$)  to [out=0,in=140]
-    node[right,midway]{$F(1,t_2)$}(x1) ;
-  \draw[->] ($(R.south)+(0,-20pt)$)  to [out=-85,in=-30]
-    node[below,midway]{$\alpha$}++(7,0) ;    
+\tikzstyle{every node}=[inner sep=1.7pt,anchor=center]
+%	to_x and from_x styles denote bonds terminating or starting in labeled nodes. x denotes the number of letters in the node label.
+\tikzstyle{to_1}=[shorten >=5pt]
+\tikzstyle{to_1i}=[shorten >=6pt]
+\tikzstyle{to_2}=[shorten >=7pt]
+\tikzstyle{to_3}=[shorten >=8pt]
+\tikzstyle{from_1}=[shorten <=5pt]
+\tikzstyle{from_1i}=[shorten <=6pt]
+\tikzstyle{from_2}=[shorten <=8pt]
+\begin{scope}
+\draw [ultra thick] circle(1cm);
+\draw [ultra thick] (0:4)--(180:4) (90:4)--(270:4);
+\foreach \a/\l in {45/A,135/G,225/C,315/U}{
+	\node at (90-\a:0.5cm) {\l};
+}
+\draw [very thick] circle(2cm);
+\foreach \A in {90,0,270,180}{
+	\foreach \a/\l in {22.5/A,45/G,67.5/C,90/U}{
+		\draw [very thick] (\A+\a:1) -- (\A+\a:4);
+		\node at (\A-\a+11.25:1.5) {\l};
+	}
+}
+\draw circle(4cm) (0:4)--(180:4) (90:4)--(270:4);
+\foreach \A in {90,180,270,0}{
+	\foreach \a in {0,22.5,45,67.5}{
+		\foreach \i/\l in {5.625/A,11.25/G,16.875/C,22.5/U}{
+			\draw (\A+\a+\i:2) -- (\A+\a+\i:4);
+			\node at (\A-\a-\i+2.8125:3) {\l};
+		}
+	}
+}
+\end{scope}
+\begin{scope}[scale=0.5]	% Lysine
+\draw[ultra thick,shorten >=2pt,shorten <=2pt] (90:8.2)
+				arc(90:90-2*5.625:8.2);
+\path (90-0.8*5.625:14.3) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}  
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center) 	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw[to_3]  (zero.center)	-- ++(270:1) node(Cb){}
+				-- ++(330:1) node (Cc) {}
+				-- ++(270:1) node (Cd) {}
+				-- ++(210:1) node (Ce) {}
+				-- ++(150:1) node (Cf) {NH$_{\mbox{2}}$};
+\end{scope}
+\begin{scope}[scale=0.5]	% Asparagine
+\draw[ultra thick,shorten >=2pt,shorten <=2pt] (90-2*5.625:8.2)
+				arc(90-2*5.625:90-4*5.625:8.2);
+\path (90-3.5*3.625-3:13.3) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw[to_2]  (zero.center)	-- ++(270:1) node(Cb){}
+				-- ++(330:1) node (Cc) {}
+				-- +(30:1) node (Cd) {NH$_{\mbox{2}}$};
+\draw[to_1i] (Cc.center)	-- +(270:1) node (O) {};
+\draw[to_1]  (Cc.210)		-- (O.150);
+\path (O.center) node {O};
+\end{scope}
+\begin{scope}[scale=0.5]	% Arginine
+\draw[ultra thick,shorten >=2pt,shorten <=2pt] (90-22.5:8.2)
+				arc(90-22.5:90-33.75:8.2);
+\path (90-3.7*5.625:16) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw[to_2]  (zero.center)	-- ++(270:1) node(Cb){}
+				-- ++(330:1) node (Cc) {}
+				-- ++(270:1) node (Cd) {}
+				-- ++(330:1) node (NH1) {NH};
+\draw[from_2,to_3]  (NH1.center)	-- ++(30:1) node (Ce) {}
+				-- ++(330:1) node {NH$_{\mbox{2}}$};
+\draw[to_1i] (Ce.center)	-- ++(90:1) node (N2) {};
+\draw[to_1]  (Ce.150)		-- (N2.210);
+\path (N2) node {N};
+\end{scope}
+\begin{scope}[scale=0.5]	% Serine
+\draw[ultra thick,shorten >=1pt,shorten <=2pt] (90-22.5-2*5.625:8.2)
+				arc(90-33.75:90-33.75-11.25:8.2);
+\path (90-7*5.625:12.5) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw[to_2]  (zero.center)	-- ++(270:1) node(Cb){} -- ++(210:1) node (Cc) {OH};
+\end{scope}
+\begin{scope}[scale=0.5]	% Threonine
+\draw[ultra thick,shorten >=1pt,shorten <=2pt] (90-45:8.2)
+				arc(90-45:90-67.5:8.2);
+\path (90-45-0.8*11.25:12.5) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw[to_2]  (zero.center)	-- ++(270:1) node(Cb){}
+				-- ++(330:1) node (Cc) {} (Cb.center)
+				-- +(210:1) node {OH};
+\end{scope}
+\begin{scope}[scale=0.5]	% Methionine
+\draw[ultra thick,shorten >=1pt,shorten <=2pt] (90-67.5:8.2)
+				arc(90-67.5:90-67.5-5.625:8.2);
+\path (90-67.5-0.5*5.625:14) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw[to_1]  (zero.center)	-- ++(270:1) node(Cb){}
+				-- ++(330:1) node (Cc) {}
+				-- ++(30:1) node (Cd) {S};
+\draw[from_1] (Cd.center)	-- +(330:1);
+\end{scope}
+\begin{scope}[scale=0.5]	% Isoleucine
+\draw[ultra thick,shorten >=1pt,shorten <=2pt] (0:8.2)
+				arc(0:11.25:8.2);
+\path (1.0*5.625:12.4) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw	     (zero.center)	-- ++(270:1) node(Cb){}
+				-- ++(330:1) node (Cc) {}
+				-- +(30:1) node (Cd) {} (Cb.center)
+				-- +(210:1) node (Ce) {};
+\end{scope}
+\begin{scope}[scale=0.5]	% Glutamic acid
+\draw[ultra thick,shorten >=1pt,shorten <=2pt] (0:8.2)
+				arc(0:-11.25:8.2);
+\path (-1.3*5.625:15) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)  	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)  		-- +(90:1);
+\draw[to_3]  (zero.center) 	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw[to_1i] (zero.center) 	-- ++(270:1) node(Cb){}
+				-- ++(330:1) node (Cc) {}
+				-- ++(270:1) node (Cd) {}
+				-- ++(330:1) node (NH) {OH};
+\draw[to_1]  (Cd.center) 	-- +(210:1) node (O) {};
+\draw[to_1i] (Cd.270) 		-- (O.300);
+\path (O.center) node {O};
+\end{scope}
+\begin{scope}[scale=0.5]	% Aspartic acid
+\draw[ultra thick,shorten >=1pt,shorten <=2pt] (-11.25:8.2)
+				arc(-11.25:-22.5:8.2);
+\path (-11.25-5.625:12) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center) 	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw[to_2]  (zero.center)	-- ++(270:1) node(Cb){}
+				-- ++(330:1) node (Cc) {}
+				-- +(30:1) node (Cd) {OH};
+\draw[to_1i] (Cc.center)	-- +(270:1) node (O) {};
+\draw[to_1]  (Cc.210)		-- (O.150);
+\path (O.center) node {O};
+\end{scope}
+\begin{scope}[scale=0.5]	% Glycine
+\draw[ultra thick,shorten >=1pt,shorten <=2pt] (-22.5:8.2)
+				arc(-22.5:-45:8.2);
+\path (-33.75-1*5.625:12) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\end{scope}
+\begin{scope}[scale=0.5]	% Alanine
+\draw[ultra thick,shorten >=1pt,shorten <=2pt] (-45:8.2)
+				arc(-45:-68.25:8.2);
+\path (-45-11.25:12) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw	     (zero.center)	-- ++(270:1) node(Cb){};
+\end{scope}
+\begin{scope}[scale=0.5]	% Valine
+\draw[ultra thick,shorten >=1pt,shorten <=2pt] (-68.25:8.2)
+				arc(-68.25:-90:8.2);
+\path (-68.25-0.8*11.25:12) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw (zero.center)		-- ++(270:1) node(Cb){}
+				-- ++(330:1) node (Cc) {};
+\end{scope}
+\begin{scope}[scale=0.5]	% Glutamine
+\draw[ultra thick,shorten >=1pt,shorten <=2pt] (-90:8.2)
+				arc(-90:-101.25:8.2);
+\path (-90.25-5.625:12.5) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_2]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw[to_3]  (zero.center)	-- ++(270:1) node(Cb){}
+				-- ++(330:1) node (Cc) {}
+				-- ++(270:1) node (Cd) {}
+				-- ++(330:1) node (NH) {NH$_{\mbox{2}}$};
+\draw[to_1]  (Cd.center)	-- +(210:1) node (O) {};
+\draw[to_1i] (Cd.270)		-- (O.300);
+\path (O.center) node {O};
+\end{scope}
+\begin{scope}[scale=0.5]	% Histidine
+\draw[ultra thick,shorten >=1pt,shorten <=2pt] (-101.25:8.2)
+				arc(-101.25:-101.25-11.25:8.2);
+\path (-101.25-1.2*5.625:15.5) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw        (zero.center)	-- ++(270:1) node(Cb){}
+				-- ++(330:1) node(Cc){};
+\draw[to_2]  (Cc.center)	-- ++(108-1*72:1) node (Cd) {}
+				-- ++(108-2*72:1) node (Ce) {NH};
+\draw[from_1,to_1] (Ce.center)	-- ++(108-3*72:1) node (Cf) {}
+				-- ++(108-4*72:1) node (Cg) {};
+\draw[from_1] (Cg.center)	-- (Cc.center);
+\draw         (Cc.198+2*72)	-- (Cd.198+1*72);
+\draw[from_1] (Cg.72)		-- (Cf.198+4*72);
+\draw (Cg.center) node {N};
+\end{scope}
+\begin{scope}[scale=0.5]	% Arginine
+\draw[ultra thick,shorten >=2pt,shorten <=2pt] (-90-22.5:8.2)
+				arc(-90-22.5:-90-45:8.2);
+\path (-90-7.7*5.625:12.3) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw[to_2]  (zero.center)	-- ++(270:1) node(Cb){}
+				-- ++(330:1) node (Cc) {}
+				-- ++(270:1) node (Cd) {}
+				-- ++(330:1) node (NH1) {NH};
+\draw[from_1i,to_3] (NH1.center)-- ++(30:1) node (Ce) {}
+				-- ++(330:1) node {NH$_{\mbox{2}}$};
+\draw[to_1]  (Ce.center)	-- ++(90:1) node (N2) {};
+\draw[shorten >=4pt] (Ce.150)	-- (N2.210);
+\path (N2) node {N};
+\end{scope}
+\begin{scope}[scale=0.5]	% Proline
+\draw[ultra thick,shorten >=2pt,shorten <=2pt] (-90-45:8.2)
+				arc(-90-45:-90-45-22.25:8.2);
+\path (-90-10.5*5.625:12) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_2]  (zero.center)	-- ++(150:1) node (nh) {NH$_{\mbox{2}}^+$};
+\draw        (zero.center)	-- ++(270:1) node(Cb){};
+\path        (Cb.center)	-- +(150:1) node (x) {};
+\path        (x.center)  	+(170:1) node (Cd) {};
+\path        (x.center)  	+(250:1) node (Cc) {};
+\draw[to_3]  (Cb.center)	-- (Cc.center)
+				-- (Cd.center)
+				-- (nh.center);
+\end{scope}
+\begin{scope}[scale=0.5]	% Leucine
+\draw[ultra thick,shorten >=2pt,shorten <=2pt] (180:8.2)
+				arc(180:180+22.25:8.2);
+\path (-90-14.5*5.625:13) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw (zero.center)		-- ++(270:1) node(Cb){}
+				-- ++(330:1) node (Cc) {}
+				-- +(30:1) node (Cd) {} (Cc.center)
+				-- +(270:1) node (Ce) {};
+\end{scope}
+\begin{scope}[scale=0.5]	% Tyrosine
+\draw[ultra thick,shorten >=2pt,shorten <=2pt] (180-11.25:8.2)
+				arc(180-11.25:180-22.5:8.2);
+\path (180-3*5.625:16) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw 	     (zero.center)	-- ++(270:1) node(Cb){};
+\draw	     (Cb.center)	-- ++(330:1) node (Cc) {}
+				-- ++(30:1) node (Cd) {}
+				-- ++(330:1) node (Ce) {}
+				-- ++(270:1) node (Cf) {}
+				-- ++(210:1) node (Cg) {}
+				-- ++(150:1) node (Ch) {}
+				-- ++(90:1);
+\draw        (Cc.330)		-- (Cd.270);
+\draw        (Ce.210)		-- (Cf.150);
+\draw        (Cg.90)		-- (Ch.30);
+\draw[to_1i] (Cf.center)	-- +(330:1) node (OH) {OH};
+\end{scope}
+\begin{scope}[scale=0.5]	% Tryptophane
+\draw[ultra thick,shorten >=2pt,shorten <=2pt] (180-22.5-5.625:8.2)
+				arc(180-22.5-5.625:180-22.5-11.25:8.2);
+\path (180-22.5-1.8*5.625:16) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw 	     (zero.center)	-- ++(270:1) node(Cb){}
+				-- ++(330:1) node(Cc){};
+\draw[to_2]  (Cc.center)	-- ++(108-1*72:1) node (Cd) {}
+				-- ++(108-2*72:1) node (Ce) {NH};
+\draw[from_1](Ce.center)	-- ++(108-3*72:1) node (Cf) {}
+				-- ++(108-4*72:1) node (Cg) {};
+\draw 	     (Cg.center)	-- (Cc.center);
+\draw        (Cc.198+2*72)	-- (Cd.198+1*72);
+\draw 	     (Cg.72)		-- (Cf.198+4*72);
+\draw	     (Cg.center)	-- ++(240:1) node (Ch) {}
+				-- ++(300:1) node (Ci) {}
+				-- ++(0:1) node (Cj) {}
+				-- ++(60:1) node (Ck) {}
+				-- ++(120:1) node (Cl) {};
+\draw	     (Ch.0)		-- (Ci.60);
+\draw	     (Cj.120)		-- (Ck.180);
+\end{scope}
+\begin{scope}[scale=0.5]	% Cysteine
+\draw[ultra thick,shorten >=2pt,shorten <=2pt] (180-45+11.25:8.2)
+				arc(180-45+11.25:180-45:8.2);
+\path (180-45+11.25-1*7.625:12) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw[to_2]  (zero.center)	-- ++(270:1) node(Cb){}
+				-- ++(210:1) node (Cc) {SH};
+\end{scope}
+\begin{scope}[scale=0.5]	% Serine
+\draw[ultra thick,shorten >=1pt,shorten <=2pt] (90+45:8.2)
+				arc(90+45:90+45-22.5:8.2);
+\path (90+45-11.25+0*5.625:14) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw[to_2]  (zero.center)	-- ++(270:1) node(Cb){}
+				-- ++(330:1) node (Cc) {OH};
+\end{scope}
+\begin{scope}[scale=0.5]	% Leucine
+\draw[ultra thick,shorten >=2pt,shorten <=2pt] (90+22.5:8.2)
+				arc(90+22.5:90+11.25:8.2);
+\path (90+22.5-1.2*5.625:16) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw 	     (zero.center)	-- ++(270:1) node(Cb){}
+				-- ++(210:1) node (Cc) {}
+				-- +(150:1) node (Cd) {} (Cc.center)
+				-- +(270:1) node (Ce) {};
+\end{scope}
+\begin{scope}[scale=0.5]	% Phenylalanine
+\draw[ultra thick,shorten >=2pt,shorten <=2pt] (90+11.25:8.2)
+				arc(90+11.25:90:8.2);
+\path (90+1.5*5.625:13) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw	     (zero.center)	-- ++(270:1) node(Cb){};
+\draw	     (Cb.center)	-- ++(210:1) node (Cc) {}
+				-- ++(150:1) node (Cd) {}
+				-- ++(210:1) node (Ce) {}
+				-- ++(270:1) node (Cf) {}
+				-- ++(330:1) node (Cg) {}
+				-- ++(30:1) node (Ch) {}
+				-- ++(90:1);
+\draw	     (Cc.210)		-- (Cd.270);
+\draw	     (Ce.330)		-- (Cf.30);
+\draw	     (Cg.90)		-- (Ch.150);
+\end{scope}
+\node at (90-1*5.625:4.5) {K};
+\node at (90-3*5.625:4.5) {N};
+\node at (90-5*5.625:4.5) {R};
+\node at (90-7*5.625:4.5) {S};
+\node at (90-10*5.625:4.5) {T};
+\node at (90-12.5*5.625:4.5) {I};
+\node at (90-13.7*5.625:4.7) {M / $\star$};
+\node at (90-15*5.625:4.5) {I};
+\node at (90-17*5.625:4.5) {E};
+\node at (90-19*5.625:4.5) {D};
+\node at (90-22*5.625:4.5) {G};
+\node at (90-26*5.625:4.5) {A};
+\node at (90-30*5.625:4.5) {V};
+\node at (90-33*5.625:4.5) {Q};
+\node at (90-35*5.625:4.5) {H};
+\node at (90-38*5.625:4.5) {R};
+\node at (90-42*5.625:4.5) {P};
+\node at (90-46*5.625:4.5) {L};
+\node at (90-49*5.625:4.5) {$\dagger$};
+\node at (90-51*5.625:4.5) {Y};
+\node at (90-52.3*5.625:4.5) {$\dagger$};
+\node at (90-53.3*5.625:4.5) {W};
+\node at (90-55*5.625:4.5) {C};
+\node at (90-58*5.625:4.5) {S};
+\node at (90-61*5.625:4.5) {L};
+\node at (90-63*5.625:4.5) {F};
 \end{tikzpicture}
+\end{center}
+
+\end{document}
+```
+
+
+## http://www.texample.net/tikz/examples/tcp-state-machine/
+
+```run-latex
+%% Copyright 2009 Ivan Griffin
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+%
+% The Current Maintainer of this work is Ivan Griffin
+%
+% This work consists of the files tcp_state_machine.tex
+
+%Description
+%-----------
+%tcp_state_machine.tex - an example file illustrating the TCP (RFC 793)
+%                        state machine
+
+%Created 2009-11-20 by Ivan Griffin.  Last updated: 2009-11-20
+%-------------------------------------------------------------
+
+
+
+\documentclass{article}
+
+\usepackage{tikz}
+\usetikzlibrary{calc,backgrounds}
+\usepackage[active,tightpage]{preview}
+
+\begin{document}
+
+\begin{tikzpicture}[>=latex]
+
+  %
+  % Styles for states, and state edges
+  %
+  \tikzstyle{state} = [draw, very thick, fill=white, rectangle, minimum height=3em, minimum width=7em, node distance=8em, font={\sffamily\bfseries}]
+  \tikzstyle{stateEdgePortion} = [black,thick];
+  \tikzstyle{stateEdge} = [stateEdgePortion,->];
+  \tikzstyle{edgeLabel} = [pos=0.5, text centered, font={\sffamily\small}];
+
+  %
+  % Position States
+  %
+  \node[state, name=closedStart] {CLOSED};
+  \node[state, name=listen, below of=closedStart] {LISTEN};
+  \node[state, name=synSent, below of=listen, right of=listen, xshift=8em] {SYN\_SENT};
+  \node[state, name=synRcvd, below of=listen, left of=listen, xshift=-8em] {SYN\_RCVD};
+  \node[state, name=established, below of=listen, node distance=14em] {ESTABLISHED};
+  \node[state, name=finWait1, below of=established, left of=established, node distance=7em, xshift=-9em] {FIN\_WAIT\_1};
+  \node[state, name=finWait2, below of=finWait1] {FIN\_WAIT\_2};
+  \node[state, name=closeWait, below of=established, right of=established, node distance=7em, xshift=9em] {CLOSE\_WAIT};
+  \node[state, name=closing, below of=established, node distance=14em] {CLOSING};
+  \node[state, name=lastAck, below of=closeWait] {LAST\_ACK};
+  \node[state, name=timeWait, below of=closing] {TIME\_WAIT};
+
+  %
+  % Connect States via edges
+  %
+  \draw ($(closedStart.south) + (-.5em,0)$)
+      edge[stateEdge] node[edgeLabel, xshift=-3em]{\emph{Passive open}}
+      ($(listen.north) + (-.5em,0)$);
+  \draw ($(listen.north) + (.5em,0)$)
+      edge[stateEdge] node[edgeLabel, xshift=2em]{\emph{Close}}
+      ($(closedStart.south) + (.5em,0)$);
+
+  \draw ($(listen.south) + (-1em,0)$)
+      edge[stateEdge, bend left=22.5] node[edgeLabel, xshift=-2em, yshift=1em]{SYN/SYN + ACK}
+      ($(synRcvd.east) + (0,1em)$);
+  \draw ($(listen.south) + (1em,0)$)
+      edge[stateEdge, bend right=22.5] node[edgeLabel, xshift=1em, yshift=1em]{\emph{Send}/SYN}
+      ($(synSent.west) + (0,1em)$);
+
+  \draw ($(synRcvd.north) + (.5em,0)$)
+      edge[stateEdge, bend left=45] node[edgeLabel,xshift=-4em]{\emph{Timeout}/RST}
+      ($(closedStart.west) + (0,-.5em)$);
+
+  \draw ($(synSent.north) + (-.5em,0)$)
+      edge[stateEdge, bend right=45] node[edgeLabel,xshift=-1em, yshift=-1em]{\emph{Close}}
+      ($(closedStart.east) + (0,-.5em)$);
+  \draw ($(closedStart.east) + (0,.5em)$)
+      edge[stateEdge, bend left=45] node[edgeLabel,xshift=4em]{\emph{Active open}/SYN}
+      ($(synSent.north) + (.5em,0)$);
+
+  \draw (synSent.west)
+      edge[stateEdge] node[edgeLabel, yshift=1em]{SYN/SYN + ACK}
+      (synRcvd.east);
+  \draw (synRcvd)
+      edge[stateEdge] node[edgeLabel, xshift=-2.5em]{\emph{Close}/FIN}
+      (finWait1);
+
+  \draw ($(synRcvd.east) + (0,-1em)$)
+      edge[stateEdge, bend left=22.5] node[edgeLabel, xshift=-1em, yshift=-1em]{ACK}
+      ($(established.north) + (-1em,0)$);
+  \draw ($(synSent.west) + (0,-1em)$)
+      edge[stateEdge, bend right=22.5] node[edgeLabel, xshift=3em, yshift=-1em]{SYN + ACK/ACK}
+      ($(established.north) + (1em,0)$);
+
+  \draw ($(established.south) + (-1em,0)$)
+      edge[stateEdge, bend left=22.5] node[edgeLabel, xshift=-1em, yshift=1em]{\emph{Close}/FIN}
+      ($(finWait1.east) + (0,.5em)$);
+  \draw ($(established.south) + (1em,0)$)
+      edge[stateEdge, bend right=22.5] node[edgeLabel, xshift=1em, yshift=1em]{FIN/ACK}
+      ($(closeWait.west) + (0,1em)$);
+
+  \draw (finWait1.south)
+      edge[stateEdge] node[edgeLabel, xshift=-2em]{ACK}
+      (finWait2.north);
+  \draw ($(finWait1.east) + (0,-.5em)$)
+      edge[stateEdge, bend left=22.5] node[edgeLabel, yshift=1em]{ACK}
+      (closing.north);
+  \draw (finWait1.south east)
+      edge[stateEdge] node[edgeLabel, xshift=1em, yshift=2em, text width=3em]{FIN + ACK/ACK}
+      (timeWait.north west);
+
+  \draw (finWait2.south)
+      edge[stateEdge, bend right=22.5] node[edgeLabel, xshift=-2em, yshift=-1em]{FIN/ACK}
+      (timeWait.west);
+
+  \draw (closing)
+      edge[stateEdge] node[edgeLabel, xshift=-2em]{ACK}
+      (timeWait);
+
+  \draw (closeWait)
+      edge[stateEdge] node[edgeLabel,xshift=2.5em]{\emph{Close}/FIN}
+      (lastAck);
+
+  %
+  % Connect lastAck to closed is slightly more complicated
+  % no direct line-of-sight, so we need to take the scenic route
+  %
+  \coordinate (lastAck2ClosedA) at ($(lastAck.east) + (2em,0)$);
+  \coordinate (lastAck2ClosedB) at ($(closedStart.north -| lastAck.east) + (2em,1em)$);
+  \coordinate (lastAck2ClosedC) at ($(closedStart.north) + (0.5em,1em)$);
+  \draw (lastAck.east) edge[stateEdgePortion] (lastAck2ClosedA);
+  \draw (lastAck2ClosedA) edge[stateEdgePortion] node[edgeLabel,xshift=-1.5em, yshift=-4em]{ACK} (lastAck2ClosedB);
+  \draw (lastAck2ClosedB) edge[stateEdgePortion] (lastAck2ClosedC);
+  \draw (lastAck2ClosedC) edge[stateEdge] ($(closedStart.north) + (0.5em,0)$);
+
+  %
+  % likewise for timeWait to closed
+  %
+  \coordinate (timeWait2ClosedA) at ($(timeWait.south) + (0,-1em)$);
+  \coordinate (timeWait2ClosedB) at ($(timeWait.south -| finWait2.west) + (-2em,-1em)$);
+  \coordinate (timeWait2ClosedC) at ($(closedStart.north -| finWait2.west) + (-2em,1em)$);
+  \coordinate (timeWait2ClosedD) at ($(closedStart.north) + (-0.5em,1em)$);
+  \draw (timeWait.south) edge[stateEdgePortion] (timeWait2ClosedA);
+  \draw (timeWait2ClosedA) edge[stateEdgePortion] (timeWait2ClosedB);
+  \draw (timeWait2ClosedB) edge[stateEdgePortion] (timeWait2ClosedC);
+  \draw (timeWait2ClosedC) edge[stateEdgePortion]
+    node[edgeLabel, text width=12.25em, yshift=1.5em]{\emph{Timeout after two maximum segment lifetimes (2*MSL)}}
+    (timeWait2ClosedD);
+  \draw (timeWait2ClosedD) edge[stateEdge] ($(closedStart.north) + (-0.5em,0)$);
+
+  % draw dotted lines around passive and active closes
+  \begin{pgfonlayer}{background}
+    \draw [join=round,black,dotted] ($(closeWait.north west) + (-1em, -1em)$) rectangle ($(lastAck.south east) + (1em, 1em)$);
+    \draw [join=round,black,dotted] ($(finWait1.north west) + (-1em, -1em)$) rectangle ($(timeWait.south east) + (1em, 1em)$);
+  \end{pgfonlayer}
+
+\end{tikzpicture}
+
 \end{document}
 ```
