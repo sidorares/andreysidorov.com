@@ -64,8 +64,9 @@ module.exports['run-latex'] = function (input) {
         // TODO: async
         cp.execSync('latex --output-directory=' + path.dirname(tmpinput) + ' ' + tmpinput + '.tex');
         var svg = cp.execSync('dvisvgm --no-fonts --exact ' + tmpinput + '.dvi -s');
-        var svgo = cp.execSync('svgo -i - ' + svgoRules + ' -o -', {input: svg});
-        resolve(svgo.toString());
+        resolve(svg.toString());
+        //var svgo = cp.execSync('svgo -i - ' + svgoRules + ' -o -', {input: svg});
+        //resolve(svgo.toString());
         cleanupCallback();
       });
     });
