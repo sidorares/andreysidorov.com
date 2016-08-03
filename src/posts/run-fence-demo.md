@@ -34,6 +34,7 @@
   every picture/.append style={line width=1pt},
 }
 \begin{document}
+\pagestyle{empty}
 \begin{tikzpicture}[
     scale=1.3,
     fib housing horz/.style={top color=black!10, bottom color=black!40, draw=black!50},
@@ -966,7 +967,7 @@
 \usepackage[active,tightpage]{preview}
 
 \begin{document}
-
+\pagestyle{empty}
 \begin{tikzpicture}[>=latex]
 
   %
@@ -1114,6 +1115,7 @@
 \documentclass{article}
 \usepackage{tkz-orm}
 \begin{document}
+\pagestyle{empty}
 \begin{tikzpicture}[orm]
     \entity (E) {Employee\ormind{1}\\(.nr)};
 
