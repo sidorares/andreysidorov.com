@@ -465,6 +465,7 @@
 
 %%% End of timing.sty
 \begin{document}
+\pagestyle{empty}
 \begin{wave}{13}{5}
  \nextwave{req\_addr} \bit{0}{.2} \bit{1}{1} \bit{0}{3} \bit{1}{1} \bit{0}{.8}
  \nextwave{inst\_addr} \unknown[X]{.5} \known{addr}{1} \unknown{4.5}
