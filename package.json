@@ -19,13 +19,13 @@
   },
   "homepage": "https://github.com/sidorares/andreysidorov.com#readme",
   "dependencies": {
-    "csslint": "^0.10.0",
+    "csslint": "^1.0.5",
     "findit2": "^2.2.3",
     "glob": "^7.0.3",
-    "katex": "^0.6.0",
-    "markdown-it": "^6.0.2",
+    "katex": "^0.10.0-beta",
+    "markdown-it": "^8.4.2",
     "markdown-it-abbr": "^1.0.3",
-    "markdown-it-anchor": "^2.5.0",
+    "markdown-it-anchor": "^5.0.2",
     "markdown-it-classy": "^0.2.0",
     "markdown-it-container": "^2.0.0",
     "markdown-it-emoji": "^1.2.0",
@@ -33,23 +33,19 @@
     "markdown-it-katex": "^2.0.1",
     "markdown-it-mark": "^2.0.0",
     "markdown-it-title": "^1.0.4",
-    "medium-sdk": "0.0.3",
-    "medium-wrapi": "^0.1.0",
-    "mermaid": "^0.5.8",
+    "mermaid": "^8.0.0-rc.8",
     "mkdirp": "^0.5.1",
-    "phantomjs-prebuilt": "github:medium/phantomjs#v1.9.19",
-    "pug": "^2.0.0-beta3",
-    "remark-highlight.js": "^3.1.0",
-    "remark-html": "^3.0.0",
-    "remark-yaml-config": "^3.0.0",
-    "s3": "^4.4.0",
-    "shaky": "github:sidorares/shaky#4e5a6ddd44f85a11353cbbf6ab6a24c16a5b8e47",
+    "pug": "^2.0.3",
+    "remark-highlight.js": "^5.0.0",
+    "remark-html": "^8.0.0",
+    "remark-yaml-config": "^4.0.2",
+    "shaky": "github:sidorares/shaky#8ebe7687f68271bf45808ef61e86764ee253e9a6",
     "slug": "^0.9.1",
-    "svgo": "^0.6.6",
-    "tmp": "0.0.28",
-    "uuid": "^2.0.2"
+    "svgo": "^1.0.5",
+    "tmp": "0.0.33",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "mocha": "^2.4.5"
+    "mocha": "^5.2.0"
   }
 }
