@@ -39,7 +39,7 @@
     "remark-highlight.js": "^5.0.0",
     "remark-html": "^8.0.0",
     "remark-yaml-config": "^4.0.2",
-    "shaky": "github:sidorares/shaky#8ebe7687f68271bf45808ef61e86764ee253e9a6",
+    "shaky": "github:sidorares/shaky#2649f298d4b0a7c9b9e0300846bc5d91c4016814",
     "slug": "^0.9.1",
     "svgo": "^1.0.5",
     "tmp": "0.0.33",
