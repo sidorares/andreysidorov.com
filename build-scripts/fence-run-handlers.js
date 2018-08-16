@@ -10,41 +10,41 @@ var exec = function(cmdline, stdin) {
     });
     proc.stdin.end(stdin);
   });
-}
+};
 
 var svgoRules = '--enable=removeComments --enable=removeMetadata --enable=removeDimensions --enable=convertColors --enable=convertPathData';
 
-module.exports.shaky = function (input) {
+module.exports.shaky = function(input) {
+  return Promise.resolve('skipped');
   var shaky = require('shaky');
   var svg = shaky(input, 'svg').toString();
   return exec('svgo ' + svgoRules + ' -i - -o -', svg);
 };
 
-module.exports['tmp-file'] = function (input, params) {
+module.exports['tmp-file'] = function(input, params) {
   return new Promise(function(resolve, reject) {
     fs.writeFile(params[0], input, resolve);
   });
-}
+};
 
-module.exports['run-dot'] = function (input) {
+module.exports['run-dot'] = function(input) {
   return exec('dot -T svg | svgo ' + svgoRules + ' -i - -o -', input);
 };
 
-module.exports['run-gnuplot'] = function (input) {
+module.exports['run-gnuplot'] = function(input) {
   return new Promise(function(resolve, reject) {
     var pragma = `
       set term svg mouse jsdir "http://gnuplot.sourceforge.net/demo_svg_4.6/"\n
     `;
-    var proc = cp.exec('gnuplot | svgo ' + svgoRules + ' -i - -o -', {input: pragma + input}, function(err, svg) {
-      var svg = svg.toString()
-        .replace(/<path fill="#fff" stroke="#000" onclick/, '<path fill="transparent" stroke="transparent" onclick');
+    var proc = cp.exec('gnuplot | svgo ' + svgoRules + ' -i - -o -', { input: pragma + input }, function(err, svg) {
+      var svg = svg.toString().replace(/<path fill="#fff" stroke="#000" onclick/, '<path fill="transparent" stroke="transparent" onclick');
       resolve(svg);
     });
     proc.stdin.end(pragma + input);
   });
 };
 
-module.exports.railroad = function (input) {
+module.exports.railroad = function(input) {
   var rr = require('./rr.js');
   var vm = require('vm');
   var res = vm.runInNewContext(input, rr);
@@ -52,12 +52,13 @@ module.exports.railroad = function (input) {
   return exec('svgo ' + svgoRules + ' -i - -o -', svg);
 };
 
-module.exports['run-latex'] = function (input) {
+module.exports['run-latex'] = function(input) {
+  return Promise.resolve('skipped');
   //var prefix = "\\documentclass[landscape,a5paper,11pt]{article}\n" +
   //  "\\usepackage{tikz}\n" +
   //  "
   //  "\\begin{document}\n";
-  var prefix="";
+  var prefix = '';
   return new Promise(function(resolve, reject) {
     tmp.file(function _tempFileCreated(err, tmpinput, fd, cleanupCallback) {
       fs.writeFile(tmpinput + '.tex', prefix + input, function(err) {
@@ -71,9 +72,9 @@ module.exports['run-latex'] = function (input) {
       });
     });
   });
-}
+};
 
-module.exports['run-css'] = function (input) {
+module.exports['run-css'] = function(input) {
   // TODO: validate css?
   return Promise.resolve(`
     <style>
@@ -82,35 +83,32 @@ module.exports['run-css'] = function (input) {
   `);
 };
 
-module.exports['run-cmx'] = function (input) {
+module.exports['run-cmx'] = function(input) {
   return new Promise(function(resolve, reject) {
-
     //var svg = cp.execSync('phantomjs ' + path.resolve(__dirname, './cmx/phantom.js'), {input: input});
     //resolve(svg);
 
     tmp.file(function _tempFileCreated(err, tmpinput, fd, cleanupCallback) {
       fs.writeFile(tmpinput, input, function(err) {
         if (err) return reject(err);
-        var proc = cp.exec('phantomjs phantom.js ' + tmpinput, { cwd: path.resolve(__dirname, './cmx')}, function(err, out) {
+        var proc = cp.exec('phantomjs phantom.js ' + tmpinput, { cwd: path.resolve(__dirname, './cmx') }, function(err, out) {
           //console.log(err, out);
-          if (err)
-            reject(err)
-          else
-            resolve(out);
+          if (err) reject(err);
+          else resolve(out);
         });
       });
     });
   });
 };
 
-module.exports.mermaid = function (input) {
+module.exports.mermaid = function(input) {
   // TODO: async
   var tmp = require('tmp');
   var tmpinput = tmp.fileSync().name;
   var path = require('path');
-  var binDir = path.join(__dirname , '../node_modules/.bin');
+  var binDir = path.join(__dirname, '../node_modules/.bin');
   fs.writeFileSync(tmpinput, input);
-  cp.execSync('mermaid -s ' + tmpinput + ' -o ' + path.dirname(tmpinput));
+  cp.execSync('mmdc -i ' + tmpinput + ' -o ' + tmpinput + '.svg');
   var svg = cp.execSync('svgo -i ' + tmpinput + '.svg ' + svgoRules + ' -o -');
   svg = svg.toString().replace(/style="width[^"]+/, '');
   return Promise.resolve(svg);

@@ -1,23 +1,51 @@
 ```json
 {
-    "title"  : "Test Title"
-  , "author" : "Andrey Sidorov"
-  , "tags"    : ["dbus", "node.js", "blah"]
+  "title": "Test Title",
+  "author": "Andrey Sidorov",
+  "tags": ["dbus", "node.js", "blah"]
 }
 ```
 
 ## Currently supported fence-to-svg converters
 
-  - shaky ( via [shaky](https://github.com/ShawnHuang/shaky) via [shaky.coffee](https://github.com/dbushong/shaky) via [shaky-dart](http://mrale.ph/blog/2012/11/25/shaky-diagramming.html)
-  - run-dot ( [graphviz](http://www.graphviz.org/content/dot-language) directly to svg)
-  - run-gnuplot ( gnuplot using [svg terminal](http://gnuplot.sourceforge.net/demo_svg_5.0/) )
-  - railroad ( using [railroad-diagrams](https://github.com/tabatkins/railroad-diagrams))
-  - run-latex ( latex -> dvi -> [dvisvgm](http://dvisvgm.bplaced.net/) )
-  - run-css - inject style block into page
-  - run-cmx - render http://cmx.io/ comic ( using phantom.js )
-  - mermaid - render [mermaid diagram](https://github.com/knsv/mermaid)
+- shaky ( via [shaky](https://github.com/ShawnHuang/shaky) via [shaky.coffee](https://github.com/dbushong/shaky) via [shaky-dart](http://mrale.ph/blog/2012/11/25/shaky-diagramming.html)
+- run-dot ( [graphviz](http://www.graphviz.org/content/dot-language) directly to svg)
+- run-gnuplot ( gnuplot using [svg terminal](http://gnuplot.sourceforge.net/demo_svg_5.0/) )
+- railroad ( using [railroad-diagrams](https://github.com/tabatkins/railroad-diagrams))
+- run-latex ( latex -> dvi -> [dvisvgm](http://dvisvgm.bplaced.net/) )
+- run-css - inject style block into page
+- run-cmx - render http://cmx.io/ comic ( using phantom.js )
+- mermaid - render [mermaid diagram](https://github.com/knsv/mermaid)
 
 # examples
+
+```mermaid
+sequenceDiagram
+    participant Alice
+    participant Bob
+    Alice->>John: Hello John, how are you?
+    loop Healthcheck
+        John->>John: Fight against hypochondria
+    end
+    Note right of John: Rational thoughts <br/>prevail...
+    John-->>Alice: Great!
+    John->>Bob: How about you?
+    Bob-->>John: Jolly good!
+```
+
+rr
+
+```railroad
+Diagram(
+  Optional('+', 'skip'),
+  Choice(0,
+    NonTerminal('name-start char'),
+    NonTerminal('escape')),
+  ZeroOrMore(
+    Choice(0,
+      NonTerminal('name char'),
+      NonTerminal('escape'))))
+```
 
 ## run-latex:
 
@@ -484,7 +512,6 @@
 \end{document}
 ```
 
-
 ## http://www.texample.net/tikz/examples/rna-codons-table/
 
 ```run-latex
@@ -541,7 +568,7 @@
 \draw[ultra thick,shorten >=2pt,shorten <=2pt] (90:8.2)
 				arc(90:90-2*5.625:8.2);
 \path (90-0.8*5.625:14.3) node (zero) {};
-\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}  
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
 				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
 \draw[to_1]  (CO.center) 	-- +(90:1) node (Od) {O};
 \draw[to_1i] (CO.30)		-- +(90:1);
@@ -930,7 +957,6 @@
 
 \end{document}
 ```
-
 
 ## http://www.texample.net/tikz/examples/tcp-state-machine/
 
