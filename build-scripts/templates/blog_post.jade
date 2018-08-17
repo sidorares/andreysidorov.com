@@ -23,14 +23,4 @@ html
       ul
         for p in items
            li= JSON.stringify(p.env)
-       
-    div#disqus_thread
-    script.
-      (function() { // DON'T EDIT BELOW THIS LINE
-      var d = document, s = d.createElement('script');
-        s.src = '//andreysidorov.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-      })();
-      
     div#footer footer goes here

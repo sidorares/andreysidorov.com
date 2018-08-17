@@ -84,21 +84,8 @@ module.exports['run-css'] = function(input) {
 };
 
 module.exports['run-cmx'] = function(input) {
-  return new Promise(function(resolve, reject) {
-    //var svg = cp.execSync('phantomjs ' + path.resolve(__dirname, './cmx/phantom.js'), {input: input});
-    //resolve(svg);
-
-    tmp.file(function _tempFileCreated(err, tmpinput, fd, cleanupCallback) {
-      fs.writeFile(tmpinput, input, function(err) {
-        if (err) return reject(err);
-        var proc = cp.exec('phantomjs phantom.js ' + tmpinput, { cwd: path.resolve(__dirname, './cmx') }, function(err, out) {
-          //console.log(err, out);
-          if (err) reject(err);
-          else resolve(out);
-        });
-      });
-    });
-  });
+  const makeCmx = require('./cmx/puppeteer.js');
+  return makeCmx(input);
 };
 
 module.exports.mermaid = function(input) {
