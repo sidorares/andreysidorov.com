@@ -1,8 +1,9 @@
 before_install:
   - sudo apt-get -qq update
-  - sudo apt-get install -y --no-install-recommends texlive-binaries texlive-fonts-recommended texlive-latex-extra texlive-fonts-extra texlive-extra-utils texlive-latex-recommended dvipng pgf gnuplot  gnuplot-nox
+  - sudo apt-get install -y --no-install-recommends texlive-binaries texlive-fonts-recommended
+    texlive-latex-extra texlive-fonts-extra texlive-extra-utils texlive-latex-recommended
+    dvipng pgf gnuplot gnuplot-nox libcv-dev libcvaux-dev libhighgui-dev libopencv-dev
   - npm explore npm -g -- npm install node-gyp@latest
-
 addons:
   apt:
     sources:
@@ -13,16 +14,16 @@ addons:
       - libpango1.0-dev
       - libgif-dev
       - g++-4.8
-
 language: node_js
 node_js:
-  - '10.8'
+  - '10.9'
 env:
-  - CXX=g++-4.8
-
+  matrix:
+    - CXX=g++-4.8
+  global:
+    secure: 0OEQW0PK+x3FV8AgMT0CeCZt2Gp6ST/d2amLRaoKRROxt2KfD+fsZA628aD9/Go3BRbTpSyuSbtew+5rn/hx7Pvo5UoBx5LyE+XymNDqoJoys6jBdyqMucBI8pa8BYiHquYPG2tnbwb48C4ZJD0xRfKke/er8Q++NuCOsvuGghSL+ubi/z2Mvee5Wj/OEFRJci8dEtvFhc9fIzCuUaxjymLVpXlGWYD0f2owBSluL1XCHjP3s5ezqy7WttyDcA61vsQv8PRWkaMU8S/rIX+lXP+BTyPgrmihyAEMmQQDA4AO0wmj2OXCHvpqCkH+LTYXyOn09FSe7Kp01qeV8tr4VUc5FlJgSWDCR12oo6KQwZkshA9AVkVRvBIgfOzmSdDoHCO0yi+ALblEOfjlA+HQSjhFN5lLipy3zURfSbUKJl2/s6WCW6MUQGZcN17WjF6cotTzHhHPtwoXD+JIe2C+HSpKaCKPaG+d/ZKmYBuLKXg4IMH+yQoV/BgUVrPsADxC3fJUrmv9lvCPU4fe01U9y+oSg0Y6yQj27jvGi/zCHMf9sGzoNFwCfPei0Jnh3q4qvo0sLZHQpYomde2V2O7gLbPrWwVPNa4o6+g33N0nyp0DVJvTvuypB76BJhCOscmqke9/Du8ReYosTbyKir1OtAGnD/nCS8Bdcn3bUEj4bh4=
 cache:
   directories:
     - node_modules
-
 script:
   - npm test && npm run build
