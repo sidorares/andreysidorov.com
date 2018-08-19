@@ -15,7 +15,7 @@ var exec = function(cmdline, stdin) {
 var svgoRules =
   '--enable=removeComments --enable=removeMetadata --enable=removeDimensions --enable=convertColors --enable=convertPathData';
 
-module.exports.shaky = function(input) {
+module.exports.shaky = async function(input) {
   var shaky = require('shaky');
   var svg = shaky(input, 'svg').toString();
   // TODO: move to assets css
