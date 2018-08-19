@@ -1280,7 +1280,7 @@ Diagram(
 
 ## shaky
 
-```shaky1
+```shaky
        +------------+     +------------+
        |            |     |            |
        |  CONTEXT   |<-+  |  CONTEXT   |<-+
@@ -1334,7 +1334,7 @@ test test test
 
 ## bob again
 
-```svgbob1
+```svgbob
 o->  It can do complex stuff such as circuit diagrams
 
 
