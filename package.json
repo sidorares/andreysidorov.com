@@ -5,6 +5,7 @@
   "scripts": {
     "test": "mocha",
     "build": "node build-scripts/index.js",
+    "publish": "node build-scripts/publish.js",
     "build-dbg": "node debug build-scripts/index.js"
   },
   "repository": {
@@ -41,6 +42,7 @@
     "remark-html": "^8.0.0",
     "remark-yaml-config": "^4.0.2",
     "serve": "^9.6.0",
+    "shaky": "github:sidorares/shaky#17688bcb24ee87f308b653466f20915b41fded76",
     "slug": "^0.9.1",
     "svgo": "^1.0.5",
     "tmp": "0.0.33",

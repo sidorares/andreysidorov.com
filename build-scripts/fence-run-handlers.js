@@ -12,10 +12,10 @@ var exec = function(cmdline, stdin) {
   });
 };
 
-var svgoRules = '--enable=removeComments --enable=removeMetadata --enable=removeDimensions --enable=convertColors --enable=convertPathData';
+var svgoRules =
+  '--enable=removeComments --enable=removeMetadata --enable=removeDimensions --enable=convertColors --enable=convertPathData';
 
 module.exports.shaky = function(input) {
-  return Promise.resolve('skipped');
   var shaky = require('shaky');
   var svg = shaky(input, 'svg').toString();
   return exec('svgo ' + svgoRules + ' -i - -o -', svg);
@@ -36,10 +36,19 @@ module.exports['run-gnuplot'] = function(input) {
     var pragma = `
       set term svg mouse jsdir "http://gnuplot.sourceforge.net/demo_svg_4.6/"\n
     `;
-    var proc = cp.exec('gnuplot | svgo ' + svgoRules + ' -i - -o -', { input: pragma + input }, function(err, svg) {
-      var svg = svg.toString().replace(/<path fill="#fff" stroke="#000" onclick/, '<path fill="transparent" stroke="transparent" onclick');
-      resolve(svg);
-    });
+    var proc = cp.exec(
+      'gnuplot | svgo ' + svgoRules + ' -i - -o -',
+      { input: pragma + input },
+      function(err, svg) {
+        var svg = svg
+          .toString()
+          .replace(
+            /<path fill="#fff" stroke="#000" onclick/,
+            '<path fill="transparent" stroke="transparent" onclick'
+          );
+        resolve(svg);
+      }
+    );
     proc.stdin.end(pragma + input);
   });
 };
@@ -52,8 +61,18 @@ module.exports.railroad = function(input) {
   return exec('svgo ' + svgoRules + ' -i - -o -', svg);
 };
 
+module.exports.svgbob = async function(input) {
+  const svg = await exec('~/.cargo/bin/svgbob', input);
+  // <style>circle,path{stroke:#000;stroke-width:2;stroke-opacity:1;fill-opacity:1;stroke-linecap:round;stroke-linejoin:miter}circle.solid{fill:#000}circle.open{fill:transparent}</style>
+  const svgNoStyle = svg.replace(/<style>[^\/]*<\/style>/, '');
+  const result = await exec(
+    'svgo ' + svgoRules + '--enable=removeStyleElement -i - -o -',
+    svgNoStyle
+  );
+  return `<div class="svgbob">${result}</div>`;
+};
+
 module.exports['run-latex'] = function(input) {
-  return Promise.resolve('skipped');
   //var prefix = "\\documentclass[landscape,a5paper,11pt]{article}\n" +
   //  "\\usepackage{tikz}\n" +
   //  "
@@ -63,8 +82,16 @@ module.exports['run-latex'] = function(input) {
     tmp.file(function _tempFileCreated(err, tmpinput, fd, cleanupCallback) {
       fs.writeFile(tmpinput + '.tex', prefix + input, function(err) {
         // TODO: async
-        cp.execSync('latex --output-directory=' + path.dirname(tmpinput) + ' ' + tmpinput + '.tex');
-        var svg = cp.execSync('dvisvgm --no-fonts --exact ' + tmpinput + '.dvi -s');
+        cp.execSync(
+          'latex --output-directory=' +
+            path.dirname(tmpinput) +
+            ' ' +
+            tmpinput +
+            '.tex'
+        );
+        var svg = cp.execSync(
+          'dvisvgm --no-fonts --exact ' + tmpinput + '.dvi -s'
+        );
         resolve(svg.toString());
         //var svgo = cp.execSync('svgo -i - ' + svgoRules + ' -o -', {input: svg});
         //resolve(svgo.toString());

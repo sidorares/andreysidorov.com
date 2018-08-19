@@ -2,7 +2,8 @@ before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y --no-install-recommends texlive-binaries texlive-fonts-recommended
     texlive-latex-extra texlive-fonts-extra texlive-extra-utils texlive-latex-recommended
-    dvipng pgf gnuplot gnuplot-nox libcv-dev libcvaux-dev libhighgui-dev libopencv-dev
+    dvipng pgf gnuplot gnuplot-nox libcv-dev libcvaux-dev libhighgui-dev libopencv-dev cargo
+  - cargo install svgbob_cli
   - npm explore npm -g -- npm install node-gyp@latest
 addons:
   apt:
@@ -26,4 +27,4 @@ cache:
   directories:
     - node_modules
 script:
-  - npm test && npm run build
+  - npm test && npm run build && npm run publish

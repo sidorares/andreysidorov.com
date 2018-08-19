@@ -117,23 +117,12 @@ var render = function(markdown, callback) {
     });
 };
 
-function pushToGHPages() {
-  try {
-    cp.execSync('git add . && git commit -am "--skip-ci CI test"', {
-      cwd: __dirname + '/build'
-    });
-    cp.execSync('git push origin gh-pages', { cwd: __dirname + '/build' });
-  } catch (e) {
-    console.log(e.message);
-    console.log(e);
-  }
-}
-
 var finder = require('findit2');
 var srcDir = path.join(__dirname, '../src');
 var buildDir = path.join(__dirname, '/build');
 var srcTree = finder(srcDir);
 
+// TODO: init and force push each time clean gh-pages
 cp.execSync('rm -rf ' + __dirname + '/build');
 cp.execSync('git config --global user.email "sidorares@yandex.com"');
 cp.execSync('git config --global user.name "Andrey Sidorov"');
@@ -176,7 +165,7 @@ srcTree.on('file', function(file, stat, linkPath) {
         var fullFileName = path.join(buildDir, item.path.slice(1));
         fs.writeFileSync(fullFileName, html);
       });
-      pushToGHPages();
+      console.log('Build OK');
     }
   };
 
