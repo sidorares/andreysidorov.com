@@ -18,7 +18,14 @@ var svgoRules =
 module.exports.shaky = function(input) {
   var shaky = require('shaky');
   var svg = shaky(input, 'svg').toString();
-  return exec('svgo ' + svgoRules + ' -i - -o -', svg);
+  // TODO: move to assets css
+  // <style>path{stroke-width:3;stroke:#000;fill:none}text{text-anchor:start}</style>
+  const svgNoStyle = svg.replace(/<style>[^\/]*<\/style>/, '');
+  const result = await exec(
+    'svgo ' + svgoRules + '--enable=removeStyleElement -i - -o -',
+    svgNoStyle
+  );
+  return `<div class="shaky">${result}</div>`;
 };
 
 module.exports['tmp-file'] = function(input, params) {
