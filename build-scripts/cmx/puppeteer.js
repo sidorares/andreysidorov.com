@@ -3,14 +3,12 @@ const fs = require('fs');
 
 const script = fs.readFileSync(__dirname + '/cmx.js', 'utf-8');
 
-const file = `
-`;
-
 module.exports = async sceneSource => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.setContent(`<div id='renderhere'></div>`);
   await page.addScriptTag({ content: script });
+  await page.waitForFunction('!!window.cmx');
   const result = await page.evaluate(function(s) {
     var cmx = window.cmx;
     var parser = new cmx.Parser('cmx');
@@ -22,7 +20,10 @@ module.exports = async sceneSource => {
     var nodes = document.querySelectorAll('svg');
     var res = '<div style="overflow: auto">';
     for (var i = 0; i < nodes.length; ++i) {
-      res += '<div class="cmx-scene">' + nodes[nodes.length - i - 1].parentNode.innerHTML + '</div>';
+      res +=
+        '<div class="cmx-scene">' +
+        nodes[nodes.length - i - 1].parentNode.innerHTML +
+        '</div>';
     }
     return res + '</div>';
   }, sceneSource);
