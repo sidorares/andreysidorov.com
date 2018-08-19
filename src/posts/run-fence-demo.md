@@ -1280,7 +1280,7 @@ Diagram(
 
 ## shaky
 
-```shaky1
+```shaky
        +------------+     +------------+
        |            |     |            |
        |  CONTEXT   |<-+  |  CONTEXT   |<-+
