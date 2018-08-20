@@ -1768,3 +1768,103 @@ $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\p
 
 \end{document}
 ```
+
+More TikZ
+
+```run-latex
+\documentclass{standalone}
+
+\input ./avanzi-tikz-defs.tex
+
+\RequirePackage{fullpage}
+\RequirePackage{ifthen}
+
+\begin{document}
+\begin{tikzpicture}
+
+\tikzset{thin cross line/.style={ preaction={draw=white, -, shorten >=2pt, shorten <=2pt, line width=1.5pt}},}
+
+  \newcount\m
+  \newcount\s 
+
+  \newcount\n % for the index of permutation boxes
+
+  \newcount\q % quotient - used to compute remainders 
+
+  \newcount\c % to split s as s=3c+d (while m is calculated as 3a+b)
+  \newcount\d
+
+  \node[rectangle, draw=white,            minimum width=119mm,  minimum height=25mm] (P) {}; % where the big permutation goes
+
+  \node[rectangle, draw=black, semithick, minimum width=119mm,  minimum height=5mm, above=4.375 mm of P] (X) {$\oplus$}; % key XOR
+
+  \node[left = 5mm of X] (ski) {\small $sk_1$};
+  \draw[arrow] (ski) -- (X);
+
+  \foreach \a in {0,...,15} {
+    \foreach \b in {0,...,2} {
+      \m=\a
+      \multiply\m by 3
+      \advance\m by \b
+  
+      \def\i{\number\m}
+
+      \s=\m %% this remains unchanged changed only if m != 47
+      \ifthenelse{\equal{\i}{47}} % otherwise s = (3m) mod 47
+       {}
+       {\multiply\s by 3
+        \q=\s
+        \divide\q by 47
+        \multiply\q by 47
+        \advance\s by -\q
+       }
+   
+      \def\j{\number\s}
+
+      \q=\s
+      \divide\q by 3
+      \c=\q  %% c=|s/3|
+      \multiply\q by 3
+      \d=\s
+      \advance\d by -\q %  c = s mod 3
+      
+      \node[coordinate, right=7.5*\number\a mm + 2*\number\b mm + 1.375 mm of P.north west] (in\i) {};
+      \node[coordinate, right=7.5*\number\c mm + 2*\number\d mm + 1.375 mm of P.south west] (out\j) {};
+
+      \draw[-,thin,color=black] ($(in\i |- X.north)+(0,4.375mm)$) -- (in\i |- X.north); % inputs: 3.5 mm
+
+      \ifthenelse{\s<42}
+      {
+        \draw[-,thin,rounded corners=2.5pt,thin cross line] (in\i.south |- X.south) -- (in\i.south) -- (out\j.north) -- ($(out\j.north)-(0,12.5 mm)$);
+      }
+      {
+        \draw[-,thin,rounded corners=2.5pt,thin cross line] (in\i.south |- X.south) -- (in\i.south) -- (out\j.north) -- ($(out\j.north)-(0,4.375 mm)$);
+        \draw[-,thin] ($(out\j.north)-(0,9.375mm)$) -- ($(out\j.north)-(0,12.5mm)$);
+      }
+
+      \ifthenelse{\s=47}
+      {
+        \node[fit={($(out42.north)+(-1.25mm,-4.375mm)$)($(out47.north)+(1.25mm,-9.375mm)$)}, inner sep=0pt, draw,semithick] (xrci) {\raisebox{-2.4mm}{$\oplus$}};
+        \node[right = 6.25mm of xrci] (rci) {\small $RC_i$};
+        \draw[arrow] (rci) -- (xrci);
+	  }
+	  {}
+
+      \ifthenelse{\b=1}
+      {
+      	\n=15
+      	\advance\n by -\a
+      	\node[rectangle, draw=black, semithick, minimum width=7.125mm,  minimum height=4.5mm] (X\i) at ($(in\i |- out0.north)-(0,14.75mm)$)
+	        {\scriptsize\raisebox{-0.625mm}{\smash{$p_{\number\n}$}}};
+      	\node[rectangle, draw=black, semithick, minimum width=7.125mm,  minimum height=4.5mm, below=-0.1875mm of X\i] (Y\i)
+	        {\scriptsize\raisebox{-1.250mm}{\smash{$S_{\number\n}$}}};
+      }
+      {}
+
+      \draw[-,thin,color=black] ($(in\i |- out0.north)-(0,21.5mm)$) -- ($(in\i |- out0.north)-(0,25.875mm)$); % otputs: 4.374 mm
+
+    }};
+
+\end{tikzpicture}
+\end{document}
+```
