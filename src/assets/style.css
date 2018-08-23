@@ -693,3 +693,14 @@ p {
 .svgbob circle.open {
   fill: transparent;
 }
+
+.shaky svg path {
+  stroke-width: 3;
+}
+
+.shaky svg text {
+  font-family: Gloria Hallelujah;
+  font-size: 25px;
+  text-anchor: start;
+  dominant-baseline: middle;
+}
