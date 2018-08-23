@@ -1,0 +1,695 @@
+/* latin */
+@font-face {
+  font-family: 'Gloria Hallelujah';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Gloria Hallelujah'), local('GloriaHallelujah'),
+    url(https://fonts.gstatic.com/s/gloriahallelujah/v9/LYjYdHv3kUk9BMV96EIswT9DIbW-MIS11zM.woff2)
+      format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+/* cyrillic-ext */
+@font-face {
+  font-family: 'PT Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('PT Sans'), local('PTSans-Regular'),
+    url(https://fonts.gstatic.com/s/ptsans/v9/jizaRExUiTo99u79D0-ExdGM.woff2)
+      format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F,
+    U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'PT Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('PT Sans'), local('PTSans-Regular'),
+    url(https://fonts.gstatic.com/s/ptsans/v9/jizaRExUiTo99u79D0aExdGM.woff2)
+      format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'PT Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('PT Sans'), local('PTSans-Regular'),
+    url(https://fonts.gstatic.com/s/ptsans/v9/jizaRExUiTo99u79D0yExdGM.woff2)
+      format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'PT Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('PT Sans'), local('PTSans-Regular'),
+    url(https://fonts.gstatic.com/s/ptsans/v9/jizaRExUiTo99u79D0KExQ.woff2)
+      format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'PT Serif';
+  font-style: italic;
+  font-weight: 400;
+  src: local('PT Serif Italic'), local('PTSerif-Italic'),
+    url(https://fonts.gstatic.com/s/ptserif/v9/EJRTQgYoZZY2vCFuvAFT_rC1chb-.woff2)
+      format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F,
+    U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'PT Serif';
+  font-style: italic;
+  font-weight: 400;
+  src: local('PT Serif Italic'), local('PTSerif-Italic'),
+    url(https://fonts.gstatic.com/s/ptserif/v9/EJRTQgYoZZY2vCFuvAFT_rm1chb-.woff2)
+      format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'PT Serif';
+  font-style: italic;
+  font-weight: 400;
+  src: local('PT Serif Italic'), local('PTSerif-Italic'),
+    url(https://fonts.gstatic.com/s/ptserif/v9/EJRTQgYoZZY2vCFuvAFT_rO1chb-.woff2)
+      format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'PT Serif';
+  font-style: italic;
+  font-weight: 400;
+  src: local('PT Serif Italic'), local('PTSerif-Italic'),
+    url(https://fonts.gstatic.com/s/ptserif/v9/EJRTQgYoZZY2vCFuvAFT_r21cg.woff2)
+      format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'PT Serif';
+  font-style: normal;
+  font-weight: 400;
+  src: local('PT Serif'), local('PTSerif-Regular'),
+    url(https://fonts.gstatic.com/s/ptserif/v9/EJRVQgYoZZY2vCFuvAFbzr-tdg.woff2)
+      format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F,
+    U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'PT Serif';
+  font-style: normal;
+  font-weight: 400;
+  src: local('PT Serif'), local('PTSerif-Regular'),
+    url(https://fonts.gstatic.com/s/ptserif/v9/EJRVQgYoZZY2vCFuvAFSzr-tdg.woff2)
+      format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'PT Serif';
+  font-style: normal;
+  font-weight: 400;
+  src: local('PT Serif'), local('PTSerif-Regular'),
+    url(https://fonts.gstatic.com/s/ptserif/v9/EJRVQgYoZZY2vCFuvAFYzr-tdg.woff2)
+      format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'PT Serif';
+  font-style: normal;
+  font-weight: 400;
+  src: local('PT Serif'), local('PTSerif-Regular'),
+    url(https://fonts.gstatic.com/s/ptserif/v9/EJRVQgYoZZY2vCFuvAFWzr8.woff2)
+      format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+svg.railroad-diagram {
+  //background-color: hsl(30,20%,95%);
+}
+svg.railroad-diagram path {
+  stroke-width: 3;
+  stroke: black;
+  fill: rgba(0, 0, 0, 0);
+}
+svg.railroad-diagram text {
+  font: bold 14px monospace;
+  text-anchor: middle;
+}
+svg.railroad-diagram text.diagram-text {
+  font-size: 12px;
+}
+svg.railroad-diagram text.diagram-arrow {
+  font-size: 16px;
+}
+svg.railroad-diagram text.label {
+  text-anchor: start;
+}
+svg.railroad-diagram text.comment {
+  font: italic 12px monospace;
+}
+svg.railroad-diagram g.non-terminal text {
+  /*font-style: italic;*/
+}
+svg.railroad-diagram rect {
+  stroke-width: 3;
+  stroke: black;
+  fill: hsl(120, 100%, 90%);
+}
+svg.railroad-diagram path.diagram-text {
+  stroke-width: 3;
+  stroke: black;
+  fill: white;
+  cursor: help;
+}
+svg.railroad-diagram g.diagram-text:hover path.diagram-text {
+  fill: #eee;
+}
+
+article {
+  max-width: 55rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem 0.75rem;
+  text-align: justify;
+  font-size: 20px;
+  line-height: 1.45;
+}
+
+article p {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  font-family: 'PT Serif', serif;
+}
+
+blockquote {
+  margin-left: 2rem;
+  border-left: 4px solid rgb(249, 145, 87);
+  font-style: italic;
+}
+
+blockquote p {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  background-color: rgba(249, 145, 87, 0.1);
+  font-family: 'PT Serif', serif;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  padding-left: 0rem;
+  font-family: 'Fira Sans', sans-serif;
+  font-family: 'PT Sans', sans-serif;
+}
+
+.markdown-body pre {
+  background-color: transparent;
+}
+
+pre.hljs {
+  background-color: #303030;
+  border-radius: 3px;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  font-family: 'Source Code Pro', monospace;
+}
+
+pre:not(.hljs) {
+  background-color: transparent;
+  text-align: center;
+}
+
+pre:not(.hljs) svg {
+  width: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: #4078c0;
+}
+
+a:hover,
+a:active {
+  text-decoration: none;
+  background: linear-gradient(#fff, #fff), linear-gradient(#fff, #fff),
+    linear-gradient(#4078c0, #4078c0);
+  background-size: 0.05em 1px, 0.05em 1px, 1px 1px;
+  background-repeat: no-repeat, no-repeat, repeat-x;
+  text-shadow: 0.03em 0 #fff, -0.03em 0 #fff, 0 0.03em #fff, 0 -0.03em #fff,
+    0.06em 0 #fff, -0.06em 0 #fff, 0.09em 0 #fff, -0.09em 0 #fff, 0.12em 0 #fff,
+    -0.12em 0 #fff, 0.15em 0 #fff, -0.15em 0 #fff;
+  background-position: 0 87%, 100% 87%, 0 87%;
+}
+
+blockquote a:hover,
+blockquote a:active {
+  text-decoration: none;
+  background: linear-gradient(#fff4ee, #fff4ee),
+    linear-gradient(#fff4ee, #fff4ee), linear-gradient(#4078c0, #4078c0);
+  background-size: 0.05em 1px, 0.05em 1px, 1px 1px;
+  background-repeat: no-repeat, no-repeat, repeat-x;
+  text-shadow: 0.03em 0 #fff4ee, -0.03em 0 #fff4ee, 0 0.03em #fff4ee,
+    0 -0.03em #fff4ee, 0.06em 0 #fff4ee, -0.06em 0 #fff4ee, 0.09em 0 #fff4ee,
+    -0.09em 0 #fff4ee, 0.12em 0 #fff4ee, -0.12em 0 #fff4ee, 0.15em 0 #fff4ee,
+    -0.15em 0 #fff4ee;
+  background-position: 0 87%, 100% 87%, 0 87%;
+}
+
+p a::selection {
+  text-shadow: 0.03em 0 #b4d5fe, -0.03em 0 #b4d5fe, 0 0.03em #b4d5fe,
+    0 -0.03em #b4d5fe, 0.06em 0 #b4d5fe, -0.06em 0 #b4d5fe, 0.09em 0 #b4d5fe,
+    -0.09em 0 #b4d5fe, 0.12em 0 #b4d5fe, -0.12em 0 #b4d5fe, 0.15em 0 #b4d5fe,
+    -0.15em 0 #b4d5fe;
+  background: #b4d5fe;
+}
+
+a.header-anchor {
+  text-decoration: none;
+  background: none;
+  text-shadow: none;
+  visibility: hidden;
+  margin-left: -18px;
+}
+
+h1:hover > a.header-anchor,
+h2:hover > a.header-anchor {
+  visibility: visible;
+}
+h3:hover > a.header-anchor,
+h4:hover > a.header-anchor {
+  visibility: visible;
+}
+
+#disqus_thread {
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+body {
+  border-top: 6px solid #8f4000;
+  border-bottom: 6px solid #8f4000;
+
+  margin: 0;
+  padding-left: 2rem;
+}
+
+header > h1 {
+  font-size: 3rem;
+  margin: 0px;
+}
+/*
+  tags css by Wouter Beeftink - https://codepen.io/wbeeftink/pen/dIaDH
+*/
+
+.tags {
+  list-style: none;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+}
+
+.tags li {
+  display: inline-block;
+}
+
+.tag {
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  background: #eee;
+  border-radius: 3px 0 0 3px;
+  color: #999;
+  display: inline-block;
+  height: 24px;
+  line-height: 24px;
+  padding: 0 18px 0 23px;
+  position: relative;
+  margin: 0 7px 7px 0;
+  text-decoration: none;
+  -webkit-transition: color 0.2s;
+}
+
+.tag::before {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: inset 0 1px rgba(0, 0, 0, 0.25);
+  content: '';
+  height: 6px;
+  left: 10px;
+  position: absolute;
+  width: 6px;
+  top: 9px;
+}
+
+.tag::after {
+  background: #fff;
+  border-bottom: 11px solid transparent;
+  border-left: 10px solid #eee;
+  border-top: 13px solid transparent;
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.tag:hover {
+  background: none;
+  background-color: rgb(249, 145, 87);
+  color: white;
+
+  text-decoration: none;
+  text-shadow: none;
+}
+
+.tag:hover::after {
+  border-left-color: rgb(249, 145, 87);
+}
+
+.author {
+  line-height: 1.8em;
+  font-family: 'PT Sans';
+  padding-right: 0.4em;
+  color: #8a8a8a;
+}
+
+.header-meta {
+  border-bottom: 1px dotted #999999;
+  padding-bottom: 1rem;
+  display: flex;
+}
+
+#header,
+#footer {
+  background-color: #8f4000;
+  /* #8b462d; */
+  color: white;
+  margin-left: -2rem;
+  padding-left: 3rem;
+  font-size: 29px;
+  font-family: 'PT Sans';
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+
+  background-color: black;
+  color: white;
+}
+
+#header a,
+#footer a {
+  text-decoration: none;
+  text-shadow: none;
+  color: white;
+  background: none;
+}
+
+/*
+article svg {
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+*/
+
+/*
+#header a:hover {
+  text-decoration: none;
+  text-shadow: none;
+  color: white;
+}
+*/
+
+p {
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
+}
+*/ @font-face {
+  font-family: 'xkcd';
+  src: url('./fonts/xkcd.eot');
+  src: url('./fonts/xkcd.eot?#iefix') format('embedded-opentype'),
+    url('./fonts/xkcd.woff') format('woff'),
+    url('./fonts/xkcd.ttf') format('tff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.cmx-scene {
+  float: left;
+
+  font-family: 'xkcd', sans-serif;
+  font-size: 14px;
+  background-color: white;
+  margin: 0px;
+  position: relative;
+
+  -moz-transition: all 0.6s ease-out;
+  -o-transition: all 0.6s ease-out;
+  -webkit-transition: all 0.6s ease-out;
+  -ms-transition: all 0.6s ease-out;
+  transition: all 0.6s ease-out;
+}
+
+.cmx-scene svg {
+  display: block;
+}
+
+.cmx-path {
+  fill: none;
+  stroke-width: 2.5px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.cmx-back {
+  stroke: white;
+}
+
+.cmx-back .cmx-text {
+  shape-rendering: optimizeSpeed;
+  text-rendering: optimizeSpeed;
+  fill: none;
+  stroke-opacity: 1;
+  stroke-width: 8px;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+}
+
+.cmx-back .cmx-path {
+  stroke-width: 6;
+}
+
+.cmx-front {
+  stroke: black;
+}
+
+.cmx-front .cmx-path {
+  /*stroke-width: 3px; */
+}
+
+.cmx-front .cmx-text {
+  stroke: none;
+}
+
+.cmx-text-border .cmx-path {
+  stroke: black;
+  fill: white;
+  stroke-width: 2px;
+}
+.cmx-overlay {
+  pointer-events: none;
+  position: absolute;
+}
+
+.cmx-active-selection .cmx-scene {
+  pointer-events: none;
+}
+
+.cmx-overlay .cmx-selected {
+  pointer-events: auto;
+}
+
+.cmx-scene {
+  border: 1px dashed transparent;
+}
+
+.cmx-something-is-being-dragged.cmx-scene {
+  border: 1px dashed #aaa;
+}
+
+.cmx-active-selection .cmx-scene {
+  opacity: 0.2;
+}
+
+.cmx-active-selection .cmx-scene.cmx-has-selected-gizmo {
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.cmx-editable * {
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.cmx-editable .cmx-layers .cmx-entity {
+  cursor: pointer;
+}
+
+.cmx-force-move-cursor * {
+  cursor: move !important;
+}
+
+.cmx-gizmo .cmx-control {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.cmx-gizmo.cmx-selected .cmx-control {
+  visibility: visible;
+  opacity: 0.8;
+}
+
+.cmx-gizmo.cmx-selected .cmx-control:hover {
+  opacity: 1;
+}
+
+.cmx-gizmo.cmx-force-unselected .cmx-control {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.cmx-something-is-being-dragged .cmx-control {
+  opacity: 0.05 !important;
+}
+
+.cmx-something-is-being-dragged .cmx-control.cmx-highlighted-bone {
+  opacity: 0.5 !important;
+  fill: yellow !important;
+}
+
+.cmx-control {
+  cursor: move;
+  -moz-transition: all 0.6s ease-out;
+  -o-transition: all 0.6s ease-out;
+  -webkit-transition: all 0.6s ease-out;
+  -ms-transition: all 0.6s ease-out;
+  transition: all 0.6s ease-out;
+}
+
+.cmx-control.cmx-p {
+  fill: blue;
+}
+
+.cmx-control.cmx-c {
+  fill: aqua;
+}
+
+.cmx-control.cmx-n {
+  fill: orange;
+}
+
+.cmx-control.cmx-l {
+  fill: red;
+}
+
+.cmx-control.cmx-t {
+  fill: green;
+}
+
+.cmx-control.cmx-h {
+  fill: purple;
+}
+
+.cmx-marker * {
+  stroke-width: 2px;
+  stroke: purple;
+}
+
+.cmx-marker.cmx-rot path {
+  fill: none;
+  marker-start: url(#cmx-start-marker-arrow);
+  marker-end: url(#cmx-end-marker-arrow);
+}
+
+.cmx-marker.cmx-sx line {
+  marker-end: url(#cmx-end-marker-arrow);
+}
+
+.cmx-marker.cmx-sy line {
+  marker-end: url(#cmx-end-marker-arrow);
+}
+
+.cmx-marker.cmx-sq line {
+  fill: none;
+  marker-start: url(#cmx-start-marker-arrow);
+  marker-end: url(#cmx-end-marker-arrow);
+}
+
+.cmx-marker-arrow {
+  fill: purple;
+  stroke: purple;
+}
+
+.cmx-marker.cmx-sx,
+.cmx-marker.cmx-sy,
+.cmx-marker.cmx-sq {
+  display: none;
+}
+
+.cmx-marker rect {
+  opacity: 0;
+}
+
+@font-face {
+  font-family: 'xkcd';
+  src: url('fonts/xkcd.woff') format('woff');
+}
+
+.cmx-scene svg text {
+  font-family: 'xkcd';
+  font-size: 12px;
+}
+
+.svgbob circle,
+.svgbob path {
+  stroke: #000;
+  stroke-width: 2;
+  stroke-opacity: 1;
+  fill-opacity: 1;
+  stroke-linecap: round;
+  stroke-linejoin: miter;
+}
+
+.svgbob circle.solid {
+  fill: #000;
+}
+
+.svgbob circle.open {
+  fill: transparent;
+}

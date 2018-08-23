@@ -8,9 +8,7 @@ var pug = require('pug');
 var mkdirp = require('mkdirp');
 var cp = require('child_process');
 
-var postTemplate = pug.compile(
-  fs.readFileSync(__dirname + '/templates/blog_post.jade')
-);
+var postTemplate = pug.compile(fs.readFileSync(__dirname + '/templates/blog_post.jade'));
 
 var sha1 = function(s) {
   var crypto = require('crypto');
@@ -34,14 +32,7 @@ var render = function(markdown, callback) {
         return '';
       } else if (handler) {
         var id = uuid.v4();
-        asyncQueue.push([
-          id,
-          token.content,
-          handler(token.content, params),
-          langLine,
-          lang,
-          params
-        ]);
+        asyncQueue.push([id, token.content, handler(token.content, params), langLine, lang, params]);
         return id;
       }
       return originalFence(tokens, idx, options, env, slf);
@@ -56,15 +47,9 @@ var render = function(markdown, callback) {
       var langParts = lang.trim().split(/:/);
       lang = langParts[0];
       try {
-        return (
-          '<pre class="hljs"><code>' +
-          hljs.highlight(lang, str, true).value +
-          '</code></pre>'
-        );
+        return '<pre class="hljs"><code>' + hljs.highlight(lang, str, true).value + '</code></pre>';
       } catch (__) {}
-      return (
-        '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>'
-      );
+      return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
     }
   })
     .use(meta)
@@ -122,8 +107,10 @@ var srcDir = path.join(__dirname, '../src');
 var buildDir = path.join(__dirname, '/build');
 var srcTree = finder(srcDir);
 
-// TODO: init and force push each time clean gh-pages
 cp.execSync('rm -rf ' + __dirname + '/build');
+
+// TODO: init and force push each time clean gh-pages
+/*
 cp.execSync('git config --global user.email "sidorares@yandex.com"');
 cp.execSync('git config --global user.name "Andrey Sidorov"');
 cp.execSync(
@@ -131,6 +118,7 @@ cp.execSync(
     __dirname +
     '/build'
 );
+*/
 
 var renderedFiles = [];
 var pendingFiles = 0;
@@ -150,9 +138,7 @@ srcTree.on('file', function(file, stat, linkPath) {
 
       renderedFiles.forEach(function(item) {
         var templateName = item.env.meta.templateName || 'blog_post';
-        var template = pug.compile(
-          fs.readFileSync(__dirname + '/templates/' + templateName + '.jade')
-        );
+        var template = pug.compile(fs.readFileSync(__dirname + '/templates/' + templateName + '.jade'));
         var html = template({
           path: item.path,
           compiledMarkdown: item.compiledMarkdown,
@@ -195,9 +181,7 @@ srcTree.on('file', function(file, stat, linkPath) {
           //proc.stdin.end(svg);
 
           // TODO: use slug
-          var fileName = env.meta.fileName
-            ? env.meta.fileName
-            : path.basename(file) + '.html';
+          var fileName = env.meta.fileName ? env.meta.fileName : path.basename(file) + '.html';
 
           renderedFiles.push({
             path: path.join(path.dirname(fileLocalPart), fileName),
@@ -213,10 +197,7 @@ srcTree.on('file', function(file, stat, linkPath) {
       });
     } else {
       mkdirp(buildFilePath, function(err) {
-        var destFileName = path.join(
-          buildFilePath,
-          path.basename(fileLocalPart)
-        );
+        var destFileName = path.join(buildFilePath, path.basename(fileLocalPart));
         fs.writeFile(destFileName, content, pushWhenReady);
       });
     }
