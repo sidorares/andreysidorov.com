@@ -11,7 +11,7 @@ function pushToGHPages() {
     cp.execSync('git config --global user.email "sidorares@yandex.com"');
     cp.execSync('git config --global user.name "Andrey Sidorov"');
     cp.execSync('git init', { cwd: __dirname + '/build' });
-    cp.execSync('git co -b gh-pages', { cwd: __dirname + '/build' });
+    cp.execSync('git checkout -b gh-pages', { cwd: __dirname + '/build' });
     cp.execSync('git add origin  https://$GITHUB_TOKEN:x-oauth-basic@github.com/sidorares/andreysidorov.com.git', {
       cwd: __dirname + '/build'
     });
