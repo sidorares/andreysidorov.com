@@ -17,7 +17,7 @@ html
             ul.tags
               each t in env.meta.tags
                 li
-                  a.tag(href="#")= t
+                  a.tag(href=`/tags/${t}`)= t
       != compiledMarkdown
       p Other posts:
       ul

@@ -32,7 +32,14 @@ var render = function(markdown, callback) {
         return '';
       } else if (handler) {
         var id = uuid.v4();
-        asyncQueue.push([id, token.content, handler(token.content, params), langLine, lang, params]);
+        asyncQueue.push([
+          id,
+          token.content,
+          handler(token.content, params),
+          langLine,
+          lang,
+          params
+        ]);
         return id;
       }
       return originalFence(tokens, idx, options, env, slf);
@@ -136,9 +143,16 @@ srcTree.on('file', function(file, stat, linkPath) {
       });
       renderedFiles = sortedByDate;
 
+      const allTags = new Set();
+
       renderedFiles.forEach(function(item) {
+        if (item.env.meta.tags) {
+          item.env.meta.tags.forEach(t => allTags.add(t));
+        }
         var templateName = item.env.meta.templateName || 'blog_post';
-        var template = pug.compile(fs.readFileSync(__dirname + '/templates/' + templateName + '.jade'));
+        var template = pug.compile(
+          fs.readFileSync(__dirname + '/templates/' + templateName + '.jade')
+        );
         var html = template({
           path: item.path,
           compiledMarkdown: item.compiledMarkdown,
@@ -151,6 +165,19 @@ srcTree.on('file', function(file, stat, linkPath) {
         var fullFileName = path.join(buildDir, item.path.slice(1));
         fs.writeFileSync(fullFileName, html);
       });
+
+      const tagTemplate = pug.compile(fs.readFileSync(__dirname + '/templates/tag.jade'));
+      const tagsDirName = path.join(buildDir, 'tags');
+      mkdirp.sync(tagsDirName);
+      for (tag of allTags) {
+        console.log(tag);
+        const html = tagTemplate({
+          items: renderedFiles,
+          tag
+        });
+        const fullFileName = path.join(buildDir, `tags/${tag}.html`);
+        fs.writeFileSync(fullFileName, html);
+      }
       console.log('Build OK');
     }
   };

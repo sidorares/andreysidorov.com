@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    link(rel="stylesheet", href="/assets/katex.min.css")
+    link(rel="stylesheet", href="/assets/highlight.css")
+    link(rel="stylesheet", href="/assets/style.css")
+</head>
+        
+  body.markdown-body
+    div#header
+      = tag
+    h3 Recent posts:
+    ul
+      for p in items
+        if (p.env.meta.tags && p.env.meta.tags.includes(tag))
+          li
+            a(href=p.path)
+              = p.env.title
+    div#footer footer goes here
