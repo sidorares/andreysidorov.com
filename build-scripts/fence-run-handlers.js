@@ -96,12 +96,17 @@ module.exports['run-latex'] = function(input) {
             tmpinput +
             '.tex'
         );
-        var svg = cp.execSync(
-          'dvisvgm --no-fonts --exact ' + tmpinput + '.dvi -s'
-        );
-        resolve(svg.toString());
-        //var svgo = cp.execSync('svgo -i - ' + svgoRules + ' -o -', {input: svg});
-        //resolve(svgo.toString());
+        var svgRaw = cp
+          .execSync('dvisvgm --no-fonts --exact ' + tmpinput + '.dvi -s')
+          .toString();
+
+        var xmlStart = svgRaw.indexOf('<?xml');
+        var svg = svgRaw.slice(xmlStart);
+        //resolve(svg.toString());
+        var svgo = cp.execSync('svgo -i - ' + svgoRules + ' -o -', {
+          input: svg
+        });
+        resolve(svgo.toString());
         cleanupCallback();
       });
     });
