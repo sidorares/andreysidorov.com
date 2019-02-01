@@ -1,10 +1,9 @@
 doctype html
 html
   head
-    link(rel="stylesheet", href="/assets/katex.min.css")
-    link(rel="stylesheet", href="/assets/highlight.css")
     link(rel="stylesheet", href="/assets/style.css")
-</head>
+    meta(name="viewport", content="width=device-width, initial-scale=1, shrink-to-fit=no")
+    script(type="text/javascript", async="async", src="/assets/js/quicklink.min.js")
         
   body.markdown-body
     div#header
@@ -17,3 +16,7 @@ html
             a(href=p.path)
               = p.env.title
     div#footer footer goes here
+    script.
+      window.addEventListener('load', () =>{
+        quicklink();
+      });
