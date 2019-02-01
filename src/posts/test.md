@@ -1,9 +1,9 @@
 ```json
 {
-    "title"  : "Test Title"
-  , "date"   : "2016-07-20T10:00:18.998Z"
-  , "author" : "Andrey Sidorov"
-  , "tags"    : ["dbus", "node.js", "blah"]
+  "title": "Test Title",
+  "date": "2016-07-20T10:00:18.998Z",
+  "author": "Andrey Sidorov",
+  "tags": ["dbus", "node.js", "blah"]
 }
 ```
 
@@ -14,9 +14,15 @@
 Test1
 
 ```shaky
-  *--+------|---->   <-----------------*
-     |      |
-     *------|-> hahaha
+  *--+---------->   <-----------------*
+     |
+     *-------> hahaha
 ```
 
 Test2
+
+```svgbob
+  *--+---------->   <-----------------*
+     |
+     *-------> hahaha
+```
