@@ -1,0 +1,48 @@
+<!DOCTYPE html><html><head><link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css"><link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/tomorrow-night-eighties.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif:400,400i"><link rel="stylesheet" href="/assets/style.css"><style>img {
+  width: 100%;
+}
+  </style></head><body class="markdown-body"><article><h1 id="Nodejs-and-practical-computer-vision-recipes"><a class="header-anchor" href="#Nodejs-and-practical-computer-vision-recipes" aria-hidden="true"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a> Node.js &amp; practical computer vision recipes</h1>
+<h2 id="node-opencv"><a class="header-anchor" href="#node-opencv" aria-hidden="true"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a> node-opencv</h2>
+<p>Object detection (car/face):</p>
+<p>node-opencv has a number of bundled configurations for feature extraction</p>
+<pre class="hljs"><code><span class="hljs-keyword">var</span> CASCADES = {
+   <span class="hljs-attr">FACE_CASCADE</span>: <span class="hljs-string">'haarcascade_frontalface_alt.xml'</span>
+ , <span class="hljs-attr">EYE_CASCADE</span>: <span class="hljs-string">'haarcascade_eye.xml'</span>
+ , <span class="hljs-attr">EYEGLASSES_CASCADE</span>: <span class="hljs-string">'haarcascade_eye_tree_eyeglasses.xml'</span>
+ , <span class="hljs-attr">FULLBODY_CASCADE</span>: <span class="hljs-string">'haarcascade_fullbody.xml'</span>
+ , <span class="hljs-attr">CAR_SIDE_CASCADE</span>: <span class="hljs-string">'hogcascade_cars_sideview.xml'</span>
+};
+</code></pre>
+<h2 id="Google-Cloud-vision"><a class="header-anchor" href="#Google-Cloud-vision" aria-hidden="true"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a> Google Cloud vision</h2>
+<p>First, read <a href="https://cloud.google.com/vision/docs/quickstart">“quick start”</a>. Go to API console and <a href="https://console.cloud.google.com/apis/api/vision.googleapis.com/overview?project=api-project-113105314762">enable cloud vision API</a></p>
+<p><img src="https://cloud.githubusercontent.com/assets/173025/17054047/6bfbb120-5048-11e6-8672-7efe2eca253d.png" alt=""></p>
+<p>Example using <a href="https://www.npmjs.com/package/gcloud#google-cloud-vision-beta">official npm package</a></p>
+<pre class="hljs"><code><span class="hljs-keyword">var</span> gcloud = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gcloud'</span>);
+
+<span class="hljs-comment">// Authorizing on a per-API-basis. You don't need to do this if you auth on a</span>
+<span class="hljs-comment">// global basis (see Authorization section above).</span>
+
+<span class="hljs-keyword">var</span> vision = gcloud.vision({
+  <span class="hljs-attr">projectId</span>: <span class="hljs-string">'vernal-acrobat-120002'</span>,
+  <span class="hljs-attr">keyFilename</span>: <span class="hljs-string">'key.json'</span>
+});
+
+<span class="hljs-comment">//vision.detectText('./image.png', function(err, text) {</span>
+<span class="hljs-comment">//vision.detect('./image2.jpg', ['label', 'face'],</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">detect</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-comment">// this is my phone IP camera</span>
+  <span class="hljs-comment">// though undocumented, you can pass image url</span>
+  <span class="hljs-comment">// and client would request image for you locally</span>
+  <span class="hljs-comment">// first before sending to CV</span>
+  vision.detect(<span class="hljs-string">'http://192.168.1.7:8080/shot.jpg'</span>, [<span class="hljs-string">'label'</span>, <span class="hljs-string">'face'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, detections, resp</span>) </span>{
+    <span class="hljs-built_in">console</span>.log(detections.labels)
+    detect();
+    <span class="hljs-comment">// we'll do it in a loop in this exemple</span>
+    <span class="hljs-comment">// don't forget to close, otherwise https://cloud.google.com/vision/docs/pricing</span>
+  });
+}
+detect()
+</code></pre>
+<p>See more examples on <a href="https://cloud.google.com/vision/docs/face-tutorial">tutorial page</a></p>
+</article></body></html>
