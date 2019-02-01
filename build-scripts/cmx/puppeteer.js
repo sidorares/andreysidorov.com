@@ -4,7 +4,7 @@ const fs = require('fs');
 const script = fs.readFileSync(__dirname + '/cmx.js', 'utf-8');
 
 module.exports = async sceneSource => {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] });
   const page = await browser.newPage();
   await page.setContent(`<div id='renderhere'></div>`);
   await page.addScriptTag({ content: script });
@@ -21,9 +21,7 @@ module.exports = async sceneSource => {
     var res = '<div style="overflow: auto">';
     for (var i = 0; i < nodes.length; ++i) {
       res +=
-        '<div class="cmx-scene">' +
-        nodes[nodes.length - i - 1].parentNode.innerHTML +
-        '</div>';
+        '<div class="cmx-scene">' + nodes[nodes.length - i - 1].parentNode.innerHTML + '</div>';
     }
     return res + '</div>';
   }, sceneSource);
