@@ -24,7 +24,9 @@ html
       p Other posts:
       ul
         for p in items
-           li= JSON.stringify(p.env)
+          li
+            a(href=p.path)
+              = p.env.title
     div#footer footer goes here.
     script.
       window.addEventListener('load', () =>{
