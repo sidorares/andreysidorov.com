@@ -24,7 +24,7 @@ html
       p Other posts:
       ul
         for p in items
-          if (path != p.path && rnv.meta.templateName === p.env.meta.templateName)
+          if (path != p.path && env.meta.templateName === p.env.meta.templateName)
             li
               a(href=p.path)
                 = p.env.title
