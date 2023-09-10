@@ -6,7 +6,7 @@
 }
 ```
 
-## Currently supported fence-to-svg converters
+## Currently supported _fence-to-svg_ converters
 
 - shaky ( via [shaky](https://github.com/ShawnHuang/shaky) via [shaky.coffee](https://github.com/dbushong/shaky) via [shaky-dart](http://mrale.ph/blog/2012/11/25/shaky-diagramming.html)
 - run-dot ( [graphviz](http://www.graphviz.org/content/dot-language) directly to svg)
@@ -33,7 +33,7 @@ sequenceDiagram
     Bob-->>John: Jolly good!
 ```
 
-rr
+railroad example:
 
 ```railroad
 Diagram(
