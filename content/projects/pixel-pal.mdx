@@ -1,0 +1,30 @@
+---
+title: "Pixel Pal"
+summary: "A tiny pixel-art editor that runs entirely in the browser, with palette presets and PNG export."
+tech: [TypeScript, Canvas, Vite]
+repo: https://github.com/example/pixel-pal
+url: https://example.com/pixel-pal
+featured: true
+date: 2026-02-10
+---
+
+Pixel Pal started as a way to sketch sprites without opening Aseprite. It's
+~6kb of TypeScript over a `<canvas>`, with keyboard shortcuts borrowed from
+the tools I missed.
+
+## Why
+
+Sometimes you just want to draw a 16×16 mushroom on the bus.
+
+## Notable bits
+
+- Palette presets stored in `localStorage`
+- PNG export at any integer scale
+- Undo stack with constant-memory snapshots
+
+```ts
+function snapshot(buf: Uint8ClampedArray) {
+  // RLE-encode runs of same-color pixels for O(unique runs) memory
+  // ...
+}
+```

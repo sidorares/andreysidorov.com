@@ -1,0 +1,29 @@
+---
+title: "Notes Engine"
+summary: "The static site generator powering this blog. MDX + Vite + GitHub Actions."
+tech: [Vite, MDX, Shiki, React]
+repo: https://github.com/example/notes-engine
+featured: true
+date: 2026-03-15
+---
+
+This is the engine running the site you're reading. It takes MDX files
+and a thin runtime and produces a fully static, prerendered site that
+deploys to GitHub Pages on every push.
+
+## Pipeline
+
+```mermaid
+flowchart TB
+  MDX[content/*.mdx] --> Remark
+  Remark --> Rehype
+  Rehype --> Shiki
+  Shiki --> HTML[Static HTML]
+  HTML --> Pages[GitHub Pages]
+```
+
+## Highlights
+
+- Build-time Shiki for zero-JS highlighting
+- Custom remark plugin for "runnable" fences (mermaid, charts)
+- Auto TOC + reading time, baked into the MDX module

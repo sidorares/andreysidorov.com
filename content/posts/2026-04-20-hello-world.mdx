@@ -1,0 +1,60 @@
+---
+title: "Hello, world"
+description: "First post — what this blog is and why it exists."
+date: 2026-04-20
+tags: [meta, intro]
+featured: true
+---
+
+This is a small place for in-progress thinking. Posts live as **MDX files**
+under `content/posts/`. Drop one in, push to `main`, and the GitHub Action
+takes care of the rest.
+
+## Why MDX
+
+Plain Markdown is great for words. MDX lets the words bring friends —
+custom React components — when an idea genuinely needs them.
+
+<Callout type="tip">
+  Use callouts sparingly. They're loud, and loud should mean something.
+</Callout>
+
+## Code blocks
+
+Syntax highlighting is generated at build time using **Shiki**, so there's
+zero highlight JS shipped to the browser:
+
+```ts
+type Post = {
+  slug: string;
+  title: string;
+  date: string;
+};
+
+export function recent(posts: Post[]): Post[] {
+  return [...posts]
+    .sort((a, b) => +new Date(b.date) - +new Date(a.date))
+    .slice(0, 5);
+}
+```
+
+## Runnable fences
+
+A fence whose language is in the `runnableFences` allowlist (or prefixed with
+`!`) renders as a component instead of source. For example, this `mermaid`
+block is rendered as an actual diagram:
+
+```mermaid
+flowchart LR
+  A[Write MDX] --> B[Push to main]
+  B --> C{GitHub Action}
+  C --> D[Build with Vite]
+  D --> E[Deploy to Pages]
+  E --> F((Live))
+```
+
+## What's next
+
+- More notes on small tools
+- A few build logs from side projects
+- Occasional opinions, kept short
