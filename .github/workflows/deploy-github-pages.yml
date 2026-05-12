@@ -32,9 +32,12 @@ jobs:
 
       - name: Build
         env:
-          # User/org root site (<owner>.github.io repo): "/". Project pages: "/<repo>/".
-          BASE_PATH: ${{ github.event.repository.name == format('{0}.github.io', github.repository_owner) && '/' || format('/{0}/', github.event.repository.name) }}
-          SITE_URL: ${{ github.event.repository.name == format('{0}.github.io', github.repository_owner) && format('https://{0}.github.io', github.repository_owner) || format('https://{0}.github.io/{1}', github.repository_owner, github.event.repository.name) }}
+          # Custom domain (andreysidorov.com) serves this project site at "/" — not "/<repo>/".
+          # Using "/<repo>/" would break asset URLs (e.g. /andreysidorov.com/assets → double path on apex).
+          # For github.io-only preview without a custom domain, set repo Actions variables PAGES_BASE_PATH
+          # and PAGES_SITE_URL, or temporarily use "/andreysidorov.com/" and "https://<owner>.github.io/<repo>".
+          BASE_PATH: ${{ vars.PAGES_BASE_PATH || '/' }}
+          SITE_URL: ${{ vars.PAGES_SITE_URL || 'https://andreysidorov.com' }}
         run: npm run build
 
       - uses: actions/upload-pages-artifact@v5
