@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { MDXProvider } from "@mdx-js/react";
+import { CodeBlockCopyEnhancer } from "@/components/CodeBlockCopyEnhancer";
 import { Callout, Figure, Embed, Steps, Step } from "./components";
 import { RunnableFence } from "./RunnableFence";
 
@@ -16,5 +17,9 @@ const components = {
 };
 
 export function MdxLayer({ children }: { children: ReactNode }) {
-  return <MDXProvider components={components as any}>{children}</MDXProvider>;
+  return (
+    <MDXProvider components={components as any}>
+      <CodeBlockCopyEnhancer>{children}</CodeBlockCopyEnhancer>
+    </MDXProvider>
+  );
 }

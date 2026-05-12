@@ -1,13 +1,14 @@
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useState, type ReactElement } from "react";
 import { siteConfig } from "@/site.config";
+import { ZoomLightbox } from "@/components/ZoomLightbox";
 
-/**
- * Renders a "runnable" code fence using a registered renderer. Falls back to
- * a plain code block if the language has no renderer registered.
- */
-export function RunnableFence({ lang, code }: { lang: string; code: string }) {
-  if (lang === "mermaid") return <MermaidFence code={code} />;
-  // unknown runnable -> show as code
+const ALLOWED = new Set(siteConfig.runnableFences as readonly string[]);
+
+const RENDERERS: Record<string, (props: { code: string }) => ReactElement> = {
+  mermaid: ({ code }) => <MermaidFence code={code} />,
+};
+
+function PlainFence({ lang, code }: { lang: string; code: string }) {
   return (
     <div className="code-block" data-lang={lang}>
       <pre className="text-sm font-mono p-4 overflow-x-auto bg-muted">
@@ -17,13 +18,26 @@ export function RunnableFence({ lang, code }: { lang: string; code: string }) {
   );
 }
 
+/**
+ * Renders a runnable fence (`!lang`) using `siteConfig.runnableFences` +
+ * registered handlers in `RENDERERS`. Misconfigured entries fall back to source.
+ */
+export function RunnableFence({ lang, code }: { lang: string; code: string }) {
+  if (!ALLOWED.has(lang)) return <PlainFence lang={lang} code={code} />;
+  const render = RENDERERS[lang];
+  if (!render) return <PlainFence lang={lang} code={code} />;
+  return render({ code });
+}
+
 function MermaidFence({ code }: { code: string }) {
-  const ref = useRef<HTMLDivElement>(null);
   const id = useId().replace(/:/g, "");
   const [error, setError] = useState<string | null>(null);
+  const [svgMarkup, setSvgMarkup] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
+    setError(null);
+    setSvgMarkup(null);
     (async () => {
       try {
         const mermaid = (await import("mermaid")).default;
@@ -35,7 +49,7 @@ function MermaidFence({ code }: { code: string }) {
           securityLevel: "strict",
         });
         const { svg } = await mermaid.render(`m-${id}`, code);
-        if (!cancelled && ref.current) ref.current.innerHTML = svg;
+        if (!cancelled) setSvgMarkup(svg);
       } catch (e: any) {
         if (!cancelled) setError(e?.message || "Failed to render diagram");
       }
@@ -55,9 +69,16 @@ function MermaidFence({ code }: { code: string }) {
     );
   }
   return (
-    <div className="my-8 flex justify-center rounded-md border border-border bg-card p-6 overflow-x-auto">
-      <div ref={ref} className="mermaid-host" />
-    </div>
+    <ZoomLightbox className="my-8" expandable={Boolean(svgMarkup)}>
+      <div className="flex justify-center rounded-md border border-border bg-card p-6 overflow-x-auto">
+        <div
+          className="mermaid-host min-w-0"
+          dangerouslySetInnerHTML={
+            svgMarkup ? { __html: svgMarkup } : undefined
+          }
+        />
+      </div>
+    </ZoomLightbox>
   );
 }
 

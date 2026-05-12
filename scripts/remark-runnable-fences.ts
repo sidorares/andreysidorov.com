@@ -1,12 +1,12 @@
 import { visit } from "unist-util-visit";
+import { siteConfig } from "../src/site.config";
 
-// Default allowlist of runnable fence languages (rendered by components instead
-// of shown as code). The site config can expand this.
-const RUNNABLE_LANGS = new Set(["mermaid"]);
+const RUNNABLE = new Set(siteConfig.runnableFences as readonly string[]);
 
 /**
- * Convert ```mermaid (or ```!anything) fences into MDX JSX elements that
- * point at runtime renderers. Unknown runnables fall back to normal code.
+ * Converts ```!lang fences into `<RunnableFence>` when `lang` is listed in
+ * `siteConfig.runnableFences`. The `!` prefix is required — without it, the
+ * fence stays normal highlighted/source code.
  */
 export function remarkRunnableFences() {
   return (tree: any) => {
@@ -14,16 +14,10 @@ export function remarkRunnableFences() {
       if (node.type !== "code") return;
       if (!parent || typeof index !== "number") return;
       const raw = (node.lang || "").trim();
-      if (!raw) return;
+      if (!raw.startsWith("!")) return;
 
-      let lang = raw;
-      let forced = false;
-      if (raw.startsWith("!")) {
-        lang = raw.slice(1);
-        forced = true;
-      }
-
-      if (!forced && !RUNNABLE_LANGS.has(lang)) return;
+      const lang = raw.slice(1).trim();
+      if (!lang || !RUNNABLE.has(lang)) return;
 
       // Replace with <RunnableFence lang="..." code={`...`} />
       const value = String(node.value ?? "");

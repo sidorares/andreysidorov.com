@@ -40,11 +40,12 @@ export function recent(posts: Post[]): Post[] {
 
 ## Runnable fences
 
-A fence whose language is in the `runnableFences` allowlist (or prefixed with
-`!`) renders as a component instead of source. For example, this `mermaid`
-block is rendered as an actual diagram:
+Fence languages listed in `siteConfig.runnableFences` run as components only
+when you open the fence with three backticks followed immediately by `!` and the
+language id (for example `` ```!mermaid ``). Without that prefix, the fence is
+shown as highlighted source. For example:
 
-```mermaid
+```!mermaid
 flowchart LR
   A[Write MDX] --> B[Push to main]
   B --> C{GitHub Action}

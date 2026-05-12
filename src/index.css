@@ -122,14 +122,17 @@
 
 /* Code block wrapper */
 .code-block {
-  @apply relative my-6 rounded-md border border-border overflow-hidden;
+  @apply relative my-6 rounded-md border border-border overflow-hidden pt-9;
 }
 .code-block .shiki {
   @apply text-sm font-mono p-4 overflow-x-auto;
 }
 .code-block::before {
   content: attr(data-lang);
-  @apply absolute top-2 right-3 text-[10px] uppercase tracking-widest font-mono text-muted-foreground;
+  @apply absolute top-2 left-3 text-[10px] uppercase tracking-widest font-mono text-muted-foreground pointer-events-none;
+}
+.code-block > .code-block-copy-mount {
+  @apply absolute top-2 right-3 z-10;
 }
 
 /* Animated underline on prose links */

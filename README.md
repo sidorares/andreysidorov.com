@@ -38,8 +38,8 @@ Push to `main` — the Action builds and deploys.
 
 ## Runnable code fences
 
-Some fence languages render as components instead of code. Configure
-the allowlist in `src/site.config.ts`:
+Syntax-highlighted fences stay plain source unless you opt in with a **`!`**
+prefix **and** the language id is listed in `site.config.ts`:
 
 ```ts
 export const siteConfig = {
@@ -47,9 +47,10 @@ export const siteConfig = {
 };
 ```
 
-A fence prefixed with `!` is always rendered (e.g. ` ```!mermaid `).
+Example: ` ```!mermaid ` runs the diagram renderer; ` ```mermaid ` only shows
+highlighted text (same as any other language).
 
-Currently supported: **mermaid**. Add more in `src/mdx/RunnableFence.tsx`.
+Add languages to `runnableFences` and wire a handler in `src/mdx/RunnableFence.tsx`.
 
 ## Local development
 
