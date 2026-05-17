@@ -7,7 +7,12 @@ export function SiteLayout({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main key={loc.pathname} className="flex-1 animate-fade-in">{children}</main>
+      <main
+        key={loc.pathname}
+        className="flex-1 animate-fade-in motion-reduce:animate-none"
+      >
+        {children}
+      </main>
       <Footer />
     </div>
   );
