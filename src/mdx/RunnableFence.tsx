@@ -1,6 +1,7 @@
 import { useEffect, useId, useState, type ReactElement } from "react";
 import { siteConfig } from "@/site.config";
 import { ZoomLightbox } from "@/components/ZoomLightbox";
+import { isDarkMode } from "@/lib/theme";
 
 const ALLOWED = new Set(siteConfig.runnableFences as readonly string[]);
 
@@ -41,7 +42,7 @@ function MermaidFence({ code }: { code: string }) {
     (async () => {
       try {
         const mermaid = (await import("mermaid")).default;
-        const isDark = document.documentElement.classList.contains("dark");
+        const isDark = isDarkMode();
         mermaid.initialize({
           startOnLoad: false,
           theme: isDark ? "dark" : "neutral",

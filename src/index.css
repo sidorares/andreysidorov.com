@@ -8,6 +8,7 @@
 /* Design system: Minimal mono + serif accents */
 @layer base {
   :root {
+    color-scheme: light;
     /* warm paper background, near-black ink, terracotta accent */
     --background: 40 22% 97%;
     --foreground: 0 0% 6%;
@@ -54,6 +55,7 @@
   }
 
   .dark {
+    color-scheme: dark;
     --background: 0 0% 7%;
     --foreground: 40 18% 94%;
 
@@ -93,6 +95,54 @@
     --sidebar-border: 0 0% 18%;
     --sidebar-ring: 17 84% 58%;
   }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not(.light) {
+      color-scheme: dark;
+      --background: 0 0% 7%;
+      --foreground: 40 18% 94%;
+
+      --card: 0 0% 7%;
+      --card-foreground: 40 18% 94%;
+
+      --popover: 0 0% 7%;
+      --popover-foreground: 40 18% 94%;
+
+      --primary: 40 18% 94%;
+      --primary-foreground: 0 0% 7%;
+
+      --secondary: 0 0% 12%;
+      --secondary-foreground: 40 18% 94%;
+
+      --muted: 0 0% 12%;
+      --muted-foreground: 0 0% 62%;
+
+      --accent: 17 84% 58%;
+      --accent-foreground: 0 0% 7%;
+
+      --destructive: 0 62% 50%;
+      --destructive-foreground: 40 18% 94%;
+
+      --border: 0 0% 18%;
+      --input: 0 0% 18%;
+      --ring: 17 84% 58%;
+
+      --rule: 40 18% 94%;
+
+      --sidebar-background: 0 0% 7%;
+      --sidebar-foreground: 40 18% 94%;
+      --sidebar-primary: 40 18% 94%;
+      --sidebar-primary-foreground: 0 0% 7%;
+      --sidebar-accent: 0 0% 12%;
+      --sidebar-accent-foreground: 40 18% 94%;
+      --sidebar-border: 0 0% 18%;
+      --sidebar-ring: 17 84% 58%;
+    }
+  }
+
+  :root.light {
+    color-scheme: light;
+  }
 }
 
 @layer base {
@@ -111,7 +161,7 @@
   }
 }
 
-/* Shiki light/dark — toggle via class on <html> */
+/* Shiki light/dark — class override or system preference */
 .shiki,
 .shiki span {
   color: var(--shiki-light);
@@ -121,6 +171,14 @@
 .dark .shiki span {
   color: var(--shiki-dark);
   background-color: var(--shiki-dark-bg);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) .shiki,
+  :root:not(.light) .shiki span {
+    color: var(--shiki-dark);
+    background-color: var(--shiki-dark-bg);
+  }
 }
 
 /* Code block wrapper */

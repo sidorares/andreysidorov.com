@@ -2,6 +2,26 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      (function () {
+        var saved = localStorage.getItem("theme");
+        var root = document.documentElement;
+        if (saved === "dark") root.classList.add("dark");
+        else if (saved === "light") root.classList.add("light");
+      })();
+    </script>
+    <style>
+      @media (prefers-color-scheme: dark) {
+        html:not(.light) {
+          background-color: hsl(0 0% 7%);
+          color: hsl(40 18% 94%);
+        }
+      }
+      html.dark {
+        background-color: hsl(0 0% 7%);
+        color: hsl(40 18% 94%);
+      }
+    </style>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!--ssr-head-->
 
@@ -16,15 +36,6 @@
       data-domains="andreysidorov.com,www.andreysidorov.com"
 
     >
-    </script>
-    <script>
-      (function () {
-        const saved = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (saved === 'dark' || (!saved && prefersDark)) {
-          document.documentElement.classList.add('dark');
-        }
-      })();
     </script>
   </head>
   <body>
