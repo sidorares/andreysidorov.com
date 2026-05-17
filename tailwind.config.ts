@@ -18,9 +18,15 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
-        serif: ["Fraunces", "ui-serif", "Georgia", "serif"],
-        mono: ["'JetBrains Mono'", "ui-monospace", "SFMono-Regular", "monospace"],
+        sans: ["Inter", "Inter fallback", "ui-sans-serif", "system-ui", "sans-serif"],
+        serif: ["Fraunces", "Fraunces fallback", "ui-serif", "Georgia", "serif"],
+        mono: [
+          "'JetBrains Mono'",
+          "'JetBrains Mono fallback'",
+          "ui-monospace",
+          "SFMono-Regular",
+          "monospace",
+        ],
       },
       colors: {
         border: "hsl(var(--border))",

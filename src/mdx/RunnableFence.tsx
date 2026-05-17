@@ -45,7 +45,7 @@ function MermaidFence({ code }: { code: string }) {
         mermaid.initialize({
           startOnLoad: false,
           theme: isDark ? "dark" : "neutral",
-          fontFamily: "JetBrains Mono, ui-monospace, monospace",
+          fontFamily: "'JetBrains Mono', 'JetBrains Mono fallback', ui-monospace, monospace",
           securityLevel: "strict",
         });
         const { svg } = await mermaid.render(`m-${id}`, code);

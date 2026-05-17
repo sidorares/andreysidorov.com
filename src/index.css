@@ -1,3 +1,6 @@
+@import "./fonts/fonts.css";
+@import "./fonts/fallbacks.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
