@@ -62,7 +62,8 @@ bun run dev
 ## Build / deploy
 
 CI runs `bun run build` and publishes `dist/` to GitHub Pages.
-RSS, sitemap, and a SPA `404.html` fallback are emitted automatically.
+The build pre-renders every route to static HTML (SSR at build time), then hydrates in the browser.
+RSS, sitemap, and a pre-rendered `404.html` (GitHub Pages unknown-route fallback) are emitted automatically.
 
 To deploy manually, push to `main`. To preview the production build:
 

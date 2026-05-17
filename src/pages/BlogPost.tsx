@@ -3,22 +3,25 @@ import { Link, useParams } from "react-router-dom";
 import { adjacentPosts, getPost } from "@/lib/content";
 import { MdxLayer } from "@/mdx/MdxLayer";
 import { formatDate } from "@/lib/format";
+import { PageMeta } from "@/components/PageMeta";
 import NotFound from "./NotFound";
 
 export default function BlogPost() {
   const { slug = "" } = useParams();
   const post = getPost(slug);
 
-  useEffect(() => {
-    if (post) document.title = `${post.frontmatter.title} — Notes`;
-  }, [post]);
-
   if (!post) return <NotFound />;
   const { Component, frontmatter, toc, readingTime } = post;
   const { prev, next } = adjacentPosts(slug);
 
   return (
-    <article className="container py-16 grid lg:grid-cols-[1fr_220px] gap-12 max-w-5xl">
+    <>
+      <PageMeta
+        title={frontmatter.title}
+        description={frontmatter.description}
+        path={`/blog/${slug}`}
+      />
+      <article className="container py-16 grid lg:grid-cols-[1fr_220px] gap-12 max-w-5xl">
       <div className="max-w-2xl mx-auto lg:mx-0 w-full min-w-0">
         <header className="mb-10">
           <p className="mono-label mb-3">
@@ -78,6 +81,7 @@ export default function BlogPost() {
         </aside>
       )}
     </article>
+    </>
   );
 }
 

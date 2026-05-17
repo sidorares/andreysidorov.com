@@ -1,11 +1,14 @@
 import { about } from "@/lib/content";
 import { MdxLayer } from "@/mdx/MdxLayer";
 import { siteConfig } from "@/site.config";
+import { PageMeta } from "@/components/PageMeta";
 
 export default function About() {
   const Content = about?.default;
   return (
-    <div className="container max-w-2xl py-16">
+    <>
+      <PageMeta title="About" description={`About ${siteConfig.author}.`} path="/about" />
+      <div className="container max-w-2xl py-16">
       <p className="mono-label mb-3">// hello</p>
       <h1 className="font-serif text-4xl mb-8">About</h1>
       <MdxLayer>
@@ -37,5 +40,6 @@ export default function About() {
         </div>
       </section>
     </div>
+    </>
   );
 }

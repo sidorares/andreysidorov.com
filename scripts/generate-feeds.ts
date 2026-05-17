@@ -54,21 +54,32 @@ ${rssItems}
 </channel></rss>`;
     await fs.writeFile(path.join(distDir, "rss.xml"), rss);
 
-    const urls = ["", "/blog", "/projects", "/about", ...posts.map((p) => `/blog/${p.slug}`)];
+    const projectsDir = path.resolve("content/projects");
+    const projectFiles = (await fs.readdir(projectsDir)).filter((f) =>
+      /\.mdx?$/.test(f)
+    );
+    const projectSlugs = projectFiles.map((file) =>
+      file.replace(/\.mdx?$/, "").replace(/^\d{4}-\d{2}-\d{2}-/, "")
+    );
+
+    const urls = [
+      "",
+      "/blog",
+      "/projects",
+      "/about",
+      ...posts.map((p) => `/blog/${p.slug}`),
+      ...projectSlugs.map((slug) => `/projects/${slug}`),
+    ];
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.map((u) => `  <url><loc>${SITE_URL}${u}</loc></url>`).join("\n")}
 </urlset>`;
     await fs.writeFile(path.join(distDir, "sitemap.xml"), sitemap);
 
-    // SPA fallback for GitHub Pages
-    try {
-      const indexHtml = await fs.readFile(path.join(distDir, "index.html"), "utf8");
-      await fs.writeFile(path.join(distDir, "404.html"), indexHtml);
-    } catch {}
-
     // eslint-disable-next-line no-console
-    console.log(`[feeds] wrote rss.xml, sitemap.xml, 404.html (${posts.length} posts)`);
+    console.log(
+      `[feeds] wrote rss.xml, sitemap.xml (${posts.length} posts, ${projectSlugs.length} projects)`
+    );
   } catch (e) {
     console.warn("[feeds] skipped:", (e as Error).message);
   }

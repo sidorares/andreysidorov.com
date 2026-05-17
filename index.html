@@ -3,9 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Notes — a developer blog</title>
-    <meta name="description" content="A developer blog and portfolio. Notes, experiments, and selected work." />
-    <link rel="canonical" href="/" />
+    <!--ssr-head-->
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,14 +12,18 @@
       rel="stylesheet"
     />
 
-    <meta property="og:title" content="Notes — a developer blog" />
-    <meta property="og:description" content="A developer blog and portfolio." />
-    <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script defer src="https://cloud.umami.is/script.js" data-website-id="91b5ddde-079e-4363-85b0-bc0e4c538e53"></script>
+    <script 
+      defer
+      src="https://cloud.umami.is/script.js"
+      data-website-id="91b5ddde-079e-4363-85b0-bc0e4c538e53"
+      data-domains="andreysidorov.com,www.andreysidorov.com"
+
+    >
+    </script>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <div id="root"><!--ssr-outlet--></div>
+    <script type="module" src="/src/entry-client.tsx"></script>
   </body>
 </html>

@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
 import { projects } from "@/lib/content";
+import { PageMeta } from "@/components/PageMeta";
 
 export default function ProjectsIndex() {
   return (
-    <div className="container max-w-4xl py-16">
+    <>
+      <PageMeta title="Projects" description="Selected work and experiments." path="/projects" />
+      <div className="container max-w-4xl py-16">
       <p className="mono-label mb-3">// selected work</p>
       <h1 className="font-serif text-4xl mb-2">Projects</h1>
       <p className="text-muted-foreground mb-10">Things built, shipped, or still cooking.</p>
@@ -32,5 +35,6 @@ export default function ProjectsIndex() {
         )}
       </ul>
     </div>
+    </>
   );
 }

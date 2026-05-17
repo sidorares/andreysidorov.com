@@ -1,6 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { getProject } from "@/lib/content";
 import { MdxLayer } from "@/mdx/MdxLayer";
+import { PageMeta } from "@/components/PageMeta";
 import NotFound from "./NotFound";
 
 export default function ProjectPage() {
@@ -10,7 +11,13 @@ export default function ProjectPage() {
   const { Component, frontmatter } = project;
 
   return (
-    <article className="container max-w-3xl py-16">
+    <>
+      <PageMeta
+        title={frontmatter.title}
+        description={frontmatter.summary}
+        path={`/projects/${slug}`}
+      />
+      <article className="container max-w-3xl py-16">
       <Link to="/projects" className="mono-label hover:text-foreground transition-colors">← all projects</Link>
       <header className="mt-6 mb-10">
         <h1 className="font-serif text-4xl md:text-5xl leading-tight">{frontmatter.title}</h1>
@@ -29,5 +36,6 @@ export default function ProjectPage() {
         </div>
       </MdxLayer>
     </article>
+    </>
   );
 }

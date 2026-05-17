@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { posts, projects } from "@/lib/content";
 import { siteConfig } from "@/site.config";
 import { formatDate } from "@/lib/format";
+import { PageMeta } from "@/components/PageMeta";
 
 export default function Home() {
   const featured = posts.filter((p) => p.frontmatter.featured).slice(0, 3);
@@ -10,7 +11,13 @@ export default function Home() {
   const projectList = (featuredProjects.length ? featuredProjects : projects).slice(0, 3);
 
   return (
-    <div className="container max-w-3xl py-20">
+    <>
+      <PageMeta
+        title={siteConfig.title}
+        description="A developer blog and portfolio. Notes, experiments, and selected work."
+        path="/"
+      />
+      <div className="container max-w-3xl py-20">
       <section>
         <p className="mono-label mb-4">// {siteConfig.author.toLowerCase().replace(/\s+/g, "-")}</p>
         <h1 className="font-serif text-5xl md:text-6xl leading-[1.05] tracking-tight">
@@ -87,5 +94,6 @@ export default function Home() {
         </ul>
       </section>
     </div>
+    </>
   );
 }

@@ -38,6 +38,7 @@ jobs:
           # and PAGES_SITE_URL, or temporarily use "/andreysidorov.com/" and "https://<owner>.github.io/<repo>".
           BASE_PATH: ${{ vars.PAGES_BASE_PATH || '/' }}
           SITE_URL: ${{ vars.PAGES_SITE_URL || 'https://andreysidorov.com' }}
+          VITE_SITE_URL: ${{ vars.PAGES_SITE_URL || 'https://andreysidorov.com' }}
         run: npm run build
 
       - uses: actions/upload-pages-artifact@v5
