@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 import { applyTheme, isDarkMode } from "@/lib/theme";
 
 export function ThemeToggle() {
@@ -22,7 +23,13 @@ export function ThemeToggle() {
 
   return (
     <button
-      onClick={() => setDark((d) => !d)}
+      onClick={() => {
+        setDark((d) => {
+          const next = !d;
+          trackEvent("theme-change", { theme: next ? "dark" : "light" });
+          return next;
+        });
+      }}
       aria-label="Toggle theme"
       suppressHydrationWarning
       className="p-1.5 rounded-md hover:bg-secondary transition-colors text-muted-foreground hover:text-foreground"

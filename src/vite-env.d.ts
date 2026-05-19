@@ -1,5 +1,14 @@
 /// <reference types="vite/client" />
 
+interface Window {
+  umami?: {
+    track: (
+      event: string | object | ((props: object) => object),
+      data?: Record<string, string | number | boolean>,
+    ) => void;
+  };
+}
+
 declare module "*.mdx" {
   import type { ComponentType } from "react";
   export const frontmatter: any;
