@@ -43,10 +43,13 @@ export default function Home() {
           <h2 className="font-serif text-2xl">Recent writing</h2>
           <Link to="/blog" className="mono-label hover:text-foreground transition-colors">all posts →</Link>
         </div>
-        <ul className="divide-y divide-border">
+        <ul className="grid sm:grid-cols-2 gap-4 items-stretch">
           {list.map((p) => (
-            <li key={p.slug}>
-              <Link to={`/blog/${p.slug}`} className="group block py-5">
+            <li key={p.slug} className="min-h-0">
+              <Link
+                to={`/blog/${p.slug}`}
+                className="group flex h-full flex-col rounded-md border border-border p-5 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_-16px_hsl(0_0%_0%/0.2)] transition"
+              >
                 <div className="flex items-baseline justify-between gap-4">
                   <h3 className="font-serif text-xl group-hover:text-accent transition-colors">
                     {p.frontmatter.title}
@@ -54,13 +57,13 @@ export default function Home() {
                   <time className="mono-label shrink-0">{formatDate(p.frontmatter.date)}</time>
                 </div>
                 {p.frontmatter.description && (
-                  <p className="mt-1 text-sm text-muted-foreground">{p.frontmatter.description}</p>
+                  <p className="mt-1 flex-1 text-sm text-muted-foreground">{p.frontmatter.description}</p>
                 )}
               </Link>
             </li>
           ))}
           {list.length === 0 && (
-            <li className="py-5 text-sm text-muted-foreground">No posts yet — drop an MDX file in <code>content/posts/</code>.</li>
+            <li className="col-span-full py-5 text-sm text-muted-foreground">No posts yet — drop an MDX file in <code>content/posts/</code>.</li>
           )}
         </ul>
       </section>
@@ -72,15 +75,15 @@ export default function Home() {
           <h2 className="font-serif text-2xl">Selected projects</h2>
           <Link to="/projects" className="mono-label hover:text-foreground transition-colors">all projects →</Link>
         </div>
-        <ul className="grid sm:grid-cols-2 gap-4">
+        <ul className="grid sm:grid-cols-2 gap-4 items-stretch">
           {projectList.map((p) => (
-            <li key={p.slug}>
+            <li key={p.slug} className="min-h-0">
               <Link
                 to={`/projects/${p.slug}`}
-                className="block rounded-md border border-border p-5 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_-16px_hsl(0_0%_0%/0.2)] transition"
+                className="flex h-full flex-col rounded-md border border-border p-5 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_-16px_hsl(0_0%_0%/0.2)] transition"
               >
                 <div className="font-serif text-lg">{p.frontmatter.title}</div>
-                <div className="mt-1 text-sm text-muted-foreground">{p.frontmatter.summary}</div>
+                <div className="mt-1 flex-1 text-sm text-muted-foreground">{p.frontmatter.summary}</div>
                 {p.frontmatter.tech && (
                   <div className="mt-3 flex flex-wrap gap-2">
                     {p.frontmatter.tech.map((t) => (

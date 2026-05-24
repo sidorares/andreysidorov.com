@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { siteConfig } from "@/site.config";
+import { cn } from "@/lib/utils";
 import { ThemeToggle } from "./ThemeToggle";
 
 export function SiteLayout({ children }: { children: ReactNode }) {
@@ -60,9 +61,12 @@ function NavItem({ to, children }: { to: string; children: ReactNode }) {
     <NavLink
       to={to}
       className={({ isActive }) =>
-        `transition-colors hover:text-foreground ${
-          isActive ? "text-foreground" : "text-muted-foreground"
-        }`
+        cn(
+          "border-b-2 pb-0.5 transition-colors",
+          isActive
+            ? "border-foreground text-foreground"
+            : "border-transparent text-muted-foreground hover:text-foreground",
+        )
       }
     >
       {children}

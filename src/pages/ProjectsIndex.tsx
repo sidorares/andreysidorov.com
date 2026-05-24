@@ -11,15 +11,15 @@ export default function ProjectsIndex() {
       <h1 className="font-serif text-4xl mb-2">Projects</h1>
       <p className="text-muted-foreground mb-10">Things built, shipped, or still cooking.</p>
 
-      <ul className="grid md:grid-cols-2 gap-5">
+      <ul className="grid md:grid-cols-2 gap-5 items-stretch">
         {projects.map((p) => (
-          <li key={p.slug}>
+          <li key={p.slug} className="min-h-0">
             <Link
               to={`/projects/${p.slug}`}
-              className="block h-full rounded-md border border-border p-6 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_-16px_hsl(0_0%_0%/0.2)] transition"
+              className="flex h-full flex-col rounded-md border border-border p-6 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_-16px_hsl(0_0%_0%/0.2)] transition"
             >
               <div className="font-serif text-xl">{p.frontmatter.title}</div>
-              <div className="mt-1 text-sm text-muted-foreground">{p.frontmatter.summary}</div>
+              <div className="mt-1 flex-1 text-sm text-muted-foreground">{p.frontmatter.summary}</div>
               {p.frontmatter.tech && (
                 <div className="mt-4 flex flex-wrap gap-2">
                   {p.frontmatter.tech.map((t) => (
