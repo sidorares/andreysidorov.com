@@ -219,3 +219,10 @@
 .mono-label {
   @apply font-mono text-xs uppercase tracking-widest text-muted-foreground;
 }
+
+/* Page shell — same max width as header/footer (see tailwind container.screens) */
+@layer components {
+  .site-container {
+    @apply container;
+  }
+}

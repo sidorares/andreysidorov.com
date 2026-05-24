@@ -11,7 +11,7 @@ export default function BlogIndex() {
   return (
     <>
       <PageMeta title="Writing" description="Blog posts and notes." path="/blog" />
-      <div className="container max-w-3xl py-16">
+      <div className="site-container py-16">
       <p className="mono-label mb-3">// the blog</p>
       <h1 className="font-serif text-4xl mb-2">Writing</h1>
       <p className="text-muted-foreground mb-8">{posts.length} posts and counting.</p>

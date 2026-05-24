@@ -17,7 +17,7 @@ export default function ProjectPage() {
         description={frontmatter.summary}
         path={`/projects/${slug}`}
       />
-      <article className="container max-w-3xl py-16">
+      <article className="site-container py-16">
       <Link to="/projects" className="mono-label hover:text-foreground transition-colors">← all projects</Link>
       <header className="mt-6 mb-10">
         <h1 className="font-serif text-4xl md:text-5xl leading-tight">{frontmatter.title}</h1>

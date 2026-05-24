@@ -1,14 +1,14 @@
 import type { ScenarioContext } from "coverkill";
-import { homeLink, navLink, waitForApp } from "../lib.ts";
+import { goHome, navLink, waitForApp } from "../lib.ts";
 
 export default async function ({ page, baseURL }: ScenarioContext) {
   await page.goto(baseURL);
   await waitForApp(page);
 
   await navLink(page, "Blog").click();
+  await page.waitForURL(/\/blog\/?$/);
   await waitForApp(page);
-  await homeLink(page).click();
-  await waitForApp(page);
+  await goHome(page, baseURL);
 
   await page
     .getByRole("link", { name: "Hello, world" })
@@ -16,8 +16,7 @@ export default async function ({ page, baseURL }: ScenarioContext) {
     .click();
   await waitForApp(page);
 
-  await homeLink(page).click();
-  await waitForApp(page);
+  await goHome(page, baseURL);
 
   await page
     .getByRole("link", { name: "Notes Engine" })

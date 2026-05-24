@@ -21,8 +21,8 @@ export default function BlogPost() {
         description={frontmatter.description}
         path={`/blog/${slug}`}
       />
-      <article className="container py-16 grid lg:grid-cols-[1fr_220px] gap-12 max-w-5xl">
-      <div className="max-w-2xl mx-auto lg:mx-0 w-full min-w-0">
+      <article className="site-container py-16 grid lg:grid-cols-[1fr_220px] gap-12">
+      <div className="w-full min-w-0">
         <header className="mb-10">
           <p className="mono-label mb-3">
             // {formatDate(frontmatter.date)} · {readingTime} min read
