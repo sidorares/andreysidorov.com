@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <title>Born Here favicon (solid)</title>
+  <rect width="32" height="32" rx="6" fill="#0C1821"/>
+  <!--
+    "Born Here" — origin dot + outward sine wave
+    Concept: a signal born at a point, travelling outward.
+    Works on light and dark backgrounds.
+    Two variants: default (cyan on transparent) and solid (for ICO/PNG use).
+  -->
+
+  <!-- Origin dot -->
+  <circle cx="4" cy="16" r="3.2" fill="#0891B2"/>
+
+  <!-- Wave emanating rightward, 2 full cycles -->
+  <path
+    d="M7.2 16 Q10.5 7 13.8 16 Q17.1 25 20.4 16 Q23.7 7 27 16 Q30.3 25 33.6 16"
+    fill="none"
+    stroke="#0891B2"
+    stroke-width="2.6"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    clip-path="url(#bounds)"
+  />
+
+  <defs>
+    <clipPath id="bounds">
+      <rect x="0" y="0" width="32" height="32"/>
+    </clipPath>
+  </defs>
+</svg>

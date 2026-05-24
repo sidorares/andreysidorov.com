@@ -7,7 +7,7 @@ export default async function ({ page, baseURL }: ScenarioContext) {
 
   await navLink(page, "Blog").click();
   await waitForApp(page);
-  await navLink(page, "notes.").click();
+  await navLink(page, "andreysidorov.com").click();
   await waitForApp(page);
 
   await page
@@ -16,7 +16,7 @@ export default async function ({ page, baseURL }: ScenarioContext) {
     .click();
   await waitForApp(page);
 
-  await page.getByRole("link", { name: "notes." }).click();
+  await page.getByRole("link", { name: "andreysidorov.com" }).click();
   await waitForApp(page);
 
   await page

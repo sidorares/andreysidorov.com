@@ -6,8 +6,8 @@
  * always render as syntax-highlighted source. Handlers live in `RunnableFence`.
  */
 export const siteConfig = {
-  name: "Notes",
-  title: "Notes — a developer blog",
+  name: "andreysidorov.com",
+  title: "Personal blog and portfolio of Andrey Sidorov",
   tagline: "Building things on the web. Notes, experiments, selected work.",
   author: "Andrey Sidorov",
   email: "hello@andreysidorov.com",
