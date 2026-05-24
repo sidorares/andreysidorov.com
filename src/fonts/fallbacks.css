@@ -57,10 +57,10 @@
 
 @font-face {
   font-family: "Fraunces fallback";
-  src: local("Times New Roman");
-  size-adjust: 115.4462%;
-  ascent-override: 84.7148%;
-  descent-override: 22.0882%;
+  src: local("BlinkMacSystemFont");
+  size-adjust: 124.3686%;
+  ascent-override: 78.6372%;
+  descent-override: 20.5036%;
   line-gap-override: 0%;
   font-weight: 100 900;
   font-style: normal;
@@ -68,10 +68,10 @@
 
 @font-face {
   font-family: "Fraunces fallback";
-  src: local("Georgia");
-  size-adjust: 105.2039%;
-  ascent-override: 92.9623%;
-  descent-override: 24.2386%;
+  src: local("Segoe UI");
+  size-adjust: 116.8352%;
+  ascent-override: 83.7076%;
+  descent-override: 21.8256%;
   line-gap-override: 0%;
   font-weight: 100 900;
   font-style: normal;
@@ -79,10 +79,32 @@
 
 @font-face {
   font-family: "Fraunces fallback";
-  src: local("Noto Serif");
-  size-adjust: 97.5052%;
-  ascent-override: 100.3023%;
-  descent-override: 26.1525%;
+  src: local("Helvetica Neue");
+  size-adjust: 115.1111%;
+  ascent-override: 84.9614%;
+  descent-override: 22.1525%;
+  line-gap-override: 0%;
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Fraunces fallback";
+  src: local("Arial");
+  size-adjust: 116.1954%;
+  ascent-override: 84.1686%;
+  descent-override: 21.9458%;
+  line-gap-override: 0%;
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Fraunces fallback";
+  src: local("Noto Sans");
+  size-adjust: 109.2827%;
+  ascent-override: 89.4927%;
+  descent-override: 23.334%;
   line-gap-override: 0%;
   font-weight: 100 900;
   font-style: normal;
@@ -90,10 +112,10 @@
 
 @font-face {
   font-family: "JetBrains Mono fallback";
-  src: local("Courier New");
-  size-adjust: 99.9837%;
-  ascent-override: 102.0166%;
-  descent-override: 30.0049%;
+  src: local("BlinkMacSystemFont");
+  size-adjust: 144.0563%;
+  ascent-override: 70.8057%;
+  descent-override: 20.8252%;
   line-gap-override: 0%;
   font-weight: 400;
   font-style: normal;
@@ -101,10 +123,10 @@
 
 @font-face {
   font-family: "JetBrains Mono fallback";
-  src: local("Roboto Mono");
-  size-adjust: 99.9837%;
-  ascent-override: 102.0166%;
-  descent-override: 30.0049%;
+  src: local("Segoe UI");
+  size-adjust: 135.3304%;
+  ascent-override: 75.3711%;
+  descent-override: 22.168%;
   line-gap-override: 0%;
   font-weight: 400;
   font-style: normal;
@@ -112,10 +134,10 @@
 
 @font-face {
   font-family: "JetBrains Mono fallback";
-  src: local("Noto Sans Mono");
-  size-adjust: 100%;
-  ascent-override: 102%;
-  descent-override: 30%;
+  src: local("Helvetica Neue");
+  size-adjust: 133.3333%;
+  ascent-override: 76.5%;
+  descent-override: 22.5%;
   line-gap-override: 0%;
   font-weight: 400;
   font-style: normal;
@@ -123,10 +145,32 @@
 
 @font-face {
   font-family: "JetBrains Mono fallback";
-  src: local("Courier New");
-  size-adjust: 99.9837%;
-  ascent-override: 102.0166%;
-  descent-override: 30.0049%;
+  src: local("Arial");
+  size-adjust: 134.5893%;
+  ascent-override: 75.7861%;
+  descent-override: 22.29%;
+  line-gap-override: 0%;
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "JetBrains Mono fallback";
+  src: local("Noto Sans");
+  size-adjust: 126.5823%;
+  ascent-override: 80.58%;
+  descent-override: 23.7%;
+  line-gap-override: 0%;
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "JetBrains Mono fallback";
+  src: local("BlinkMacSystemFont");
+  size-adjust: 144.0563%;
+  ascent-override: 70.8057%;
+  descent-override: 20.8252%;
   line-gap-override: 0%;
   font-weight: 500;
   font-style: normal;
@@ -134,10 +178,10 @@
 
 @font-face {
   font-family: "JetBrains Mono fallback";
-  src: local("Roboto Mono");
-  size-adjust: 99.9837%;
-  ascent-override: 102.0166%;
-  descent-override: 30.0049%;
+  src: local("Segoe UI");
+  size-adjust: 135.3304%;
+  ascent-override: 75.3711%;
+  descent-override: 22.168%;
   line-gap-override: 0%;
   font-weight: 500;
   font-style: normal;
@@ -145,10 +189,32 @@
 
 @font-face {
   font-family: "JetBrains Mono fallback";
-  src: local("Noto Sans Mono");
-  size-adjust: 100%;
-  ascent-override: 102%;
-  descent-override: 30%;
+  src: local("Helvetica Neue");
+  size-adjust: 133.3333%;
+  ascent-override: 76.5%;
+  descent-override: 22.5%;
+  line-gap-override: 0%;
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "JetBrains Mono fallback";
+  src: local("Arial");
+  size-adjust: 134.5893%;
+  ascent-override: 75.7861%;
+  descent-override: 22.29%;
+  line-gap-override: 0%;
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "JetBrains Mono fallback";
+  src: local("Noto Sans");
+  size-adjust: 126.5823%;
+  ascent-override: 80.58%;
+  descent-override: 23.7%;
   line-gap-override: 0%;
   font-weight: 500;
   font-style: normal;

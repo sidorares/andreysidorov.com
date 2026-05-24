@@ -9,7 +9,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
       <Header />
       <main
         key={loc.pathname}
-        className="flex-1 animate-fade-in motion-reduce:animate-none"
+        className="flex-1" // animate-fade-in motion-reduce:animate-none" TODO: I want some page transition animation, but fade-in feels like slow page loafing
       >
         {children}
       </main>

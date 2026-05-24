@@ -1,0 +1,37 @@
+# Smoke-test built assets with coverkill scenarios (dry-run; no file writes).
+name: Coverkill
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  coverkill:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: latest
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build static site
+        env:
+          BASE_PATH: ${{ vars.PAGES_BASE_PATH || '/' }}
+          SITE_URL: ${{ vars.PAGES_SITE_URL || 'https://andreysidorov.com' }}
+          VITE_SITE_URL: ${{ vars.PAGES_SITE_URL || 'https://andreysidorov.com' }}
+        run: npm run build
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Coverkill dry-run (e2e scenarios)
+        env:
+          CI: true
+        run: npm run coverkill:dry
