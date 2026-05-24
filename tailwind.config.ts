@@ -3,7 +3,10 @@ import type { Config } from "tailwindcss";
 export default {
   darkMode: [
     "variant",
-    ["@media (prefers-color-scheme: dark) { &:not(.light) }", "&:is(.dark)"],
+    [
+      ".dark &",
+      "@media (prefers-color-scheme: dark) { :root:not(.light) & }",
+    ],
   ],
   content: [
     "./pages/**/*.{ts,tsx}",
@@ -104,6 +107,7 @@ export default {
             "code::before": { content: '""' },
             "code::after": { content: '""' },
             code: {
+              color: "hsl(var(--foreground))",
               fontWeight: "400",
               backgroundColor: "hsl(var(--muted))",
               padding: "0.15rem 0.35rem",

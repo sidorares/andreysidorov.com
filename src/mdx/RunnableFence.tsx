@@ -1,6 +1,7 @@
 import { useEffect, useId, useState, type ReactElement } from "react";
 import { siteConfig } from "@/site.config";
 import { ZoomLightbox } from "@/components/ZoomLightbox";
+import { mermaidThemeConfig } from "@/lib/mermaid-theme";
 import { isDarkMode } from "@/lib/theme";
 
 const ALLOWED = new Set(siteConfig.runnableFences as readonly string[]);
@@ -30,8 +31,30 @@ export function RunnableFence({ lang, code }: { lang: string; code: string }) {
   return render({ code });
 }
 
+function useSiteColorScheme() {
+  const [dark, setDark] = useState(() =>
+    typeof document !== "undefined" ? isDarkMode() : false,
+  );
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const sync = () => setDark(isDarkMode());
+    const obs = new MutationObserver(sync);
+    obs.observe(root, { attributes: true, attributeFilter: ["class"] });
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    mq.addEventListener("change", sync);
+    return () => {
+      obs.disconnect();
+      mq.removeEventListener("change", sync);
+    };
+  }, []);
+
+  return dark;
+}
+
 function MermaidFence({ code }: { code: string }) {
   const id = useId().replace(/:/g, "");
+  const dark = useSiteColorScheme();
   const [error, setError] = useState<string | null>(null);
   const [svgMarkup, setSvgMarkup] = useState<string | null>(null);
 
@@ -42,10 +65,11 @@ function MermaidFence({ code }: { code: string }) {
     (async () => {
       try {
         const mermaid = (await import("mermaid")).default;
-        const isDark = isDarkMode();
+        const { theme, themeVariables } = mermaidThemeConfig();
         mermaid.initialize({
           startOnLoad: false,
-          theme: isDark ? "dark" : "neutral",
+          theme,
+          themeVariables,
           fontFamily: "'JetBrains Mono', 'JetBrains Mono fallback', ui-monospace, monospace",
           securityLevel: "strict",
         });
@@ -58,7 +82,7 @@ function MermaidFence({ code }: { code: string }) {
     return () => {
       cancelled = true;
     };
-  }, [code, id]);
+  }, [code, id, dark]);
 
   if (error) {
     return (

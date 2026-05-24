@@ -31,7 +31,7 @@ export default function ProjectPage() {
         </div>
       </header>
       <MdxLayer>
-        <div className="prose prose-stone dark:prose-invert">
+        <div className="prose">
           <Component />
         </div>
       </MdxLayer>

@@ -41,7 +41,7 @@ export default function BlogPost() {
         </header>
 
         <MdxLayer>
-          <div className="prose prose-stone dark:prose-invert">
+          <div className="prose">
             <Component />
           </div>
         </MdxLayer>

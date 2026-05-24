@@ -12,7 +12,7 @@ export default function About() {
       <p className="mono-label mb-3">// hello</p>
       <h1 className="font-serif text-4xl mb-8">About</h1>
       <MdxLayer>
-        <div className="prose prose-stone dark:prose-invert">
+        <div className="prose">
           {Content ? <Content /> : <p>Add an <code>about.mdx</code> file in <code>content/</code>.</p>}
         </div>
       </MdxLayer>
