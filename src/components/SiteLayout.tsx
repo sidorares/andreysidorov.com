@@ -64,7 +64,7 @@ function NavItem({ to, children }: { to: string; children: ReactNode }) {
         cn(
           "border-b-2 pb-0.5 transition-colors",
           isActive
-            ? "border-foreground text-foreground"
+            ? "border-brand text-foreground"
             : "border-transparent text-muted-foreground hover:text-foreground",
         )
       }
@@ -81,7 +81,7 @@ function Footer() {
         <span>© {new Date().getFullYear()} — built with care</span>
         <div className="flex gap-4">
           <a href="/rss.xml" className="hover:text-foreground">RSS</a>
-          <a href="https://github.com" target="_blank" rel="noreferrer" className="hover:text-foreground">GitHub</a>
+          <a href="https://github.com/sidorares/andreysidorov.com" target="_blank" rel="noreferrer" className="hover:text-foreground">GitHub</a>
         </div>
       </div>
     </footer>

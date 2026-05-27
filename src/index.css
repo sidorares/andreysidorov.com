@@ -31,6 +31,9 @@
     --accent: 17 78% 40%;
     --accent-foreground: 40 22% 97%;
 
+    /* Brand / logo cyan */
+    --brand: 192 91% 36%;
+
     --destructive: 0 70% 45%;
     --destructive-foreground: 40 22% 97%;
 
@@ -77,6 +80,9 @@
     --accent: 17 84% 58%;
     --accent-foreground: 0 0% 7%;
 
+    /* Brand / logo cyan */
+    --brand: 188 86% 53%;
+
     --destructive: 0 62% 50%;
     --destructive-foreground: 40 18% 94%;
 
@@ -119,6 +125,9 @@
 
       --accent: 17 84% 58%;
       --accent-foreground: 0 0% 7%;
+
+      /* Brand / logo cyan */
+      --brand: 188 86% 53%;
 
       --destructive: 0 62% 50%;
       --destructive-foreground: 40 18% 94%;
