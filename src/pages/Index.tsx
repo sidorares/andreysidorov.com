@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
+import { PostIndexCard } from "@/components/PostIndexCard";
+import { ProjectIndexCard } from "@/components/ProjectIndexCard";
 import { posts, projects } from "@/lib/content";
 import { siteConfig } from "@/site.config";
-import { formatDate } from "@/lib/format";
 import { PageMeta } from "@/components/PageMeta";
 
 export default function Home() {
@@ -46,20 +47,13 @@ export default function Home() {
         <ul className="grid sm:grid-cols-2 gap-4 items-stretch">
           {list.map((p) => (
             <li key={p.slug} className="min-h-0">
-              <Link
+              <PostIndexCard
                 to={`/blog/${p.slug}`}
-                className="group flex h-full flex-col rounded-md border border-border p-5 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_-16px_hsl(0_0%_0%/0.2)] transition"
-              >
-                <div className="flex items-baseline justify-between gap-4">
-                  <h3 className="font-serif text-xl group-hover:text-accent transition-colors">
-                    {p.frontmatter.title}
-                  </h3>
-                  <time className="mono-label shrink-0">{formatDate(p.frontmatter.date)}</time>
-                </div>
-                {p.frontmatter.description && (
-                  <p className="mt-1 flex-1 text-sm text-muted-foreground">{p.frontmatter.description}</p>
-                )}
-              </Link>
+                title={p.frontmatter.title}
+                date={p.frontmatter.date}
+                description={p.frontmatter.description}
+                tags={p.frontmatter.tags}
+              />
             </li>
           ))}
           {list.length === 0 && (
@@ -78,20 +72,15 @@ export default function Home() {
         <ul className="grid sm:grid-cols-2 gap-4 items-stretch">
           {projectList.map((p) => (
             <li key={p.slug} className="min-h-0">
-              <Link
+              <ProjectIndexCard
                 to={`/projects/${p.slug}`}
-                className="flex h-full flex-col rounded-md border border-border p-5 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_-16px_hsl(0_0%_0%/0.2)] transition"
-              >
-                <div className="font-serif text-lg">{p.frontmatter.title}</div>
-                <div className="mt-1 flex-1 text-sm text-muted-foreground">{p.frontmatter.summary}</div>
-                {p.frontmatter.tech && (
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {p.frontmatter.tech.map((t) => (
-                      <span key={t} className="mono-label">{t}</span>
-                    ))}
-                  </div>
-                )}
-              </Link>
+                title={p.frontmatter.title}
+                summary={p.frontmatter.summary}
+                tech={p.frontmatter.tech}
+                titleClassName="font-serif text-lg"
+                padding="p-5"
+                techStyle="plain"
+              />
             </li>
           ))}
         </ul>

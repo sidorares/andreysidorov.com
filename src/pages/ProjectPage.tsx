@@ -1,4 +1,5 @@
 import { useParams, Link } from "react-router-dom";
+import { TagLink } from "@/components/TagLink";
 import { getProject } from "@/lib/content";
 import { MdxLayer } from "@/mdx/MdxLayer";
 import { PageMeta } from "@/components/PageMeta";
@@ -39,13 +40,7 @@ export default function ProjectPage() {
             </p>
             <div className="mt-4 flex flex-wrap gap-3 mono-label">
               {frontmatter.tech?.map((t) => (
-                <Link
-                  key={t}
-                  to={`/tags/${encodeURIComponent(t)}`}
-                  className="prose-link"
-                >
-                  #{t}
-                </Link>
+                <TagLink key={t} tag={t} className="prose-link" />
               ))}
             </div>
             <div className="mt-4 flex gap-4 font-mono text-xs">

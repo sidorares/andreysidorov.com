@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { PostListRow } from "@/components/PostListRow";
 import { posts, allTags } from "@/lib/content";
-import { formatDate } from "@/lib/format";
 import { PageMeta } from "@/components/PageMeta";
 
 export default function BlogIndex() {
@@ -42,22 +42,15 @@ export default function BlogIndex() {
 
       <ul className="divide-y divide-border">
         {filtered.map((p) => (
-          <li key={p.slug}>
-            <Link to={`/blog/${p.slug}`} className="group block py-6">
-              <div className="flex items-baseline justify-between gap-4">
-                <h2 className="font-serif text-2xl group-hover:text-accent transition-colors">
-                  {p.frontmatter.title}
-                </h2>
-                <time className="mono-label shrink-0">{formatDate(p.frontmatter.date)}</time>
-              </div>
-              {p.frontmatter.description && (
-                <p className="mt-2 text-sm text-muted-foreground">{p.frontmatter.description}</p>
-              )}
-              <div className="mt-3 flex gap-4 mono-label">
-                <span>{p.readingTime} min read</span>
-                {p.frontmatter.tags?.map((t) => <span key={t}>#{t}</span>)}
-              </div>
-            </Link>
+          <li key={p.slug} className="py-6 first:pt-0">
+            <PostListRow
+              to={`/blog/${p.slug}`}
+              title={p.frontmatter.title}
+              date={p.frontmatter.date}
+              description={p.frontmatter.description}
+              readingTime={p.readingTime}
+              tags={p.frontmatter.tags}
+            />
           </li>
         ))}
         {filtered.length === 0 && (

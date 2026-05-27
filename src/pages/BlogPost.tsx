@@ -1,4 +1,5 @@
 import { Link, useParams } from "react-router-dom";
+import { TagLink } from "@/components/TagLink";
 import { adjacentPosts, getPost } from "@/lib/content";
 import { MdxLayer } from "@/mdx/MdxLayer";
 import { formatDate } from "@/lib/format";
@@ -36,9 +37,7 @@ export default function BlogPost() {
           {frontmatter.tags && (
             <div className="mt-4 flex gap-3 mono-label">
               {frontmatter.tags.map((t) => (
-                <Link key={t} to={`/tags/${encodeURIComponent(t)}`} className="prose-link">
-                  #{t}
-                </Link>
+                <TagLink key={t} tag={t} className="prose-link" />
               ))}
             </div>
           )}

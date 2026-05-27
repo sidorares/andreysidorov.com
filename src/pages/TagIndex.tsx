@@ -1,6 +1,7 @@
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { PostListRow } from "@/components/PostListRow";
+import { ProjectIndexCard } from "@/components/ProjectIndexCard";
 import { posts, projects } from "@/lib/content";
-import { formatDate } from "@/lib/format";
 import { PageMeta } from "@/components/PageMeta";
 
 export default function TagIndex() {
@@ -35,28 +36,16 @@ export default function TagIndex() {
             <h2 className="font-serif text-2xl mb-4">Writing</h2>
             <ul className="divide-y divide-border">
               {taggedPosts.map((p) => (
-                <li key={p.slug}>
-                  <Link
+                <li key={p.slug} className="py-6 first:pt-0">
+                  <PostListRow
                     to={`/tags/${encodeURIComponent(tag)}/${p.slug}`}
-                    className="group block py-6"
-                  >
-                    <div className="flex items-baseline justify-between gap-4">
-                      <h3 className="font-serif text-2xl group-hover:text-accent transition-colors">
-                        {p.frontmatter.title}
-                      </h3>
-                      <time className="mono-label shrink-0">
-                        {formatDate(p.frontmatter.date)}
-                      </time>
-                    </div>
-                    {p.frontmatter.description && (
-                      <p className="mt-2 text-sm text-muted-foreground">
-                        {p.frontmatter.description}
-                      </p>
-                    )}
-                    <div className="mt-3 flex gap-4 mono-label text-sm">
-                      <span>{p.readingTime} min read</span>
-                    </div>
-                  </Link>
+                    title={p.frontmatter.title}
+                    date={p.frontmatter.date}
+                    description={p.frontmatter.description}
+                    readingTime={p.readingTime}
+                    tags={p.frontmatter.tags}
+                    titleAs="h3"
+                  />
                 </li>
               ))}
             </ul>
@@ -69,22 +58,12 @@ export default function TagIndex() {
             <ul className="grid md:grid-cols-2 gap-5 items-stretch">
               {taggedProjects.map((p) => (
                 <li key={p.slug} className="min-h-0">
-                  <Link
+                  <ProjectIndexCard
                     to={`/tags/${encodeURIComponent(tag)}/${p.slug}`}
-                    className="flex h-full flex-col rounded-md border border-border p-6 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_-16px_hsl(0_0%_0%/0.2)] transition"
-                  >
-                    <div className="font-serif text-xl">{p.frontmatter.title}</div>
-                    <div className="mt-1 flex-1 text-sm text-muted-foreground">
-                      {p.frontmatter.summary}
-                    </div>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {(p.frontmatter.tech || []).map((t) => (
-                        <span key={t} className="mono-label border border-border rounded px-2 py-0.5">
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                  </Link>
+                    title={p.frontmatter.title}
+                    summary={p.frontmatter.summary}
+                    tech={p.frontmatter.tech}
+                  />
                 </li>
               ))}
             </ul>
@@ -94,4 +73,3 @@ export default function TagIndex() {
     </>
   );
 }
-

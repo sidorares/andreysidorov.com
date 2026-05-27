@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { ProjectIndexCard } from "@/components/ProjectIndexCard";
 import { projects } from "@/lib/content";
 import { PageMeta } from "@/components/PageMeta";
 
@@ -14,20 +14,12 @@ export default function ProjectsIndex() {
       <ul className="grid md:grid-cols-2 gap-5 items-stretch">
         {projects.map((p) => (
           <li key={p.slug} className="min-h-0">
-            <Link
+            <ProjectIndexCard
               to={`/projects/${p.slug}`}
-              className="flex h-full flex-col rounded-md border border-border p-6 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_-16px_hsl(0_0%_0%/0.2)] transition"
-            >
-              <div className="font-serif text-xl">{p.frontmatter.title}</div>
-              <div className="mt-1 flex-1 text-sm text-muted-foreground">{p.frontmatter.summary}</div>
-              {p.frontmatter.tech && (
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {p.frontmatter.tech.map((t) => (
-                    <span key={t} className="mono-label border border-border rounded px-2 py-0.5">{t}</span>
-                  ))}
-                </div>
-              )}
-            </Link>
+              title={p.frontmatter.title}
+              summary={p.frontmatter.summary}
+              tech={p.frontmatter.tech}
+            />
           </li>
         ))}
         {projects.length === 0 && (
