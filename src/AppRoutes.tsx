@@ -5,6 +5,8 @@ import BlogPost from "./pages/BlogPost.tsx";
 import ProjectsIndex from "./pages/ProjectsIndex.tsx";
 import ProjectPage from "./pages/ProjectPage.tsx";
 import About from "./pages/About.tsx";
+import TagIndex from "./pages/TagIndex.tsx";
+import TagContentPage from "./pages/TagContentPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 export function AppRoutes() {
@@ -16,6 +18,8 @@ export function AppRoutes() {
       <Route path="/projects" element={<ProjectsIndex />} />
       <Route path="/projects/:slug" element={<ProjectPage />} />
       <Route path="/about" element={<About />} />
+      <Route path="/tags/:tagname" element={<TagIndex />} />
+      <Route path="/tags/:tagname/:slug" element={<TagContentPage />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

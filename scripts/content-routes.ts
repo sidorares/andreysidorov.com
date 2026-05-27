@@ -26,6 +26,38 @@ async function slugsFromDir(
   return slugs;
 }
 
+async function tagsFromDir(
+  relativeDir: string,
+  skipDrafts: boolean,
+  extract: (data: Record<string, unknown>) => unknown
+): Promise<string[]> {
+  const dir = path.resolve(relativeDir);
+  const files = (await fs.readdir(dir)).filter((f) => /\.mdx?$/.test(f));
+  const tags = new Set<string>();
+
+  for (const file of files) {
+    if (skipDrafts) {
+      const raw = await fs.readFile(path.join(dir, file), "utf8");
+      const { data } = matter(raw);
+      if (data.draft) continue;
+    }
+
+    const raw = await fs.readFile(path.join(dir, file), "utf8");
+    const { data } = matter(raw);
+    const extracted = extract(data);
+    if (!Array.isArray(extracted)) continue;
+
+    for (const t of extracted) {
+      if (typeof t === "string") {
+        const normalized = t.trim().toLowerCase();
+        if (normalized) tags.add(normalized);
+      }
+    }
+  }
+
+  return Array.from(tags);
+}
+
 /** Paths passed to react-router StaticRouter (no basename prefix). */
 export async function getStaticRoutes(): Promise<string[]> {
   const [postSlugs, projectSlugs] = await Promise.all([
@@ -33,11 +65,19 @@ export async function getStaticRoutes(): Promise<string[]> {
     slugsFromDir("content/projects", false),
   ]);
 
+  const [postTags, projectTechTags] = await Promise.all([
+    tagsFromDir("content/posts", true, (data) => data.tags),
+    tagsFromDir("content/projects", false, (data) => data.tech),
+  ]);
+
+  const allTags = Array.from(new Set([...postTags, ...projectTechTags])).sort();
+
   return [
     "/",
     "/blog",
     "/projects",
     "/about",
+    ...allTags.map((tag) => `/tags/${encodeURIComponent(tag)}`),
     ...postSlugs.map((slug) => `/blog/${slug}`),
     ...projectSlugs.map((slug) => `/projects/${slug}`),
   ];

@@ -60,6 +60,12 @@ function pathToSlug(p: string) {
   return file.replace(/^\d{4}-\d{2}-\d{2}-/, "");
 }
 
+function normalizeTag(t: unknown): string | null {
+  if (typeof t !== "string") return null;
+  const normalized = t.trim().toLowerCase();
+  return normalized ? normalized : null;
+}
+
 export type Post = {
   slug: string;
   Component: ComponentType<any>;
@@ -82,7 +88,12 @@ export const posts: Post[] = Object.entries(postModules)
   .map(([path, mod]) => ({
     slug: pathToSlug(path),
     Component: mod.default,
-    frontmatter: mod.frontmatter,
+    frontmatter: {
+      ...mod.frontmatter,
+      tags: (mod.frontmatter.tags ?? [])
+        .map(normalizeTag)
+        .filter((t): t is string => t !== null),
+    },
     toc: mod.toc || [],
     readingTime: mod.readingTime || 1,
   }))
@@ -95,7 +106,12 @@ export const projects: Project[] = Object.entries(projectModules)
   .map(([path, mod]) => ({
     slug: pathToSlug(path),
     Component: mod.default,
-    frontmatter: mod.frontmatter,
+    frontmatter: {
+      ...mod.frontmatter,
+      tech: (mod.frontmatter.tech ?? [])
+        .map(normalizeTag)
+        .filter((t): t is string => t !== null),
+    },
     toc: mod.toc || [],
     readingTime: mod.readingTime || 1,
   }))

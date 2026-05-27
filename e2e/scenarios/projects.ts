@@ -10,9 +10,21 @@ export default async function ({ page, baseURL }: ScenarioContext) {
   await waitForMermaid(page);
   await openMermaidLightbox(page);
 
+  const tocLink = page.locator('aside a[href^="#"]').first();
+  if (await tocLink.isVisible()) {
+    await tocLink.click();
+    await page.waitForTimeout(300);
+  }
+
   await navLink(page, "Projects").click();
   await waitForApp(page);
 
   await page.getByRole("link", { name: "Pixel Pal" }).click();
   await waitForApp(page);
+
+  const tocLink2 = page.locator('aside a[href^="#"]').first();
+  if (await tocLink2.isVisible()) {
+    await tocLink2.click();
+    await page.waitForTimeout(300);
+  }
 }
