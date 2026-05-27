@@ -43,7 +43,8 @@ function Header() {
             height={20}
             className="size-5 hidden dark:block"
           />
-          andreysidorov.com
+          <span className="hidden md:inline">andreysidorov.com</span>
+     
         </Link>
         <nav className="flex items-center gap-6 font-mono text-xs uppercase tracking-widest">
           <NavItem to="/blog">Blog</NavItem>
