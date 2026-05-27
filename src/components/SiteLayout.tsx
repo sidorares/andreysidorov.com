@@ -62,9 +62,9 @@ function NavItem({ to, children }: { to: string; children: ReactNode }) {
       to={to}
       className={({ isActive }) =>
         cn(
-          "border-b-2 pb-0.5 transition-colors",
+          "border-2 p-0.5 transition-colors",
           isActive
-            ? "border-brand text-foreground"
+            ? "border-transparent border-b-brand text-foreground"
             : "border-transparent text-muted-foreground hover:text-foreground",
         )
       }
