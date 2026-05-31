@@ -5,9 +5,9 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 export type FontFaceSpec = {
   family: string;
-  /** Filename under public/fonts — kept for fontaine metrics (npm run fonts). */
+  /** Filename under public/fonts/ (self-hosted). */
   src: string;
-  /** Latin subset served from fonts.gstatic.com (long cache). */
+  /** Legacy CDN URL — kept for reference only. */
   cdnUrl: string;
   weight?: string;
   style?: string;

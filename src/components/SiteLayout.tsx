@@ -34,6 +34,8 @@ function Header() {
             alt=""
             width={20}
             height={20}
+            decoding="async"
+            fetchPriority="low"
             className="size-5 dark:hidden"
           />
           <img
@@ -41,6 +43,8 @@ function Header() {
             alt=""
             width={20}
             height={20}
+            decoding="async"
+            fetchPriority="low"
             className="size-5 hidden dark:block"
           />
           <span className="hidden md:inline">andreysidorov.com</span>

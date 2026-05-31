@@ -13,7 +13,7 @@ function buildFontFaceCss(family: string, faces: (typeof fontAssets)[number]["fa
       ];
       if (face.weight) lines.push(`  font-weight: ${face.weight};`);
       lines.push(
-        `  src: url(${JSON.stringify(face.cdnUrl)}) format(${JSON.stringify(face.format ?? "woff2")});`,
+        `  src: url(${JSON.stringify(`/fonts/${face.src}`)}) format(${JSON.stringify(face.format ?? "woff2")});`,
         "}",
       );
       return lines.join("\n");
@@ -26,7 +26,7 @@ async function main() {
   await fs.mkdir(path.dirname(paths.fontsCss), { recursive: true });
 
   const cssBlocks: string[] = [
-    "/* @font-face src: Google CDN. Local copies in public/fonts/ for fontaine metrics. Run: npm run fonts */",
+    "/* Self-hosted from public/fonts/. Run: npm run fonts */",
   ];
   const facesByFamily = new Map<string, (typeof fontAssets)[number]["faces"]>();
 

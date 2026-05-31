@@ -4,6 +4,8 @@ import { AppProviders } from "./AppProviders";
 import { AppRoutes } from "./AppRoutes";
 import { collectSsrHeadTags } from "./lib/ssr-head";
 
+export { preloadContentForRoute } from "./lib/content";
+
 function basename() {
   return import.meta.env.BASE_URL.replace(/\/$/, "") || undefined;
 }

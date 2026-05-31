@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useState, type KeyboardEvent, type ReactNode } from "react";
 import { Maximize2 } from "lucide-react";
 import {
   Dialog,
@@ -30,6 +30,18 @@ export function ZoomLightbox({
 }: ZoomLightboxProps) {
   const [open, setOpen] = useState(false);
 
+  const openLightbox = () => {
+    if (expandable) setOpen(true);
+  };
+
+  const onPreviewKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (!expandable) return;
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      openLightbox();
+    }
+  };
+
   return (
     <>
       <div className={cn("relative group", className)}>
@@ -45,12 +57,26 @@ export function ZoomLightbox({
             "opacity-90 hover:opacity-100 md:opacity-0 md:group-hover:opacity-100 md:focus-visible:opacity-100",
             open && "pointer-events-none invisible",
           )}
-          onClick={() => setOpen(true)}
+          onClick={openLightbox}
           aria-label={expandLabel}
         >
           <Maximize2 className="h-4 w-4" />
         </Button>
-        {children}
+        <div
+          role={expandable ? "button" : undefined}
+          tabIndex={expandable && !open ? 0 : undefined}
+          aria-label={expandable ? expandLabel : undefined}
+          aria-disabled={expandable ? undefined : true}
+          onClick={openLightbox}
+          onKeyDown={onPreviewKeyDown}
+          className={cn(
+            expandable &&
+              "cursor-zoom-in rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+            open && "pointer-events-none",
+          )}
+        >
+          {children}
+        </div>
       </div>
 
       <Dialog open={open} onOpenChange={setOpen}>
@@ -61,7 +87,7 @@ export function ZoomLightbox({
         >
           <DialogTitle className="sr-only">Expanded view</DialogTitle>
           <DialogDescription className="sr-only">
-            Zoomed diagram — scroll if the content is wider than the screen.
+            Expanded view — scroll if the content is wider than the screen.
           </DialogDescription>
           <div className="flex min-h-0 flex-1 overflow-auto bg-muted/40">
             {open ? (
@@ -71,6 +97,7 @@ export function ZoomLightbox({
                     "zoom-lightbox-markup min-w-0 max-w-full",
                     "[&>div]:w-full [&_.mermaid-host]:block [&_.mermaid-host]:w-full",
                     "[&_svg]:mx-auto [&_svg]:block [&_svg]:max-w-full [&_svg]:min-w-0 [&_svg]:h-auto",
+                    "[&_img]:mx-auto [&_img]:block [&_img]:max-w-full [&_img]:h-auto",
                   )}
                   style={{
                     width: '100vw'

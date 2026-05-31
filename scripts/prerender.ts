@@ -3,6 +3,7 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import matter from "gray-matter";
 import { getStaticRoutes, NOT_FOUND_ROUTE } from "./content-routes";
+import { stripHeadTagsFromAppHtml } from "../src/lib/ssr-head";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const distDir = path.join(root, "dist");
@@ -11,6 +12,7 @@ const serverEntry = path.join(distDir, "server", "entry-server.js");
 
 type RenderResult = { html: string; head: string };
 type RenderFn = (url: string) => RenderResult;
+type PreloadFn = (url: string) => Promise<void>;
 
 function routeToOutFile(route: string) {
   if (route === "/") return path.join(distDir, "index.html");
@@ -25,7 +27,7 @@ function inject(template: string, appHtml: string, headHtml: string) {
   } else {
     html = html.replace("</head>", `${headHtml}\n  </head>`);
   }
-  return html.replace("<!--ssr-outlet-->", appHtml);
+  return html.replace("<!--ssr-outlet-->", stripHeadTagsFromAppHtml(appHtml));
 }
 
 async function writeHtml(filePath: string, contents: string) {
@@ -157,12 +159,14 @@ async function copyTaggedPages(distDir: string, rootDir: string) {
 
 async function main() {
   const template = await fs.readFile(templatePath, "utf8");
-  const { render } = (await import(pathToFileURL(serverEntry).href)) as {
+  const { render, preloadContentForRoute } = (await import(pathToFileURL(serverEntry).href)) as {
     render: RenderFn;
+    preloadContentForRoute: PreloadFn;
   };
 
   const routes = await getStaticRoutes();
   for (const route of routes) {
+    await preloadContentForRoute(route);
     const { html, head } = render(route);
     const out = inject(template, html, head);
     const file = routeToOutFile(route);

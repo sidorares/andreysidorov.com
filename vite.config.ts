@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import { execSync } from "node:child_process";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import mdx from "@mdx-js/rollup";
@@ -11,6 +13,36 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import { rehypeShikiHighlight } from "./scripts/rehype-shiki-highlight";
 import { remarkRunnableFences } from "./scripts/remark-runnable-fences";
 import { remarkExtractToc } from "./scripts/remark-extract-toc";
+
+function generateContentManifest() {
+  execSync("tsx scripts/generate-content-manifest.ts", {
+    cwd: path.resolve(import.meta.dirname),
+    stdio: "inherit",
+  });
+}
+
+function contentManifestPlugin() {
+  return {
+    name: "content-manifest",
+    buildStart: generateContentManifest,
+    configureServer: generateContentManifest,
+  };
+}
+
+function inlineCriticalCssPlugin() {
+  const criticalPath = path.resolve(import.meta.dirname, "src/critical.css");
+  return {
+    name: "inline-critical-css",
+    transformIndexHtml(html: string) {
+      const critical = fs.readFileSync(criticalPath, "utf8");
+      return html.replace(
+        "<!--critical-css-->",
+        `<style>${critical}</style>`,
+      );
+    },
+  };
+}
+
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   base: process.env.BASE_PATH || "/",
@@ -25,6 +57,8 @@ export default defineConfig(({ mode }) => ({
     hmr: { overlay: false },
   },
   plugins: [
+    contentManifestPlugin(),
+    inlineCriticalCssPlugin(),
     {
       enforce: "pre" as const,
       ...mdx({
