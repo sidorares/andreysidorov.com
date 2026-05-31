@@ -17,9 +17,6 @@ export default defineConfig(({ mode }) => ({
   define: {
     "import.meta.env.VITE_SITE_URL": JSON.stringify(process.env.SITE_URL ?? ""),
   },
-  ssr: {
-    noExternal: ["react-helmet-async"],
-  },
   server: {
     host: "::",
     port: 8080,

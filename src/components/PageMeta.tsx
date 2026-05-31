@@ -1,5 +1,3 @@
-import { Helmet } from "react-helmet-async";
-
 type PageMetaProps = {
   title: string;
   description?: string;
@@ -14,16 +12,17 @@ function canonicalUrl(path: string) {
   return new URL(`${base}${normalized}` || "/", site).href;
 }
 
+/** Document metadata (React 19 hoists these when rendering a full document). */
 export function PageMeta({ title, description, path = "" }: PageMetaProps) {
   const fullTitle = title.includes("—") ? title : `${title} — Notes`;
   return (
-    <Helmet>
+    <>
       <title>{fullTitle}</title>
       {description && <meta name="description" content={description} />}
       <link rel="canonical" href={canonicalUrl(path)} />
       <meta property="og:title" content={fullTitle} />
       {description && <meta property="og:description" content={description} />}
       <meta property="og:type" content="website" />
-    </Helmet>
+    </>
   );
 }

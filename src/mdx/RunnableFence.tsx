@@ -32,11 +32,10 @@ export function RunnableFence({ lang, code }: { lang: string; code: string }) {
 }
 
 function useSiteColorScheme() {
-  const [dark, setDark] = useState(() =>
-    typeof document !== "undefined" ? isDarkMode() : false,
-  );
+  const [dark, setDark] = useState(false);
 
   useEffect(() => {
+    setDark(isDarkMode());
     const root = document.documentElement;
     const sync = () => setDark(isDarkMode());
     const obs = new MutationObserver(sync);
