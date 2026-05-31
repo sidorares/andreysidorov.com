@@ -32,12 +32,35 @@ html.dark {
     --secondary: 0 0% 12%;
   }
 }
-*, ::before, ::after { box-sizing: border-box; border-color: hsl(var(--border)); }
-body {
+/* Tailwind preflight + --tw-* vars: src/critical-preflight.css (regenerate after tailwind upgrades) */
+html {
+  scroll-behavior: smooth;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+ol, ul, menu {
+  list-style: none;
   margin: 0;
+  padding: 0;
+}
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+img, video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+figure, p, pre {
+  margin: 0;
+}
+body {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
-  font-family: Inter, "Inter fallback", ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: "ss01", "cv11";
 }
 .min-h-screen { min-height: 100vh; }
 .flex { display: flex; }
@@ -73,7 +96,7 @@ body {
 .max-w-xl { max-width: 36rem; }
 .container { width: 100%; margin-inline: auto; padding-inline: 1.5rem; }
 .site-container { width: 100%; margin-inline: auto; padding-inline: 1.5rem; }
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
   .container, .site-container { max-width: 1200px; }
 }
 .py-20 { padding-block: 5rem; }
@@ -96,6 +119,36 @@ body {
   background-size: 100% 1px;
   background-position: 0 100%;
   background-repeat: no-repeat;
+}
+.grid { display: grid; }
+.gap-x-3 { column-gap: 0.75rem; }
+.gap-y-1 { row-gap: 0.25rem; }
+.items-baseline { align-items: baseline; }
+.items-stretch { align-items: stretch; }
+.flex-wrap { flex-wrap: wrap; }
+.shrink-0 { flex-shrink: 0; }
+.h-full { height: 100%; }
+.min-h-0 { min-height: 0; }
+.border { border-width: 1px; }
+.p-5 { padding: 1.25rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.mt-1 { margin-top: 0.25rem; }
+.mt-3 { margin-top: 0.75rem; }
+.mt-24 { margin-top: 6rem; }
+.text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+.text-2xl { font-size: 1.5rem; line-height: 2rem; }
+.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+.divider-dotted {
+  border: 0;
+  border-top: 1px dotted hsl(var(--border));
+  margin-block: 3rem;
+}
+.py-8 { padding-block: 2rem; }
+.gap-3 { gap: 0.75rem; }
+.justify-center { justify-content: center; }
+@media (min-width: 640px) {
+  .sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sm\:flex-row { flex-direction: row; }
 }
 @media (min-width: 768px) {
   .md\:inline { display: inline; }

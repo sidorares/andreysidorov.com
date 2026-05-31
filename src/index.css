@@ -1,5 +1,4 @@
-@import "./fonts/fonts.css";
-@import "./fonts/fallbacks.css";
+/* @font-face for Inter/Fraunces/JetBrains + metric fallbacks are inlined in index.html */
 
 @tailwind base;
 @tailwind components;

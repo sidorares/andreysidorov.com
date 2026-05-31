@@ -1,9 +1,33 @@
 {
-  "description": "Cache Rules for andreysidorov.com (GitHub Pages origin). Applied via cloudflare/apply-cache-rules.sh. Last matching rule wins.",
+  "description": "Cache Rules for andreysidorov.com (GitHub Pages origin). Applied via cloudflare/apply-cache-rules.sh. Cloudflare uses LAST matching rule wins — broad rules first, specific rules last.",
   "rules": [
     {
-      "expression": "starts_with(http.request.uri.path, \"/assets/\")",
-      "description": "Immutable — /assets",
+      "expression": "true",
+      "description": "Default — respect origin (GitHub Pages)",
+      "action": "set_cache_settings",
+      "action_parameters": {
+        "cache": true,
+        "edge_ttl": {
+          "mode": "respect_origin"
+        },
+        "browser_ttl": {
+          "mode": "respect_origin"
+        }
+      },
+      "enabled": true
+    },
+    {
+      "expression": "http.request.uri.path.extension eq \"html\" or http.request.uri.path eq \"/\" or http.request.uri.path eq \"/rss.xml\" or http.request.uri.path eq \"/sitemap.xml\" or http.request.uri.path eq \"/robots.txt\" or http.request.uri.path eq \"/404.html\"",
+      "description": "HTML and feeds — bypass edge cache",
+      "action": "set_cache_settings",
+      "action_parameters": {
+        "cache": false
+      },
+      "enabled": true
+    },
+    {
+      "expression": "starts_with(http.request.uri.path, \"/fonts/\") or http.request.uri.path eq \"/site.webmanifest\" or http.request.uri.path.extension in {\"woff2\" \"ico\" \"png\" \"svg\"}",
+      "description": "Static binaries — fonts, favicons, manifest",
       "action": "set_cache_settings",
       "action_parameters": {
         "cache": true,
@@ -36,8 +60,8 @@
       "enabled": true
     },
     {
-      "expression": "starts_with(http.request.uri.path, \"/fonts/\") or http.request.uri.path eq \"/site.webmanifest\" or http.request.uri.path.extension in {\"woff2\" \"ico\" \"png\" \"svg\"}",
-      "description": "Static binaries — fonts, favicons, manifest",
+      "expression": "starts_with(http.request.uri.path, \"/assets/\")",
+      "description": "Immutable — /assets",
       "action": "set_cache_settings",
       "action_parameters": {
         "cache": true,
@@ -48,30 +72,6 @@
         "browser_ttl": {
           "mode": "override_origin",
           "default": 31536000
-        }
-      },
-      "enabled": true
-    },
-    {
-      "expression": "http.request.uri.path.extension eq \"html\" or http.request.uri.path eq \"/\" or http.request.uri.path eq \"/rss.xml\" or http.request.uri.path eq \"/sitemap.xml\" or http.request.uri.path eq \"/robots.txt\" or http.request.uri.path eq \"/404.html\"",
-      "description": "HTML and feeds — bypass edge cache",
-      "action": "set_cache_settings",
-      "action_parameters": {
-        "cache": false
-      },
-      "enabled": true
-    },
-    {
-      "expression": "true",
-      "description": "Default — respect origin (GitHub Pages)",
-      "action": "set_cache_settings",
-      "action_parameters": {
-        "cache": true,
-        "edge_ttl": {
-          "mode": "respect_origin"
-        },
-        "browser_ttl": {
-          "mode": "respect_origin"
         }
       },
       "enabled": true

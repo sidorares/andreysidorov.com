@@ -16,7 +16,9 @@
     "coverkill:dry": "coverkill --config coverkill.config.ts --dry-run",
     "coverkill:collect": "coverkill collect --config coverkill.config.ts --save-report coverage-report.json",
     "cache:manifest": "tsx scripts/generate-dist-manifest.ts",
-    "cache:purge": "tsx scripts/cloudflare-purge-changed.ts"
+    "cache:purge": "tsx scripts/cloudflare-purge-changed.ts",
+    "measure:cls": "node scripts/measure-layout-shift.mjs",
+    "measure:vitals": "node scripts/measure-web-vitals.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

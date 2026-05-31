@@ -19,11 +19,11 @@ CLOUDFLARE_ZONE_ID=dcf623372205d760b2ef0b861ee33e09 ./cloudflare/apply-cache-rul
 ./cloudflare/apply-cache-rules.sh dcf623372205d760b2ef0b861ee33e09
 ```
 
-Rules live in [`cache-rules.rules.json`](cache-rules.rules.json) (generated from the sections below). **Last matching rule wins** — default is last in the file.
+Rules live in [`cache-rules.rules.json`](cache-rules.rules.json). **Last matching rule wins** — in the JSON file, put the **broad** rule (`true` / default) **first** and **specific** rules **last** (e.g. `/assets/` at the bottom). Putting default last makes it override everything and leaves GitHub’s `max-age=600` on all responses.
 
 On a zone that has never had Cache Rules, the API returns error `10003` (no entrypoint yet). `apply-cache-rules.sh` handles that by **POST**ing a new zone ruleset; later runs use **PUT** on the entrypoint.
 
-Manual dashboard setup (if you prefer UI) — order matters: more specific rules first.
+Manual dashboard setup (if you prefer UI) — in the dashboard list, rules are evaluated top-to-bottom with **last match winning**; put the catch-all rule at the **top**, `/assets/` and other specifics at the **bottom**.
 
 ## 1. Immutable hashed assets
 

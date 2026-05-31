@@ -30,15 +30,31 @@ function contentManifestPlugin() {
 }
 
 function inlineCriticalCssPlugin() {
-  const criticalPath = path.resolve(import.meta.dirname, "src/critical.css");
+  const root = import.meta.dirname;
+  const criticalPath = path.resolve(root, "src/critical.css");
+  const preflightPath = path.resolve(root, "src/critical-preflight.css");
+  const fallbacksPath = path.resolve(root, "src/fonts/fallbacks.css");
+  const fontsPath = path.resolve(root, "src/fonts/fonts.css");
+
+  function readCss(filePath: string) {
+    if (!fs.existsSync(filePath)) {
+      throw new Error(
+        `Missing ${path.relative(root, filePath)} — run "npm run fonts" before build/dev`,
+      );
+    }
+    return fs.readFileSync(filePath, "utf8");
+  }
+
   return {
     name: "inline-critical-css",
     transformIndexHtml(html: string) {
-      const critical = fs.readFileSync(criticalPath, "utf8");
-      return html.replace(
-        "<!--critical-css-->",
-        `<style>${critical}</style>`,
-      );
+      const inlined = [
+        readCss(preflightPath),
+        readCss(criticalPath),
+        readCss(fallbacksPath),
+        readCss(fontsPath),
+      ].join("\n\n");
+      return html.replace("<!--critical-css-->", `<style>${inlined}</style>`);
     },
   };
 }

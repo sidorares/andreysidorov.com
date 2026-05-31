@@ -146,3 +146,12 @@ curl -sI "https://andreysidorov.com/" | grep -iE 'cache|etag|cf-cache-status'
 ```
 
 `cf-cache-status: HIT` on `/assets/*` after a second request indicates edge caching is working.
+
+After cache rules apply, assets should show a long browser TTL in responses (not GitHub’s `max-age=600`):
+
+```bash
+curl -sI "https://andreysidorov.com/assets/index-18YofufI.js" | grep -i cache-control
+# expect max-age=31536000 (or similar), not 600
+```
+
+Lighthouse’s “Use efficient cache lifetimes” audit reads **`Cache-Control` on the response**. Memory cache in DevTools only means the file was loaded recently; it does not fix the Lighthouse score if `max-age` is still 600.
