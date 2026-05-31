@@ -7,6 +7,7 @@
  */
 export const siteConfig = {
   name: "andreysidorov.com",
+  url: "https://andreysidorov.com",
   title: "Personal blog and portfolio of Andrey Sidorov",
   tagline: "Building things on the web. Notes, experiments, selected work.",
   author: "Andrey Sidorov",

@@ -15,7 +15,9 @@ import { remarkExtractToc } from "./scripts/remark-extract-toc";
 export default defineConfig(({ mode }) => ({
   base: process.env.BASE_PATH || "/",
   define: {
-    "import.meta.env.VITE_SITE_URL": JSON.stringify(process.env.SITE_URL ?? ""),
+    "import.meta.env.VITE_SITE_URL": JSON.stringify(
+      process.env.SITE_URL ?? process.env.VITE_SITE_URL ?? "https://andreysidorov.com",
+    ),
   },
   server: {
     host: "::",

@@ -1,15 +1,21 @@
+import { siteConfig } from "@/site.config";
+
 type PageMetaProps = {
   title: string;
   description?: string;
   path?: string;
 };
 
+function siteOrigin() {
+  const fromEnv = (import.meta.env.VITE_SITE_URL as string | undefined)?.trim();
+  return (fromEnv || siteConfig.url).replace(/\/$/, "");
+}
+
 function canonicalUrl(path: string) {
   const base = import.meta.env.BASE_URL.replace(/\/$/, "");
-  const site = (import.meta.env.VITE_SITE_URL as string | undefined) || "";
   const normalized = path.startsWith("/") ? path : `/${path}`;
-  if (!site) return `${base}${normalized}` || "/";
-  return new URL(`${base}${normalized}` || "/", site).href;
+  const pathname = `${base}${normalized}` || "/";
+  return new URL(pathname, `${siteOrigin()}/`).href;
 }
 
 /** Document metadata (React 19 hoists these when rendering a full document). */
