@@ -148,7 +148,7 @@ export function adjacentPosts(slug: string) {
   };
 }
 
-/** Preload MDX chunks before SSR so renderToString sees resolved content. */
+/** Preload MDX chunks before SSR so prerender resolves Suspense on first pass. */
 export async function preloadContentForRoute(url: string): Promise<void> {
   const path = url.replace(/\/$/, "") || "/";
 

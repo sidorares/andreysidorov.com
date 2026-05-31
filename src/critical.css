@@ -1,4 +1,4 @@
-/* Above-the-fold: header + homepage hero. Full styles in index.css. */
+/* Shared shell + homepage hero. Index inlines this; content pages add critical-content.css + critical-prose.css. */
 :root {
   color-scheme: light;
   --background: 40 22% 97%;
