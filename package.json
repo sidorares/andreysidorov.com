@@ -14,7 +14,9 @@
     "test:watch": "vitest",
     "coverkill": "coverkill --config coverkill.config.ts",
     "coverkill:dry": "coverkill --config coverkill.config.ts --dry-run",
-    "coverkill:collect": "coverkill collect --config coverkill.config.ts --save-report coverage-report.json"
+    "coverkill:collect": "coverkill collect --config coverkill.config.ts --save-report coverage-report.json",
+    "cache:manifest": "tsx scripts/generate-dist-manifest.ts",
+    "cache:purge": "tsx scripts/cloudflare-purge-changed.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

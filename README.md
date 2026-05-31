@@ -65,6 +65,8 @@ CI runs `bun run build` and publishes `dist/` to GitHub Pages.
 The build pre-renders every route to static HTML (SSR at build time), then hydrates in the browser.
 RSS, sitemap, and a pre-rendered `404.html` (GitHub Pages unknown-route fallback) are emitted automatically.
 
+**Cloudflare CDN** (optional): put Cloudflare in front of GitHub Pages for long-lived asset caching and purge-on-deploy for changed files. Setup: [`docs/cloudflare-cdn.md`](docs/cloudflare-cdn.md). Header templates live in [`cloudflare/`](cloudflare/).
+
 To deploy manually, push to `main`. To preview the production build:
 
 ```bash

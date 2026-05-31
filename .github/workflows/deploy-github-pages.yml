@@ -1,4 +1,5 @@
 # Build static site and publish to GitHub Pages (Settings → Pages → Source: GitHub Actions).
+# Optional: purge changed URLs from Cloudflare cache (see docs/cloudflare-cdn.md).
 name: Deploy GitHub Pages
 
 on:
@@ -21,9 +22,22 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - name: Restore previous deploy manifest
+        uses: actions/cache@v4
+        with:
+          path: cloudflare/dist-manifest.json
+          key: cf-dist-manifest-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            cf-dist-manifest-${{ github.ref_name }}-
+
+      - name: Save manifest from last deploy for diff
+        run: |
+          if [ -f cloudflare/dist-manifest.json ]; then
+            cp cloudflare/dist-manifest.json cloudflare/dist-manifest.previous.json
+          fi
+
       - uses: actions/setup-node@v6
         with:
-          # Resolves to current Node.js release from nodejs.org dist (see setup-node README).
           node-version: latest
           cache: npm
 
@@ -32,18 +46,31 @@ jobs:
 
       - name: Build
         env:
-          # Custom domain (andreysidorov.com) serves this project site at "/" — not "/<repo>/".
-          # Using "/<repo>/" would break asset URLs (e.g. /andreysidorov.com/assets → double path on apex).
-          # For github.io-only preview without a custom domain, set repo Actions variables PAGES_BASE_PATH
-          # and PAGES_SITE_URL, or temporarily use "/andreysidorov.com/" and "https://<owner>.github.io/<repo>".
           BASE_PATH: ${{ vars.PAGES_BASE_PATH || '/' }}
           SITE_URL: ${{ vars.PAGES_SITE_URL || 'https://andreysidorov.com' }}
           VITE_SITE_URL: ${{ vars.PAGES_SITE_URL || 'https://andreysidorov.com' }}
         run: npm run build
 
+      - name: Write deploy manifest
+        run: npm run cache:manifest
+
       - uses: actions/upload-pages-artifact@v5
         with:
           path: dist
+
+      - name: Stage manifests for Cloudflare purge
+        run: |
+          mkdir -p cloudflare/ci-manifest
+          cp cloudflare/dist-manifest.json cloudflare/ci-manifest/
+          if [ -f cloudflare/dist-manifest.previous.json ]; then
+            cp cloudflare/dist-manifest.previous.json cloudflare/ci-manifest/
+          fi
+
+      - name: Upload manifests for Cloudflare purge
+        uses: actions/upload-artifact@v4
+        with:
+          name: cloudflare-manifests
+          path: cloudflare/ci-manifest
 
   deploy:
     needs: build
@@ -54,3 +81,40 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v5
+
+  purge-cloudflare:
+    needs: [build, deploy]
+    if: needs.deploy.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: cloudflare-manifests
+          path: cloudflare/ci-manifest
+
+      - name: Place manifests for purge script
+        run: |
+          cp cloudflare/ci-manifest/dist-manifest.json cloudflare/dist-manifest.json
+          if [ -f cloudflare/ci-manifest/dist-manifest.previous.json ]; then
+            cp cloudflare/ci-manifest/dist-manifest.previous.json cloudflare/dist-manifest.previous.json
+          fi
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: latest
+
+      - name: Purge changed URLs from Cloudflare
+        env:
+          SITE_URL: ${{ vars.PAGES_SITE_URL || 'https://andreysidorov.com' }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+          CLOUDFLARE_PURGE_EVERYTHING: ${{ vars.CLOUDFLARE_PURGE_EVERYTHING }}
+        run: npx --yes tsx scripts/cloudflare-purge-changed.ts
+
+      - name: Store manifest for next deploy diff
+        uses: actions/cache/save@v4
+        with:
+          path: cloudflare/dist-manifest.json
+          key: cf-dist-manifest-${{ github.ref_name }}-${{ github.sha }}

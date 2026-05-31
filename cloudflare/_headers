@@ -1,0 +1,46 @@
+# Cloudflare Pages / Workers static assets — applied at the edge when this file is in the
+# published output directory. GitHub Pages does not read this file; use cache-rules.md when
+# proxying GitHub Pages (see docs/cloudflare-cdn.md).
+
+# Fingerprinted bundles (root + tag-folder copies)
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/tags/*/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Static binaries (URL does not encode version — redeploy + purge when these change)
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+
+/favicon*
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.ico
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.png
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.svg
+  Cache-Control: public, max-age=31536000, immutable
+
+/site.webmanifest
+  Cache-Control: public, max-age=31536000, immutable
+
+# Feeds / SEO — revalidate on each use (ETag from origin or edge)
+/rss.xml
+  Cache-Control: no-cache
+
+/sitemap.xml
+  Cache-Control: no-cache
+
+/robots.txt
+  Cache-Control: no-cache
+
+# HTML (clean URLs resolve to index.html) and everything else not matched above
+/*
+  Cache-Control: no-cache
