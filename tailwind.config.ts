@@ -25,12 +25,28 @@ export default {
     extend: {
       fontFamily: {
         sans: ["Inter", "Inter fallback", "ui-sans-serif", "system-ui", "sans-serif"],
-        serif: ["Fraunces", "Fraunces fallback", "ui-serif", "Georgia", "serif"],
+        serif: [
+          "Fraunces",
+          "ui-serif",
+          "Georgia",
+          "Cambria",
+          "Times New Roman",
+          "serif",
+        ],
         mono: [
           "'JetBrains Mono'",
           "'JetBrains Mono fallback'",
           "ui-monospace",
           "SFMono-Regular",
+          "monospace",
+        ],
+        /** Header chrome: real system monos instead of metric-adjusted sans fallbacks. */
+        monoNative: [
+          "'JetBrains Mono'",
+          "ui-monospace",
+          "SFMono-Regular",
+          "Menlo",
+          "Consolas",
           "monospace",
         ],
       },

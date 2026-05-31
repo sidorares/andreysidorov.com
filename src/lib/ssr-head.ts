@@ -1,4 +1,4 @@
-/** Tags React 19 emits in the app tree during renderToString (metadata + image preloads). */
+/** Tags React 19 emits in the app tree during prerender (metadata + image preloads). */
 const HEAD_TAG_PATTERNS = [
   /<link\s[^>]*\brel=["']preload["'][^>]*\/?>/gi,
   /<title\b[^>]*>[\s\S]*?<\/title>/gi,

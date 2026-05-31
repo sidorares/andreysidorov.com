@@ -27,7 +27,7 @@ function Header() {
         <Link
           to="/"
           aria-label={siteConfig.name}
-          className="flex items-center gap-2 font-mono text-sm tracking-tight"
+          className="flex items-center gap-2 font-mono-native text-sm tracking-tight"
         >
           <img
             src="/favicon.svg"
@@ -50,7 +50,7 @@ function Header() {
           <span className="hidden md:inline">andreysidorov.com</span>
      
         </Link>
-        <nav className="flex items-center gap-6 font-mono text-xs uppercase tracking-widest">
+        <nav className="flex items-center gap-6 font-mono-native text-xs uppercase tracking-widest">
           <NavItem to="/blog">Blog</NavItem>
           <NavItem to="/projects">Projects</NavItem>
           <NavItem to="/about">About</NavItem>

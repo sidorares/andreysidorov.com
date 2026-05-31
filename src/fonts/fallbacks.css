@@ -56,61 +56,6 @@
 }
 
 @font-face {
-  font-family: "Fraunces fallback";
-  src: local("BlinkMacSystemFont");
-  size-adjust: 124.3686%;
-  ascent-override: 78.6372%;
-  descent-override: 20.5036%;
-  line-gap-override: 0%;
-  font-weight: 100 900;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Fraunces fallback";
-  src: local("Segoe UI");
-  size-adjust: 116.8352%;
-  ascent-override: 83.7076%;
-  descent-override: 21.8256%;
-  line-gap-override: 0%;
-  font-weight: 100 900;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Fraunces fallback";
-  src: local("Helvetica Neue");
-  size-adjust: 115.1111%;
-  ascent-override: 84.9614%;
-  descent-override: 22.1525%;
-  line-gap-override: 0%;
-  font-weight: 100 900;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Fraunces fallback";
-  src: local("Arial");
-  size-adjust: 116.1954%;
-  ascent-override: 84.1686%;
-  descent-override: 21.9458%;
-  line-gap-override: 0%;
-  font-weight: 100 900;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Fraunces fallback";
-  src: local("Noto Sans");
-  size-adjust: 109.2827%;
-  ascent-override: 89.4927%;
-  descent-override: 23.334%;
-  line-gap-override: 0%;
-  font-weight: 100 900;
-  font-style: normal;
-}
-
-@font-face {
   font-family: "JetBrains Mono fallback";
   src: local("BlinkMacSystemFont");
   size-adjust: 144.0563%;

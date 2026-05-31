@@ -17,6 +17,10 @@ async function main() {
   ];
 
   for (const asset of fontAssets) {
+    // Metric-adjusted fallbacks use sans system fonts; they don't help serif display
+    // text and still cause visible reflow when Fraunces loads.
+    if (asset.family === "Fraunces") continue;
+
     for (const face of asset.faces) {
       const localPath = path.join(paths.publicFonts, face.src);
       const metrics = await readMetrics(pathToFileURL(localPath).href);
