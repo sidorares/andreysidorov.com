@@ -8,10 +8,13 @@ import { stripHeadTagsFromAppHtml } from "../src/lib/ssr-head";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const distDir = path.join(root, "dist");
 const templatePath = path.join(distDir, "index.html");
+const contentCriticalPath = path.join(distDir, "critical-content.css");
 const serverEntry = path.join(distDir, "server", "entry-server.js");
 
+const CRITICAL_CSS_RE = /<style data-critical-css>[\s\S]*?<\/style>/;
+
 type RenderResult = { html: string; head: string };
-type RenderFn = (url: string) => RenderResult;
+type RenderFn = (url: string) => Promise<RenderResult>;
 type PreloadFn = (url: string) => Promise<void>;
 
 function routeToOutFile(route: string) {
@@ -28,6 +31,14 @@ function inject(template: string, appHtml: string, headHtml: string) {
     html = html.replace("</head>", `${headHtml}\n  </head>`);
   }
   return html.replace("<!--ssr-outlet-->", stripHeadTagsFromAppHtml(appHtml));
+}
+
+function applyCriticalCss(html: string, route: string, contentCriticalCss: string) {
+  if (route === "/") return html;
+  return html.replace(
+    CRITICAL_CSS_RE,
+    `<style data-critical-css>${contentCriticalCss}</style>`,
+  );
 }
 
 async function writeHtml(filePath: string, contents: string) {
@@ -158,7 +169,10 @@ async function copyTaggedPages(distDir: string, rootDir: string) {
 }
 
 async function main() {
-  const template = await fs.readFile(templatePath, "utf8");
+  const [template, contentCriticalCss] = await Promise.all([
+    fs.readFile(templatePath, "utf8"),
+    fs.readFile(contentCriticalPath, "utf8"),
+  ]);
   const { render, preloadContentForRoute } = (await import(pathToFileURL(serverEntry).href)) as {
     render: RenderFn;
     preloadContentForRoute: PreloadFn;
@@ -167,16 +181,20 @@ async function main() {
   const routes = await getStaticRoutes();
   for (const route of routes) {
     await preloadContentForRoute(route);
-    const { html, head } = render(route);
-    const out = inject(template, html, head);
+    const { html, head } = await render(route);
+    const out = applyCriticalCss(inject(template, html, head), route, contentCriticalCss);
     const file = routeToOutFile(route);
     await writeHtml(file, out);
     // eslint-disable-next-line no-console
     console.log(`[ssg] ${route} → ${path.relative(root, file)}`);
   }
 
-  const notFound = render(NOT_FOUND_ROUTE);
-  const notFoundHtml = inject(template, notFound.html, notFound.head);
+  const notFound = await render(NOT_FOUND_ROUTE);
+  const notFoundHtml = applyCriticalCss(
+    inject(template, notFound.html, notFound.head),
+    NOT_FOUND_ROUTE,
+    contentCriticalCss,
+  );
   await writeHtml(path.join(distDir, "404.html"), notFoundHtml);
   // eslint-disable-next-line no-console
   console.log(`[ssg] 404 fallback → dist/404.html (${routes.length} routes)`);

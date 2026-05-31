@@ -13,6 +13,7 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import { rehypeShikiHighlight } from "./scripts/rehype-shiki-highlight";
 import { remarkRunnableFences } from "./scripts/remark-runnable-fences";
 import { remarkExtractToc } from "./scripts/remark-extract-toc";
+import { assembleCriticalCss } from "./scripts/assemble-critical-css";
 
 function generateContentManifest() {
   execSync("tsx scripts/generate-content-manifest.ts", {
@@ -30,31 +31,21 @@ function contentManifestPlugin() {
 }
 
 function inlineCriticalCssPlugin() {
-  const root = import.meta.dirname;
-  const criticalPath = path.resolve(root, "src/critical.css");
-  const preflightPath = path.resolve(root, "src/critical-preflight.css");
-  const fallbacksPath = path.resolve(root, "src/fonts/fallbacks.css");
-  const fontsPath = path.resolve(root, "src/fonts/fonts.css");
-
-  function readCss(filePath: string) {
-    if (!fs.existsSync(filePath)) {
-      throw new Error(
-        `Missing ${path.relative(root, filePath)} — run "npm run fonts" before build/dev`,
-      );
-    }
-    return fs.readFileSync(filePath, "utf8");
-  }
-
   return {
     name: "inline-critical-css",
     transformIndexHtml(html: string) {
-      const inlined = [
-        readCss(preflightPath),
-        readCss(criticalPath),
-        readCss(fallbacksPath),
-        readCss(fontsPath),
-      ].join("\n\n");
-      return html.replace("<!--critical-css-->", `<style>${inlined}</style>`);
+      const inlined = assembleCriticalCss("index");
+      return html.replace(
+        "<!--critical-css-->",
+        `<style data-critical-css>${inlined}</style>`,
+      );
+    },
+    writeBundle(_options: { dir?: string }, _bundle: unknown) {
+      const outDir = path.resolve(import.meta.dirname, "dist");
+      fs.writeFileSync(
+        path.join(outDir, "critical-content.css"),
+        assembleCriticalCss("content"),
+      );
     },
   };
 }

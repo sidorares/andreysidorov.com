@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "fonts": "tsx scripts/setup-fonts.ts && tsx scripts/generate-font-fallbacks.ts",
-    "build": "npm run fonts && vite build && vite build --ssr src/entry-server.tsx --outDir dist/server && tsx scripts/prerender.ts && tsx scripts/generate-feeds.ts",
+    "build": "npm run fonts && vite build && vite build --ssr src/entry-server.tsx --outDir dist/server && tsx scripts/prerender.ts && node scripts/verify-prerender.mjs && tsx scripts/generate-feeds.ts",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
