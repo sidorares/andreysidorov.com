@@ -1,28 +1,30 @@
+import { Suspense, use } from "react";
 import { Link, useParams } from "react-router-dom";
 import { TagLink } from "@/components/TagLink";
-import { adjacentPosts, getPost } from "@/lib/content";
+import {
+  adjacentPosts,
+  getPostMeta,
+  loadPost,
+  type LoadedPost,
+} from "@/lib/content";
 import { MdxLayer } from "@/mdx/MdxLayer";
 import { formatDate } from "@/lib/format";
 import { PageMeta } from "@/components/PageMeta";
 import { Toc } from "@/components/Toc";
 import NotFound from "./NotFound";
 
-export default function BlogPost() {
-  const { slug = "" } = useParams();
-  const post = getPost(slug);
-
-  if (!post) return <NotFound />;
-  const { Component, frontmatter, toc, readingTime } = post;
+function BlogPostBody({
+  slug,
+  loaded,
+}: {
+  slug: string;
+  loaded: LoadedPost;
+}) {
+  const { Component, frontmatter, toc, readingTime } = loaded;
   const { prev, next } = adjacentPosts(slug);
 
   return (
-    <>
-      <PageMeta
-        title={frontmatter.title}
-        description={frontmatter.description}
-        path={`/blog/${slug}`}
-      />
-      <article className="site-container py-16 grid lg:grid-cols-[1fr_220px] gap-12">
+    <article className="site-container py-16 grid lg:grid-cols-[1fr_220px] gap-12">
       <div className="w-full min-w-0">
         <header className="mb-10">
           <p className="mono-label mb-3">
@@ -84,7 +86,31 @@ export default function BlogPost() {
         </aside>
       )}
     </article>
-    </>
   );
 }
 
+function BlogPostLoaded({ slug }: { slug: string }) {
+  const loaded = use(loadPost(slug));
+  if (!loaded) return <NotFound />;
+  return <BlogPostBody slug={slug} loaded={loaded} />;
+}
+
+export default function BlogPost() {
+  const { slug = "" } = useParams();
+  const meta = getPostMeta(slug);
+
+  if (!meta) return <NotFound />;
+
+  return (
+    <>
+      <PageMeta
+        title={meta.frontmatter.title}
+        description={meta.frontmatter.description}
+        path={`/blog/${slug}`}
+      />
+      <Suspense fallback={null}>
+        <BlogPostLoaded slug={slug} />
+      </Suspense>
+    </>
+  );
+}

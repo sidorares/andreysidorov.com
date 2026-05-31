@@ -28,3 +28,13 @@ export function collectSsrHeadTags(appHtml: string): string {
 
   return tags.join("\n    ");
 }
+
+/** Remove hoisted head tags from the SSR body so they are not duplicated in #root. */
+export function stripHeadTagsFromAppHtml(appHtml: string): string {
+  let html = appHtml;
+  for (const pattern of HEAD_TAG_PATTERNS) {
+    pattern.lastIndex = 0;
+    html = html.replace(pattern, "");
+  }
+  return html;
+}
