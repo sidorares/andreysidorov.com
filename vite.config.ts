@@ -43,6 +43,31 @@ function inlineCriticalCssPlugin() {
   };
 }
 
+const stylesheetLinkRe =
+  /<link\s([^>]*?\brel=["']stylesheet["'][^>]*)\/?>/gi;
+
+function deferCssPlugin() {
+  return {
+    name: "defer-css",
+    apply: "build" as const,
+    transformIndexHtml: {
+      order: "post" as const,
+      handler(html: string) {
+        return html.replace(stylesheetLinkRe, (_match, attrs: string) => {
+          const href = attrs.match(/\bhref=["']([^"']+)["']/i)?.[1];
+          if (!href) return _match;
+
+          const linkAttrs = attrs.replace(/\brel=["']stylesheet["']/i, "").trim();
+          return [
+            `<link rel="preload" ${linkAttrs} as="style" onload="this.onload=null;this.rel='stylesheet'">`,
+            `<noscript><link rel="stylesheet" ${linkAttrs}></noscript>`,
+          ].join("\n    ");
+        });
+      },
+    },
+  };
+}
+
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   base: process.env.BASE_PATH || "/",
@@ -59,6 +84,7 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     contentManifestPlugin(),
     inlineCriticalCssPlugin(),
+    deferCssPlugin(),
     {
       enforce: "pre" as const,
       ...mdx({
