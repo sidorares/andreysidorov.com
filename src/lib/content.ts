@@ -73,7 +73,11 @@ const aboutPath = Object.keys(aboutLoader)[0];
 
 const postCache = new Map<string, Promise<LoadedPost | null>>();
 const projectCache = new Map<string, Promise<LoadedProject | null>>();
+const postResolved = new Map<string, LoadedPost | null>();
+const projectResolved = new Map<string, LoadedProject | null>();
 let aboutCache: Promise<LoadedAbout | null> | undefined;
+/** undefined = not loaded yet; null = no about.mdx */
+let aboutResolved: LoadedAbout | null | undefined;
 
 export const posts: PostMeta[] = postEntries;
 export const projects: ProjectMeta[] = projectEntries;
@@ -103,14 +107,23 @@ export function loadPost(slug: string): Promise<LoadedPost | null> {
   const modulePath = postPathBySlug.get(slug);
   if (!modulePath) return Promise.resolve(null);
 
-  const promise = postLoaders[modulePath]().then((mod) => ({
-    Component: mod.default,
-    frontmatter: mod.frontmatter,
-    toc: mod.toc ?? [],
-    readingTime: mod.readingTime ?? 1,
-  }));
+  const promise = postLoaders[modulePath]().then((mod) => {
+    const loaded: LoadedPost = {
+      Component: mod.default,
+      frontmatter: mod.frontmatter,
+      toc: mod.toc ?? [],
+      readingTime: mod.readingTime ?? 1,
+    };
+    postResolved.set(slug, loaded);
+    return loaded;
+  });
   postCache.set(slug, promise);
   return promise;
+}
+
+/** Sync read when already loaded (e.g. after prefetch). Skips Suspense deferral. */
+export function peekPost(slug: string): LoadedPost | null | undefined {
+  return postResolved.get(slug);
 }
 
 export function loadProject(slug: string): Promise<LoadedProject | null> {
@@ -120,24 +133,42 @@ export function loadProject(slug: string): Promise<LoadedProject | null> {
   const modulePath = projectPathBySlug.get(slug);
   if (!modulePath) return Promise.resolve(null);
 
-  const promise = projectLoaders[modulePath]().then((mod) => ({
-    Component: mod.default,
-    frontmatter: mod.frontmatter,
-    toc: mod.toc ?? [],
-    readingTime: mod.readingTime ?? 1,
-  }));
+  const promise = projectLoaders[modulePath]().then((mod) => {
+    const loaded: LoadedProject = {
+      Component: mod.default,
+      frontmatter: mod.frontmatter,
+      toc: mod.toc ?? [],
+      readingTime: mod.readingTime ?? 1,
+    };
+    projectResolved.set(slug, loaded);
+    return loaded;
+  });
   projectCache.set(slug, promise);
   return promise;
 }
 
+/** Sync read when already loaded (e.g. after prefetch). Skips Suspense deferral. */
+export function peekProject(slug: string): LoadedProject | null | undefined {
+  return projectResolved.get(slug);
+}
+
 export function loadAbout(): Promise<LoadedAbout | null> {
-  if (!aboutPath) return Promise.resolve(null);
+  if (!aboutPath) {
+    aboutResolved = null;
+    return Promise.resolve(null);
+  }
   if (!aboutCache) {
-    aboutCache = aboutLoader[aboutPath]().then((mod) => ({
-      Component: mod.default,
-    }));
+    aboutCache = aboutLoader[aboutPath]().then((mod) => {
+      aboutResolved = { Component: mod.default };
+      return aboutResolved;
+    });
   }
   return aboutCache;
+}
+
+/** Sync read when already loaded (e.g. after prefetch). Skips Suspense deferral. */
+export function peekAbout(): LoadedAbout | null | undefined {
+  return aboutResolved;
 }
 
 export function adjacentPosts(slug: string) {

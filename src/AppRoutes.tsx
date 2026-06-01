@@ -10,6 +10,7 @@ import TagContentPage from "./pages/TagContentPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 export function AppRoutes() {
+  console.log('App routes render')
   return (
     <Routes>
       <Route path="/" element={<Index />} />

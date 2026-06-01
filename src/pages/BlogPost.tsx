@@ -5,6 +5,7 @@ import {
   adjacentPosts,
   getPostMeta,
   loadPost,
+  peekPost,
   type LoadedPost,
 } from "@/lib/content";
 import { MdxLayer } from "@/mdx/MdxLayer";
@@ -89,7 +90,7 @@ function BlogPostBody({
   );
 }
 
-function BlogPostLoaded({ slug }: { slug: string }) {
+function BlogPostAsync({ slug }: { slug: string }) {
   const loaded = use(loadPost(slug));
   if (!loaded) return <NotFound />;
   return <BlogPostBody slug={slug} loaded={loaded} />;
@@ -101,6 +102,8 @@ export default function BlogPost() {
 
   if (!meta) return <NotFound />;
 
+  const ready = peekPost(slug);
+
   return (
     <>
       <PageMeta
@@ -108,9 +111,17 @@ export default function BlogPost() {
         description={meta.frontmatter.description}
         path={`/blog/${slug}`}
       />
-      <Suspense fallback={null}>
-        <BlogPostLoaded slug={slug} />
-      </Suspense>
+      {ready !== undefined ? (
+        ready ? (
+          <BlogPostBody slug={slug} loaded={ready} />
+        ) : (
+          <NotFound />
+        )
+      ) : (
+        <Suspense fallback={null}>
+          <BlogPostAsync slug={slug} />
+        </Suspense>
+      )}
     </>
   );
 }

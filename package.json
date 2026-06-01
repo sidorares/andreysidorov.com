@@ -18,7 +18,8 @@
     "cache:manifest": "tsx scripts/generate-dist-manifest.ts",
     "cache:purge": "tsx scripts/cloudflare-purge-changed.ts",
     "measure:cls": "node scripts/measure-layout-shift.mjs",
-    "measure:vitals": "node scripts/measure-web-vitals.mjs"
+    "measure:vitals": "node scripts/measure-web-vitals.mjs",
+    "measure:about-nav": "node scripts/measure-about-nav-delay.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -61,6 +62,7 @@
     "gray-matter": "^4.0.3",
     "hast-util-from-html": "^2.0.3",
     "input-otp": "^1.4.2",
+    "js.foresight": "^3.5.0",
     "lucide-react": "^0.462.0",
     "mdast-util-to-string": "^4.0.0",
     "mermaid": "^11.14.0",

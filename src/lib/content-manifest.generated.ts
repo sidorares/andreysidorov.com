@@ -67,7 +67,6 @@ export const projectEntries: ProjectEntry[] = [
         "shiki",
         "react"
       ],
-      "repo": "https://github.com/example/notes-engine",
       "featured": true,
       "date": "2026-03-15T00:00:00.000Z"
     }

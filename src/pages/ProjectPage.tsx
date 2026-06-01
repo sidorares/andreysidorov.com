@@ -4,6 +4,7 @@ import { TagLink } from "@/components/TagLink";
 import {
   getProjectMeta,
   loadProject,
+  peekProject,
   type LoadedProject,
 } from "@/lib/content";
 import { MdxLayer } from "@/mdx/MdxLayer";
@@ -83,7 +84,7 @@ function ProjectBody({ loaded }: { loaded: LoadedProject }) {
   );
 }
 
-function ProjectLoaded({ slug }: { slug: string }) {
+function ProjectAsync({ slug }: { slug: string }) {
   const loaded = use(loadProject(slug));
   if (!loaded) return <NotFound />;
   return <ProjectBody loaded={loaded} />;
@@ -94,6 +95,8 @@ export default function ProjectPage() {
   const meta = getProjectMeta(slug);
   if (!meta) return <NotFound />;
 
+  const ready = peekProject(slug);
+
   return (
     <>
       <PageMeta
@@ -101,9 +104,17 @@ export default function ProjectPage() {
         description={meta.frontmatter.summary}
         path={`/projects/${slug}`}
       />
-      <Suspense fallback={null}>
-        <ProjectLoaded slug={slug} />
-      </Suspense>
+      {ready !== undefined ? (
+        ready ? (
+          <ProjectBody loaded={ready} />
+        ) : (
+          <NotFound />
+        )
+      ) : (
+        <Suspense fallback={null}>
+          <ProjectAsync slug={slug} />
+        </Suspense>
+      )}
     </>
   );
 }

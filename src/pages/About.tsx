@@ -1,11 +1,10 @@
 import { Suspense, use } from "react";
-import { loadAbout } from "@/lib/content";
+import { loadAbout, peekAbout, type LoadedAbout } from "@/lib/content";
 import { MdxLayer } from "@/mdx/MdxLayer";
 import { siteConfig } from "@/site.config";
 import { PageMeta } from "@/components/PageMeta";
 
-function AboutMdx() {
-  const loaded = use(loadAbout());
+function AboutMdx({ loaded }: { loaded: LoadedAbout | null }) {
   const Content = loaded?.Component;
 
   return (
@@ -23,16 +22,27 @@ function AboutMdx() {
   );
 }
 
+function AboutMdxAsync() {
+  const loaded = use(loadAbout());
+  return <AboutMdx loaded={loaded} />;
+}
+
 export default function About() {
+  const ready = peekAbout();
+
   return (
     <>
       <PageMeta title="About" description={`About ${siteConfig.author}.`} path="/about" />
       <div className="container max-w-2xl py-16">
         <p className="mono-label mb-3">// hello</p>
         <h1 className="font-serif text-4xl mb-8">About</h1>
-        <Suspense fallback={null}>
-          <AboutMdx />
-        </Suspense>
+        {ready !== undefined ? (
+          <AboutMdx loaded={ready} />
+        ) : (
+          <Suspense fallback={null}>
+            <AboutMdxAsync />
+          </Suspense>
+        )}
 
         <hr className="divider-dotted" />
 
