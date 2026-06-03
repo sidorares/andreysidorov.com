@@ -36,7 +36,7 @@ export function Figure({
 }) {
   return (
     <figure className="my-8">
-      <img src={src} alt={alt || caption || ""} loading="lazy" className="w-full rounded-md border border-border" />
+      <img src={src} alt={alt || caption || ""} loading="lazy" className="w-full" />
       {caption && (
         <figcaption className="mt-2 text-sm text-muted-foreground text-center font-mono">
           {caption}
