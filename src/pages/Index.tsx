@@ -25,8 +25,7 @@ export default function Home() {
           {siteConfig.tagline}
         </h1>
         <p className="mt-6 text-muted-foreground max-w-xl">
-          A small corner of the internet for in-progress thinking, deep dives, and
-          things I&apos;ve shipped. Updated when there&apos;s something worth saying.
+          A small corner of the internet for in-progress thinking, deep dives, and things I've shipped.
         </p>
         <div className="mt-6 flex gap-4 font-mono text-xs">
           {siteConfig.socials.map((s) => (
