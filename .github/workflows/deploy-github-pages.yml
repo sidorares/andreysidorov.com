@@ -57,6 +57,7 @@ jobs:
       - uses: actions/upload-pages-artifact@v5
         with:
           path: dist
+          include-hidden-files: true # serve dist/.well-known (Tesla Fleet API public key)
 
       - name: Stage manifests for Cloudflare purge
         run: |
